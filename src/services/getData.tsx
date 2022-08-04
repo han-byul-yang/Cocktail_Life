@@ -9,19 +9,6 @@ export const popularCocktailApi = async () => {
     headers: {
       'X-RapidAPI-Key': RAPID_API_KEY,
       'X-RapidAPI-Host': RAPID_API_HOST,
-      Authorization: RAPID_API_KEY,
-    },
-  })
-
-  return data
-}
-
-const API = 'www.thecocktaildb.com/api/json/v1/1/search.php'
-
-export const cocktailApi = async () => {
-  const data = await axios.get(API, {
-    params: {
-      s: 'margarita',
     },
   })
 
@@ -32,11 +19,11 @@ const basicApi = axios.create({
   baseURL: 'www.thecocktaildb.com/api/json/v1/1',
 })
 
-export const cocktailApi2 = {
-  searchCocktail: () =>
+export const cocktailApi = {
+  searchByName: (params: string) =>
     basicApi.get('/search.php', {
       params: {
-        s: 'margarita',
+        s: params,
       },
     }),
 }
