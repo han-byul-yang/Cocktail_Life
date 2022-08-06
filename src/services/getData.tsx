@@ -15,7 +15,7 @@ export const popularCocktailApi = async () => {
   return data
 }
 
-const basicApi = axios.create({
+/* const basicApi = axios.create({
   baseURL: 'www.thecocktaildb.com/api/json/v1/1',
 })
 
@@ -27,3 +27,4 @@ export const cocktailApi = {
       },
     }),
 }
+*/
