@@ -1,0 +1,48 @@
+@use '../../styles/constants/colors';
+
+.background {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../img/background5.jpg');
+  background-size: cover;
+
+  /* background: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-image: url('../../img/background5.jpg');
+    filter: blur(10px);
+    background-size: cover;
+    transform: scale(1.1);
+  }
+  */
+  .container {
+    position: relative;
+    width: 1600px;
+    height: 850px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 70%);
+
+    &::before {
+      position: absolute;
+      top: 0;
+      width: 1650px;
+      height: 900px;
+      content: '';
+      background: url('../../img/background5.jpg');
+      filter: blur(15px);
+      background-size: cover;
+      box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 70%);
+    }
+  }
+}
