@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { SetStateAction, useEffect, useState } from 'react'
-// import Slider from 'react-slick'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
@@ -77,7 +76,7 @@ const Popular = () => {
   }) */
 
   const handlePageClick = (e: any) => {
-    setSelectedPage(e.currentTarget.value)
+    setSelectedPage(Number(e.currentTarget.value))
   }
 
   return (
@@ -92,7 +91,17 @@ const Popular = () => {
                 <form>
                   {new Array(10).fill(undefined).map((ele, i) => {
                     const inputKey = i
-                    return <input key={inputKey} type='radio' name='pageSelect' value={i} onChange={handlePageClick} />
+                    return (
+                      <input
+                        key={inputKey}
+                        type='radio'
+                        name='pageSelect'
+                        value={i}
+                        id={`pageBtn-${i}`}
+                        onChange={(e) => handlePageClick(e, i)}
+                        checked={i === selectedPage}
+                      />
+                    )
                   })}
                 </form>
               </div>
