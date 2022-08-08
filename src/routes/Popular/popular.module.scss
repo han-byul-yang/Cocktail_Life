@@ -3,46 +3,74 @@
 .background {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
   background-image: url('../../img/background5.jpg');
   background-size: cover;
 
-  /* background: none;
-
-  &::before {
+  .showBox {
     position: absolute;
-    top: 0;
-    z-index: -1;
-    display: flex;
+    top: 80px;
     width: 100%;
-    height: 100%;
-    content: '';
-    background-image: url('../../img/background5.jpg');
-    filter: blur(10px);
-    background-size: cover;
-    transform: scale(1.1);
-  }
-  */
-  .container {
-    position: relative;
-    width: 1600px;
-    height: 850px;
+    height: 800px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 70%);
+    border: 10px solid rgb(62, 68, 184);
 
-    &::before {
+    .container {
       position: absolute;
-      top: 0;
-      width: 1650px;
-      height: 900px;
-      content: '';
-      background: url('../../img/background5.jpg');
-      filter: blur(15px);
-      background-size: cover;
-      box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 70%);
+      width: 100%;
+      transition: top 0.1s linear;
+
+      .cocktailInfoBox {
+        position: relative;
+        display: flex;
+        height: 800px;
+        margin: 0 150px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 70%);
+
+        /*      &::before {
+          position: absolute;
+          top: 0;
+          z-index: -1;
+          width: 1650px;
+          height: 900px;
+          content: '';
+          background: url('../../img/background5.jpg');
+          filter: blur(15px);
+          background-size: cover;
+          box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 70%);
+        }
+  */
+        .img {
+          width: 50%;
+        }
+
+        form {
+          position: absolute;
+          top: 50%;
+          right: 30px;
+          display: flex;
+          flex-direction: column;
+          transform: translateY(-50%);
+
+          input[type='radio'] {
+            width: 12px;
+            height: 12px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            background: colors.$BG_G;
+            border-radius: 50%;
+            appearance: none;
+          }
+
+          input[type='radio']:checked {
+            background: colors.$GRAY_800;
+          }
+        }
+      }
     }
   }
 }

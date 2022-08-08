@@ -1,5 +1,5 @@
 export interface ICocktailData {
-  dateModified: Date
+  dateModified: null | string
   idDrink: null | string
   strAlcoholic: null | string
   strCategory: null | string
