@@ -8,6 +8,7 @@ import { ICocktailData } from 'types/types'
 import { cocktailDataAtom } from 'store/atom'
 
 import styles from './popular.module.scss'
+import { Link } from 'react-router-dom'
 
 const Popular = () => {
   const [cocktailList, setCocktailList] = useRecoilState(cocktailDataAtom)
@@ -132,9 +133,11 @@ const Popular = () => {
           })}
         </div>
       </div>
-      <button type='button' className={styles.moveSearchPageBtn} onClick={handleSearchPageClick}>
-        SEARCH COCKTAIL &gt;
-      </button>
+      <Link to='search'>
+        <button type='button' className={styles.moveSearchPageBtn} onClick={handleSearchPageClick}>
+          SEARCH COCKTAIL &gt;
+        </button>
+      </Link>
     </div>
   )
 }
