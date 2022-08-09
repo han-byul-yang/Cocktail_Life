@@ -1,0 +1,22 @@
+.background {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    width: inherit;
+    height: inherit;
+    content: '';
+    background-image: url('./../img/background2.jpg');
+    filter: blur(10px);
+    background-size: cover;
+    transform: scale(1.1);
+  }
+}

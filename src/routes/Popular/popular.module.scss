@@ -1,6 +1,6 @@
 @use '../../styles/constants/colors';
 
-.background {
+.backgrounds {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -21,28 +21,29 @@
     background-size: cover;
     transform: scale(1.1);
   }
+}
 
-  .showBox {
+.showBox {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+
+  .container {
     position: absolute;
-    top: 80px;
     width: 100%;
-    height: 800px;
-    overflow: hidden;
+    transition: top 0.2s linear;
 
-    .container {
-      position: absolute;
-      width: 100%;
-      transition: top 0.2s linear;
+    .cocktailRankBox {
+      position: relative;
+      display: flex;
+      height: 800px;
+      margin: 0 150px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 70%);
 
-      .cocktailRankBox {
-        position: relative;
-        display: flex;
-        height: 800px;
-        margin: 0 150px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 70%);
-
-        /*       &::before {
+      /*       &::before {
           position: absolute;
           top: 0;
           z-index: -1;
@@ -55,9 +56,8 @@
           box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 70%);
         } */
 
-        .img {
-          width: 50%;
-        }
+      .img {
+        width: 50%;
       }
     }
   }

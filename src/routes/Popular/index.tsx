@@ -29,7 +29,7 @@ const Popular = () => {
   const handleSearchPageClick = () => {}
 
   return (
-    <div className={styles.background}>
+    <>
       <div className={styles.showBox}>
         <div className={styles.container} style={{ top: -(selectedPage * 800) }}>
           {cocktailList.map((datas, iList) => {
@@ -138,7 +138,7 @@ const Popular = () => {
           SEARCH COCKTAIL &gt;
         </button>
       </Link>
-    </div>
+    </>
   )
 }
 

@@ -12,7 +12,7 @@ const App = () => {
   const queryClient = new QueryClient()
 
   return (
-    <div className={styles.page}>
+    <div className={styles.background}>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <Routes>
