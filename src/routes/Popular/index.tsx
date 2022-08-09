@@ -21,9 +21,11 @@ const Popular = () => {
     },
   }) */
 
-  const handlePageClick = (e: any) => {
+  const handleRankBoxClick = (e: any) => {
     setSelectedPage(Number(e.currentTarget.value))
   }
+
+  const handleSearchPageClick = () => {}
 
   return (
     <div className={styles.background}>
@@ -51,7 +53,7 @@ const Popular = () => {
             const ingredientList = [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5]
 
             return (
-              <div key={datas.idDrink} className={styles.cocktailInfoBox}>
+              <div key={datas.idDrink} className={styles.cocktailRankBox}>
                 <img src={datas.strDrinkThumb} alt='cocktail-img' className={styles.img} />
                 <div className={styles.description}>
                   <div className={styles.name}>
@@ -119,7 +121,7 @@ const Popular = () => {
                         name='pageSelect'
                         value={iRadio}
                         id={`pageBtn-${iRadio}`}
-                        onChange={handlePageClick}
+                        onChange={handleRankBoxClick}
                         checked={iRadio === selectedPage}
                       />
                     )
@@ -130,6 +132,9 @@ const Popular = () => {
           })}
         </div>
       </div>
+      <button type='button' className={styles.moveSearchPageBtn} onClick={handleSearchPageClick}>
+        SEARCH COCKTAIL &gt;
+      </button>
     </div>
   )
 }

@@ -34,7 +34,7 @@
       width: 100%;
       transition: top 0.2s linear;
 
-      .cocktailInfoBox {
+      .cocktailRankBox {
         position: relative;
         display: flex;
         height: 800px;
@@ -165,4 +165,13 @@ form {
   input[type='radio']:checked {
     background: colors.$GRAY_800;
   }
+}
+
+.moveSearchPageBtn {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  padding: 13px;
+  color: colors.$BG_G;
+  background: colors.$DARK_GRAY;
 }
