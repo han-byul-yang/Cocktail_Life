@@ -51,3 +51,22 @@ export interface ICocktailData {
   strTags: null | string
   strVideo: null | string
 }
+
+interface IFilteredCocktailData {
+  idDrink: null | string
+  strDrink: null | string
+  strDrinkThumb: null | string
+}
+
+export interface Ifiltering {
+  alcoholic: null | string
+  category: null | string
+  ingredient: null | string
+}
+
+export interface IfilteredResultData {
+  name: ICocktailData[]
+  alcoholic: IFilteredCocktailData[]
+  category: IFilteredCocktailData[]
+  ingredient: IfilteredCocktailData[]
+}
