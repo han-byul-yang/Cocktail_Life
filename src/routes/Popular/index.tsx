@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 const Popular = () => {
   const [cocktailList, setCocktailList] = useRecoilState(cocktailDataAtom)
-  const [selectedPage, setSelectedPage] = useState(0)
+  const [selectedRankBox, setSelectedRankBox] = useState(0)
   const [cocktailData, setCocktailData] = useState<ICocktailData[]>([cocktailInitialData])
 
   /* const { isFetching } = useQuery('popularCocktailApi', popularCocktailApi, {
@@ -23,15 +23,15 @@ const Popular = () => {
   }) */
 
   const handleRankBoxClick = (e: any) => {
-    setSelectedPage(Number(e.currentTarget.value))
+    setSelectedRankBox(Number(e.currentTarget.value))
   }
 
-  const handleSearchPageClick = () => {}
+  const handleMoveSearchPageClick = () => {}
 
   return (
     <>
       <div className={styles.showBox}>
-        <div className={styles.container} style={{ top: -(selectedPage * 800) }}>
+        <div className={styles.container} style={{ top: -(selectedRankBox * 800) }}>
           {cocktailList.map((datas, iList) => {
             const {
               strDrink,
@@ -105,9 +105,9 @@ const Popular = () => {
                     {strTags?.split(',').map((tag, iTag) => {
                       const tagKey = `tag-${iTag}`
                       return (
-                        <button key={tagKey} className={styles.tag} type='button'>
+                        <div key={tagKey} className={styles.tag}>
                           {tag}
-                        </button>
+                        </div>
                       )
                     })}
                   </div>
@@ -123,7 +123,7 @@ const Popular = () => {
                         value={iRadio}
                         id={`pageBtn-${iRadio}`}
                         onChange={handleRankBoxClick}
-                        checked={iRadio === selectedPage}
+                        checked={iRadio === selectedRankBox}
                       />
                     )
                   })}
@@ -134,7 +134,7 @@ const Popular = () => {
         </div>
       </div>
       <Link to='search'>
-        <button type='button' className={styles.moveSearchPageBtn} onClick={handleSearchPageClick}>
+        <button type='button' className={styles.moveSearchPageBtn} onClick={handleMoveSearchPageClick}>
           SEARCH COCKTAIL &gt;
         </button>
       </Link>
