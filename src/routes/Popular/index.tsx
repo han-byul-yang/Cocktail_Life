@@ -121,7 +121,7 @@ const Popular = () => {
                         type='radio'
                         name='pageSelect'
                         value={iRadio}
-                        id={`pageBtn-${iRadio}`}
+                        id={`pageButton-${iRadio}`}
                         onChange={handleRankBoxClick}
                         checked={iRadio === selectedRankBox}
                       />
@@ -134,7 +134,7 @@ const Popular = () => {
         </div>
       </div>
       <Link to='search'>
-        <button type='button' className={styles.moveSearchPageBtn} onClick={handleMoveSearchPageClick}>
+        <button type='button' className={styles.moveSearchPageButton} onClick={handleMoveSearchPageClick}>
           SEARCH COCKTAIL &gt;
         </button>
       </Link>
