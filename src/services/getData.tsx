@@ -16,7 +16,7 @@ export const popularCocktailApi = async () => {
 }
 
 const basicApi = axios.create({
-  baseURL: 'www.thecocktaildb.com/api/json/v1/1',
+  baseURL: 'https://www.thecocktaildb.com/api/json/v1/1',
 })
 
 export const cocktailApis = {
@@ -42,6 +42,24 @@ export const cocktailApis = {
     basicApi.get('./filter.php', {
       params: {
         i: params,
+      },
+    }),
+  getIngredientList: () =>
+    basicApi.get('./list.php', {
+      params: {
+        i: 'list',
+      },
+    }),
+  getAlcoholicList: () =>
+    basicApi.get('./list.php', {
+      params: {
+        a: 'list',
+      },
+    }),
+  getCategoryList: () =>
+    basicApi.get('./list.php', {
+      params: {
+        c: 'list',
       },
     }),
 }
