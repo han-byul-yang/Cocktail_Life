@@ -1,7 +1,8 @@
+import { AxiosResponse } from 'axios'
 import { FormEvent, useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
 
-import { cocktailApis } from 'services/getData'
+import { cocktailApis } from 'services/getApis'
 import {
   cocktailInitialData,
   alcoholicList,
@@ -54,52 +55,43 @@ const Search = () => {
     }
   }
 
+  const getApiData = async (api: (params: string) => Promise<AxiosResponse<any, any>>, params: string) => {
+    const callApi = await api(params)
+
+    return callApi.data
+  }
+
   const handleSearchButtonClick = async () => {
+    let nameData
+    let alcoholicData
+    let categoryData
+    let ingredientData
+
     if (inputKeyWord !== '') {
-      await cocktailApis.searchByName(inputKeyWord).then((res) =>
-        setFilteredResultDatas((prevResultData) => {
-          return {
-            ...prevResultData,
-            name: res.data.drinks,
-          }
-        })
-      )
+      nameData = await getApiData(cocktailApis.searchByName, inputKeyWord)
     }
 
     if (filtering.alcoholic !== null) {
-      await cocktailApis.filterByAlcoholic(filtering.alcoholic).then((res) =>
-        setFilteredResultDatas((prevResultData) => {
-          return {
-            ...prevResultData,
-            alcoholic: res.data.drinks,
-          }
-        })
-      )
+      alcoholicData = await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
     }
 
     if (filtering.category !== null) {
-      await cocktailApis.filterByCategory(filtering.category).then((res) =>
-        setFilteredResultDatas((prevResultData) => {
-          return {
-            ...prevResultData,
-            category: res.data.drinks,
-          }
-        })
-      )
-      setIsClicked(true)
+      categoryData = await getApiData(cocktailApis.filterByCategory, filtering.category)
     }
 
     if (filtering.ingredient !== null) {
-      cocktailApis.filterByIngredients(filtering.ingredient).then((res) =>
-        setFilteredResultDatas((prevResultData) => {
-          return {
-            ...prevResultData,
-            ingredient: res.data.drinks,
-          }
-        })
-      )
+      ingredientData = await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
     }
+    setIsClicked(true)
   }
+
+  /* const objectResultToIdList = useCallback(
+    (kind: string) => {
+      const cocktailIdList = filteredResultDatas[kind].map((ele: IFilteredCocktailData | ICocktailData) => ele.strDrink)
+      return cocktailIdList
+    },
+    [filteredResultDatas]
+  ) */
 
   useEffect(() => {
     const alcoholics = filteredResultDatas.alcoholic.map((ele) => ele.strDrink)
