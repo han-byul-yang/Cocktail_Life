@@ -1,6 +1,6 @@
-import { IfilteredResultData } from 'types/types'
+import { IFilteredResultData } from 'types/types'
 
-const useFilterDatas = (cocktailFilteredDatas: IfilteredResultData, cocktailFilteredList: any) => {
+export const useFilterDatas = (cocktailFilteredDatas: IFilteredResultData, cocktailFilteredList: any) => {
   let finalResult = cocktailFilteredList[0]
 
   // eslint-disable-next-line no-plusplus
@@ -9,4 +9,13 @@ const useFilterDatas = (cocktailFilteredDatas: IfilteredResultData, cocktailFilt
   }
 }
 
-export default useFilterDatas
+export const useFilter = (idList: string[]) => {
+  const idObject: any = {}
+
+  idList.forEach((element) => {
+    if (idObject[element]) idObject[element] += idObject[element] + 1
+    else idObject[element] = 1
+  })
+
+  return Object.keys(idObject).filter((ele) => idObject[ele] > 1)
+}

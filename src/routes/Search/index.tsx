@@ -4,23 +4,20 @@ import { useQuery } from 'react-query'
 
 import { cocktailApis } from 'services/getApis'
 import {
-  cocktailInitialData,
   alcoholicList,
   categoryList,
   ingredientList,
   filteringInitialData,
   filteredResultInitialData,
 } from 'services/initialData'
-import { IfilteredResultData, Ifiltering } from 'types/types'
+import { IFilteredResultData, IFilterKind, IFilteredCocktailData } from 'types/types'
 
 import styles from './search.module.scss'
 
 const Search = () => {
   const [inputKeyWord, setInputKeyWord] = useState('')
-  const [filtering, setFiltering] = useState<Ifiltering>(filteringInitialData)
-  const [filteredResultDatas, setFilteredResultDatas] = useState<IfilteredResultData>(filteredResultInitialData)
-  const [searchedData, setsearchedData] = useState([cocktailInitialData])
-  const [isClicked, setIsClicked] = useState(false)
+  const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
+  const [filteredResultDatas, setFilteredResultDatas] = useState<IFilteredResultData>(filteredResultInitialData)
 
   /* const { isFetching } = useQuery('cocktailApis', cocktailApis.searchByName('Mojito'), {
     onSuccess: (res) => {
@@ -61,28 +58,62 @@ const Search = () => {
     return callApi.data
   }
 
+  const eliminateSameItem = (combinedItemList: number[]) => {
+    const itemKeyObject: any = {}
+
+    combinedItemList.forEach((item) => {
+      if (itemKeyObject[item]) itemKeyObject[item] += itemKeyObject[item] + 1
+      else itemKeyObject[item] = 1
+    })
+
+    const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] > 1)
+
+    return noSameItemList
+  }
+
   const handleSearchButtonClick = async () => {
-    let nameData
-    let alcoholicData
-    let categoryData
-    let ingredientData
+    let filteredByNameData
+    let filteredByAlcoholicData
+    let filteredByCategoryData
+    let filteredByIngredientData
 
     if (inputKeyWord !== '') {
-      nameData = await getApiData(cocktailApis.searchByName, inputKeyWord)
+      filteredByNameData = await getApiData(cocktailApis.searchByName, inputKeyWord)
     }
 
     if (filtering.alcoholic !== null) {
-      alcoholicData = await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
+      filteredByAlcoholicData = await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
     }
 
     if (filtering.category !== null) {
-      categoryData = await getApiData(cocktailApis.filterByCategory, filtering.category)
+      filteredByCategoryData = await getApiData(cocktailApis.filterByCategory, filtering.category)
     }
 
     if (filtering.ingredient !== null) {
-      ingredientData = await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
+      filteredByIngredientData = await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
     }
-    setIsClicked(true)
+
+    const filteredNameIdList = filteredByNameData.drinks.map(
+      (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
+    )
+    const filteredAlcoholicIdList = filteredByAlcoholicData.drinks.map(
+      (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
+    )
+    const filteredCategoryIdList = filteredByCategoryData.drinks.map(
+      (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
+    )
+    const filteredIngredientIdList = filteredByIngredientData.drinks.map(
+      (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
+    )
+
+    const combinedIdLists = [
+      ...filteredNameIdList,
+      ...filteredAlcoholicIdList,
+      ...filteredCategoryIdList,
+      ...filteredIngredientIdList,
+    ]
+
+    eliminateSameItem(combinedIdLists)
   }
 
   /* const objectResultToIdList = useCallback(
@@ -92,22 +123,6 @@ const Search = () => {
     },
     [filteredResultDatas]
   ) */
-
-  useEffect(() => {
-    const alcoholics = filteredResultDatas.alcoholic.map((ele) => ele.strDrink)
-    const categorys = filteredResultDatas.category.map((ele) => ele.strDrink)
-    const names = filteredResultDatas.name.map((ele) => ele.strDrink)
-    const ingredients = filteredResultDatas.ingredient.map((ele) => ele.strDrink)
-    const filter1 = alcoholics.filter((ele) => categorys.includes(ele))
-    const filter2 = names.filter((ele) => ingredients.includes(ele))
-    const filterFinally = filter1.filter((ele) => filter2.includes(ele))
-  }, [
-    filteredResultDatas.alcoholic,
-    filteredResultDatas.category,
-    filteredResultDatas.ingredient,
-    filteredResultDatas.name,
-    filtering.ingredient,
-  ])
 
   return (
     <div className={styles.container}>

@@ -58,13 +58,13 @@ interface IFilteredCocktailData {
   strDrinkThumb: null | string
 }
 
-export interface Ifiltering {
+export interface IFilterKind {
   alcoholic: null | string
   category: null | string
   ingredient: null | string
 }
 
-export interface IfilteredResultData {
+export interface IFilteredResultData {
   name: ICocktailData[]
   alcoholic: IFilteredCocktailData[]
   category: IFilteredCocktailData[]
