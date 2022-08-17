@@ -53,9 +53,9 @@ export const cocktailInitialData = {
 }
 
 export const filteringInitialData = {
-  alcoholic: null,
-  category: null,
-  ingredient: null,
+  alcoholic: '',
+  category: '',
+  ingredient: '',
 }
 
 const filteredCocktailInitialData = {
