@@ -5,37 +5,14 @@ import { cocktailApis } from 'services/getApis'
 import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
 import { filteringInitialData } from 'store/initialData/initialApiData'
 import { IFilterKind, IFilteredCocktailData } from 'types/types'
+import FilterBox from './FilterBox'
 
 import styles from './search.module.scss'
-import FilterBox from './FilterBox'
 
 const Search = () => {
   const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
   const inputRef = useRef(null)
-
-  const handleFilterItemClick = (filterKind: null | string, filterItem: null | string) => {
-    switch (filterKind) {
-      case 'alcoholic':
-        setFiltering((prevFilter) => {
-          return { ...prevFilter, alcoholic: filterItem }
-        })
-        break
-      case 'category':
-        setFiltering((prevFilter) => {
-          return { ...prevFilter, category: filterItem }
-        })
-        break
-      case 'ingredient':
-        setFiltering((prevFilter) => {
-          return {
-            ...prevFilter,
-            ingredient: prevFilter.ingredient !== null ? `${prevFilter.ingredient}, ${filterItem}` : filterItem,
-          }
-        })
-        break
-    }
-  }
 
   const eliminateSameItem = (combinedItemList: string[]) => {
     const itemKeyObject: any = {}
@@ -119,15 +96,11 @@ const Search = () => {
         </form>
 
         <div className={styles.filterContainer}>
-          <FilterBox filterKind='alcoholic' filterList={alcoholicList} handleFilterItemClick={handleFilterItemClick} />
+          <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
 
-          <FilterBox filterKind='category' filterList={categoryList} handleFilterItemClick={handleFilterItemClick} />
+          <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
 
-          <FilterBox
-            filterKind='ingredient'
-            filterList={ingredientList}
-            handleFilterItemClick={handleFilterItemClick}
-          />
+          <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
         </div>
       </main>
     </div>
