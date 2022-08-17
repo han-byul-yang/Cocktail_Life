@@ -1,34 +1,36 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import getApiData from 'utils/getApiData'
 import { cocktailApis } from 'services/getApis'
-import { alcoholicList, categoryList, ingredientList, filteringInitialData } from 'services/initialData'
-import { IFilterKind, IFilteredCocktailData, ICocktailData } from 'types/types'
+import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
+import { filteringInitialData } from 'store/initialData/initialApiData'
+import { IFilterKind, IFilteredCocktailData } from 'types/types'
 
 import styles from './search.module.scss'
+import FilterBox from './FilterBox'
 
 const Search = () => {
-  const inputRef = useRef(null)
   const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
+  const inputRef = useRef(null)
 
-  const handleFilterChooseClick = (filterKind: null | string, filterTarget: null | string) => {
+  const handleFilterItemClick = (filterKind: null | string, filterItem: null | string) => {
     switch (filterKind) {
       case 'alcoholic':
         setFiltering((prevFilter) => {
-          return { ...prevFilter, alcoholic: filterTarget }
+          return { ...prevFilter, alcoholic: filterItem }
         })
         break
       case 'category':
         setFiltering((prevFilter) => {
-          return { ...prevFilter, category: filterTarget }
+          return { ...prevFilter, category: filterItem }
         })
         break
       case 'ingredient':
         setFiltering((prevFilter) => {
           return {
             ...prevFilter,
-            ingredient: prevFilter.ingredient !== null ? `${prevFilter.ingredient}, ${filterTarget}` : filterTarget,
+            ingredient: prevFilter.ingredient !== null ? `${prevFilter.ingredient}, ${filterItem}` : filterItem,
           }
         })
         break
@@ -87,9 +89,6 @@ const Search = () => {
       ...filteredIngredientIdList,
     ]
 
-    console.log(filteredNameIdList, filteredAlcoholicIdList, filteredCategoryIdList, filteredIngredientIdList)
-    console.log(eliminateSameItem(combinedIdLists))
-
     setTotalFilteredIdList(eliminateSameItem(combinedIdLists))
   }
 
@@ -119,43 +118,16 @@ const Search = () => {
           </button>
         </form>
 
-        <div className={styles.filterBox}>
-          <div>
-            ALCOHOLIC
-            {alcoholicList.map((alcoholic) => {
-              return (
-                <button key={alcoholic} type='button' onClick={() => handleFilterChooseClick('alcoholic', alcoholic)}>
-                  {alcoholic}
-                </button>
-              )
-            })}
-          </div>
+        <div className={styles.filterContainer}>
+          <FilterBox filterKind='alcoholic' filterList={alcoholicList} handleFilterItemClick={handleFilterItemClick} />
 
-          <div>
-            CATEGORY
-            {categoryList.map((category) => {
-              return (
-                <button key={category} type='button' onClick={() => handleFilterChooseClick('category', category)}>
-                  {category}
-                </button>
-              )
-            })}
-          </div>
+          <FilterBox filterKind='category' filterList={categoryList} handleFilterItemClick={handleFilterItemClick} />
 
-          <div>
-            INGREDIENT
-            {ingredientList.map((ingredient) => {
-              return (
-                <button
-                  key={ingredient}
-                  type='button'
-                  onClick={() => handleFilterChooseClick('ingredient', ingredient)}
-                >
-                  {ingredient}
-                </button>
-              )
-            })}
-          </div>
+          <FilterBox
+            filterKind='ingredient'
+            filterList={ingredientList}
+            handleFilterItemClick={handleFilterItemClick}
+          />
         </div>
       </main>
     </div>
