@@ -59,9 +59,7 @@ interface IFilteredCocktailData {
 }
 
 export interface IFilterKind {
-  alcoholic: null | string
-  category: null | string
-  ingredient: null | string
+  [key: string]: null | string
 }
 
 export interface IFilteredResultData {
