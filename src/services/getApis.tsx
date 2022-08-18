@@ -20,6 +20,12 @@ const basicApi = axios.create({
 })
 
 export const cocktailApis = {
+  searchById: (params: string) =>
+    basicApi.get('/lookup.php', {
+      params: {
+        i: params,
+      },
+    }),
   searchByName: (params: string) =>
     basicApi.get('/search.php', {
       params: {
