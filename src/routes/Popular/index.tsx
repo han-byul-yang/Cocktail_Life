@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { popularCocktailApi } from 'services/getApis'
-import { cocktailInitialData } from 'services/initialData'
+import { cocktailInitialData } from 'store/initialData/initialApiData'
 import { ICocktailData } from 'types/types'
 import { cocktailDataAtom } from 'store/atom'
 

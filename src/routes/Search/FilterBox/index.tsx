@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useRecoilState } from 'recoil'
 
 import { filteringInitialData } from 'store/initialData/initialApiData'
+import { filteredItemAtom } from 'store/atom'
 import { IFilterKind } from 'types/types'
 
 interface IFilterButtonsProps {
@@ -10,7 +12,8 @@ interface IFilterButtonsProps {
 }
 
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
-  const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
+  // const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
+  const [filtering, setFiltering] = useRecoilState(filteredItemAtom)
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {

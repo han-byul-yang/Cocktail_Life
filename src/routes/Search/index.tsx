@@ -1,20 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import getApiData from 'utils/getApiData'
 import { cocktailApis } from 'services/getApis'
 import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
-import { filteringInitialData } from 'store/initialData/initialApiData'
-import { IFilterKind, IFilteredCocktailData } from 'types/types'
+import { filteredItemAtom } from 'store/atom'
+import { IFilteredCocktailData } from 'types/types'
 import FilterBox from './FilterBox'
 
 import styles from './search.module.scss'
 
 const Search = () => {
-  const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
+  const filtering = useRecoilValue(filteredItemAtom)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
-  const inputRef = useRef(null)
+  const [inputKeyword, setInputKeyword] = useState('')
+  // const inputRef = useRef(null)
 
-  const eliminateSameItem = (combinedItemList: string[]) => {
+  const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputKeyword(e.currentTarget.value)
+  }
+
+  const cocktailDataToIdList = (resultData: { drinks: IFilteredCocktailData[] }) => {
+    return resultData.drinks.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink)
+  }
+
+  const eliminateSameItem = (combinedItemList: string[], count: number) => {
     const itemKeyObject: any = {}
 
     combinedItemList.forEach((item) => {
@@ -22,51 +32,56 @@ const Search = () => {
       else itemKeyObject[item] = 1
     })
 
-    const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] > 1)
+    const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] > count)
 
     return noSameItemList
   }
 
   const handleSearchButtonClick = async () => {
-    let filteredNameIdList = []
-    let filteredAlcoholicIdList = []
-    let filteredCategoryIdList = []
-    let filteredIngredientIdList = []
+    const combinedIdLists = []
+    let filterKindCount = 0
 
-    if (inputRef.current !== null && inputRef.current !== '') {
-      const filteredByNameData = await getApiData(cocktailApis.searchByName, inputRef.current)
-      filteredNameIdList = filteredByNameData.drinks.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink)
+    if (inputKeyword !== '') {
+      filterKindCount += 1
+
+      const filteredByNameData = await getApiData(cocktailApis.searchByName, inputKeyword)
+      const filteredNameIdList = cocktailDataToIdList(filteredByNameData)
+      combinedIdLists.push(...filteredNameIdList)
     }
 
-    if (filtering.alcoholic !== null) {
+    if (filtering.alcoholic !== '') {
+      filterKindCount += 1
+
       const filteredByAlcoholicData = await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
-      filteredAlcoholicIdList = filteredByAlcoholicData.drinks.map(
-        (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
-      )
+      const filteredAlcoholicIdList = cocktailDataToIdList(filteredByAlcoholicData)
+      combinedIdLists.push(...filteredAlcoholicIdList)
     }
 
-    if (filtering.category !== null) {
+    if (filtering.category !== '') {
+      filterKindCount += 1
+
       const filteredByCategoryData = await getApiData(cocktailApis.filterByCategory, filtering.category)
-      filteredCategoryIdList = filteredByCategoryData.drinks.map(
-        (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
-      )
+      const filteredCategoryIdList = cocktailDataToIdList(filteredByCategoryData)
+      combinedIdLists.push(...filteredCategoryIdList)
     }
 
-    if (filtering.ingredient !== null) {
+    if (filtering.ingredient !== '') {
+      filterKindCount += 1
+
       const filteredByIngredientData = await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
-      filteredIngredientIdList = filteredByIngredientData.drinks.map(
-        (cocktailData: IFilteredCocktailData) => cocktailData.idDrink
-      )
+      const filteredIngredientIdList = cocktailDataToIdList(filteredByIngredientData)
+      combinedIdLists.push(...filteredIngredientIdList)
     }
 
-    const combinedIdLists = [
+    /* const combinedIdLists = [
       ...filteredNameIdList,
       ...filteredAlcoholicIdList,
       ...filteredCategoryIdList,
       ...filteredIngredientIdList,
-    ]
+    ] */
+    console.log(combinedIdLists)
 
-    setTotalFilteredIdList(eliminateSameItem(combinedIdLists))
+    // setTotalFilteredIdList(eliminateSameItem(combinedIdLists, filterKindCount))
   }
 
   useEffect(() => {
@@ -89,7 +104,7 @@ const Search = () => {
       </header>
       <main>
         <form>
-          <input type='search' ref={inputRef} />
+          <input type='search' value={inputKeyword} onChange={handleInputKeywordChange} />
           <button type='button' onClick={handleSearchButtonClick}>
             SEARCH
           </button>

@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
-import { ICocktailData } from 'types/types'
+import { ICocktailData, IFilterKind } from 'types/types'
 
 const { persistAtom } = recoilPersist({
   key: 'storeDatas',
@@ -66,4 +66,13 @@ export const cocktailDataAtom = atom<ICocktailData[]>({
     },
   ],
   effects_UNSTABLE: [persistAtom],
+})
+
+export const filteredItemAtom = atom<IFilterKind>({
+  key: 'filteredItem',
+  default: {
+    alcoholic: '',
+    category: '',
+    ingredient: '',
+  },
 })

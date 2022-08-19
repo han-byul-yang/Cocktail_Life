@@ -59,7 +59,7 @@ interface IFilteredCocktailData {
 }
 
 export interface IFilterKind {
-  [key: string]: string
+  [filterKind: string]: string
 }
 
 export interface IFilteredResultData {
