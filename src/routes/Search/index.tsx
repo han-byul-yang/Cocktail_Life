@@ -18,7 +18,7 @@ const Search = () => {
   const [inputKeyword, setInputKeyword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   // const inputRef = useRef(null)
-  const dataRef = useRef<ICocktailData[]>([cocktailInitialData])
+  const dataRef = useRef<ICocktailData[]>([])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
@@ -94,12 +94,15 @@ const Search = () => {
 
   useEffect(() => {
     totalFilteredIdList.forEach((filteredId) => {
-      cocktailApis.searchById(filteredId).then((res) => {
-        dataRef.current.concat(res.data.drinks)
+      getApiData(cocktailApis.searchById, filteredId).then((res) => {
+        dataRef.current = [...dataRef.current, ...res.drinks]
       })
     })
-    console.log(dataRef.current)
   }, [totalFilteredIdList])
+
+  useEffect(() => {
+    console.log(totalResult)
+  }, [totalResult])
 
   useEffect(() => {
     console.log(errorMessage)
@@ -126,7 +129,9 @@ const Search = () => {
 
           <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
         </div>
-
+        <button type='button' onClick={handleBtnClick}>
+          button
+        </button>
         <div>
           {totalResult.map((gg, i) => {
             return <div key={i}>{gg?.idDrink}</div>
