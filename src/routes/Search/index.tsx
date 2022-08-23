@@ -18,26 +18,33 @@ const Search = () => {
   const [inputKeyword, setInputKeyword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   // const inputRef = useRef(null)
+  const dataRef = useRef<ICocktailData[]>([cocktailInitialData])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
   }
 
-  const cocktailDataToIdList = (resultData: { drinks: (ICocktailData | IFilteredCocktailData)[] }) => {
-    return resultData.drinks.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
+  const cocktailDataToIdList = (resultData: (ICocktailData | IFilteredCocktailData)[] | null | undefined) => {
+    if (resultData === null || resultData === undefined) throw Error('검색결과가 없습니다')
+
+    return resultData.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
   }
 
   const eliminateSameItem = (combinedItemList: (string | never)[], count: number) => {
     const itemKeyObject: any = {}
 
-    if (combinedItemList.length === 0) throw Error()
+    if (combinedItemList.length === 0) throw Error('검색어를 입력해주세요')
 
     combinedItemList.forEach((item) => {
       if (itemKeyObject[item]) itemKeyObject[item] += 1
       else itemKeyObject[item] = 1
     })
-
     const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] === count)
+
+    if (noSameItemList.length === 0) {
+      throw Error('검색된 결과가 없습니다')
+    }
+
     return noSameItemList
   }
 
@@ -45,70 +52,54 @@ const Search = () => {
     const combinedIdLists: (string | never)[] = []
     let filterKindCount = 0
 
-    if (inputKeyword !== '') {
-      filterKindCount += 1
-
-      await getApiData(cocktailApis.searchByName, inputKeyword)
-        .then((result) => cocktailDataToIdList(result))
-        .then((result2) => combinedIdLists.push(...result2))
-        .catch((error) => {
-          setErrorMessage('검색 결과가 없습니다')
-        })
-    }
-
-    if (filtering.alcoholic !== '') {
-      filterKindCount += 1
-
-      await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
-        .then((result) => cocktailDataToIdList(result))
-        .then((result2) => combinedIdLists.push(...result2))
-        .catch((error) => {
-          setErrorMessage('검색 결과가 없습니다')
-        })
-    }
-
-    if (filtering.category !== '') {
-      filterKindCount += 1
-
-      await getApiData(cocktailApis.filterByCategory, filtering.category)
-        .then((result) => cocktailDataToIdList(result))
-        .then((result2) => combinedIdLists.push(...result2))
-        .catch((error) => {
-          setErrorMessage('검색 결과가 없습니다')
-        })
-    }
-
-    if (filtering.ingredient !== '') {
-      filterKindCount += 1
-
-      await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
-        .then((result) => cocktailDataToIdList(result))
-        .then((result2) => combinedIdLists.push(...result2))
-        .catch((error) => {
-          setErrorMessage('검색 결과가 없습니다')
-        })
-    }
-
     try {
-      const dd = eliminateSameItem(combinedIdLists, filterKindCount)
-      console.log(combinedIdLists)
-      setTotalFilteredIdList(dd)
-    } catch {
-      setErrorMessage('검색어를 입력해주세요')
+      if (inputKeyword !== '') {
+        filterKindCount += 1
+
+        await getApiData(cocktailApis.searchByName, inputKeyword)
+          .then((result) => cocktailDataToIdList(result.drinks))
+          .then((result2) => combinedIdLists.push(...result2))
+      }
+
+      if (filtering.alcoholic !== '') {
+        filterKindCount += 1
+
+        await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
+          .then((result) => cocktailDataToIdList(result.drinks))
+          .then((result2) => combinedIdLists.push(...result2))
+      }
+
+      if (filtering.category !== '') {
+        filterKindCount += 1
+
+        await getApiData(cocktailApis.filterByCategory, filtering.category)
+          .then((result) => cocktailDataToIdList(result.drinks))
+          .then((result2) => combinedIdLists.push(...result2))
+      }
+
+      if (filtering.ingredient !== '') {
+        filterKindCount += 1
+
+        await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
+          .then((result) => cocktailDataToIdList(result.drinks))
+          .then((result2) => combinedIdLists.push(...result2))
+      }
+
+      const filteredIdList = eliminateSameItem(combinedIdLists, filterKindCount)
+      setTotalFilteredIdList(filteredIdList)
+    } catch (error) {
+      if (error instanceof Error) setErrorMessage(error.message)
     }
   }
 
   useEffect(() => {
     totalFilteredIdList.forEach((filteredId) => {
-      getApiData(cocktailApis.searchById, filteredId).then((res) =>
-        setTotalResult((prevResult) => [...prevResult, res.drinks])
-      )
+      cocktailApis.searchById(filteredId).then((res) => {
+        dataRef.current.concat(res.data.drinks)
+      })
     })
+    console.log(dataRef.current)
   }, [totalFilteredIdList])
-
-  useEffect(() => {
-    console.log(totalResult)
-  }, [totalResult])
 
   useEffect(() => {
     console.log(errorMessage)
