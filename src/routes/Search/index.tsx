@@ -58,7 +58,7 @@ const Search = () => {
 
         await getApiData(cocktailApis.searchByName, inputKeyword)
           .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result2) => combinedIdLists.push(...result2))
+          .then((result) => combinedIdLists.push(...result))
       }
 
       if (filtering.alcoholic !== '') {
@@ -66,7 +66,7 @@ const Search = () => {
 
         await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
           .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result2) => combinedIdLists.push(...result2))
+          .then((result) => combinedIdLists.push(...result))
       }
 
       if (filtering.category !== '') {
@@ -74,7 +74,7 @@ const Search = () => {
 
         await getApiData(cocktailApis.filterByCategory, filtering.category)
           .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result2) => combinedIdLists.push(...result2))
+          .then((result) => combinedIdLists.push(...result))
       }
 
       if (filtering.ingredient !== '') {
@@ -82,7 +82,7 @@ const Search = () => {
 
         await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
           .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result2) => combinedIdLists.push(...result2))
+          .then((result) => combinedIdLists.push(...result))
       }
 
       const filteredIdList = eliminateSameItem(combinedIdLists, filterKindCount)
@@ -99,10 +99,6 @@ const Search = () => {
       })
     })
   }, [totalFilteredIdList])
-
-  useEffect(() => {
-    console.log(totalResult)
-  }, [totalResult])
 
   useEffect(() => {
     console.log(errorMessage)
@@ -129,9 +125,6 @@ const Search = () => {
 
           <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
         </div>
-        <button type='button' onClick={handleBtnClick}>
-          button
-        </button>
         <div>
           {totalResult.map((gg, i) => {
             return <div key={i}>{gg?.idDrink}</div>
