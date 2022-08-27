@@ -13,8 +13,8 @@ interface ICocktailContainerProps {
 const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProps) => {
   const navigate = useNavigate()
 
-  const handleCocktailCardClick = (cocktailName: string) => {
-    navigate(`/result?name=${cocktailName}`)
+  const handleCocktailCardClick = (cocktailId: string, cocktailName: string) => {
+    navigate(`/result?id=${cocktailId}&name=${cocktailName}`)
   }
 
   return (
@@ -28,7 +28,7 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
               <button
                 className={styles.cocktailCard}
                 type='button'
-                onClick={() => handleCocktailCardClick(cocktail.strDrink)}
+                onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
               >
                 <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
                 <div className={styles.cocktailName}>{cocktail.strDrink}</div>
