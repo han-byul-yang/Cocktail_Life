@@ -1,40 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
+import { cocktailApis } from 'services/getApis'
+import getApiData from 'utils/getApiData'
+import { cocktailInitialData } from 'store/initialData/initialApiData'
+import { ICocktailData } from 'types/types'
+import Description from 'components/Description'
 
 const Result = () => {
-  const ref = useRef(null)
-  const [click, setClick] = useState(false)
-  const [clock, setClock] = useState(false)
-
-  const handleRefDOM = (eleDom: any) => {
-    if (eleDom) console.log('mount')
-    else console.log('unmount')
-  }
-
-  const handleClickBtn = () => {
-    setClick((prev) => !prev)
-  }
-
-  const handleClickClock = () => {
-    setClock((prev) => !prev)
-  }
-
-  /* useEffect(() => {
-    if (ref !== null) console.log('mounted')
-  }, [click])
+  const [searchParams] = useSearchParams()
+  const [resultData, setResultData] = useState<ICocktailData>(cocktailInitialData)
 
   useEffect(() => {
-    if (ref === null) console.log('unmount')
-  }, [click])
-*/
+    const resultId = searchParams.get('id')
+
+    getApiData(cocktailApis.searchById, resultId!).then((result) => setResultData(result.drinks[0]))
+  }, [searchParams])
+
   return (
     <>
-      <div ref={handleRefDOM}>hello</div>
-      <button type='button' onClick={handleClickBtn}>
-        search
-      </button>
-      <button type='button' onClick={handleClickClock}>
-        clock
-      </button>
+      <img alt={`${resultData.strDrink}-img`} src={resultData.strDrinkThumb} />
+      <Description cocktailData={resultData} iList={0} />
     </>
   )
 }
