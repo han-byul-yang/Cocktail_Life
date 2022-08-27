@@ -8,6 +8,7 @@ import { alcoholicList, categoryList, ingredientList } from 'store/initialData/i
 import { filteredItemAtom } from 'store/atom'
 import { ICocktailData, IFilteredCocktailData } from 'types/types'
 import FilterBox from './FilterBox'
+import Layout from 'components/Layout'
 import CocktailContainer from 'components/CocktailContainer'
 
 import styles from './search.module.scss'
@@ -85,27 +86,21 @@ const Search = () => {
   }, [totalFilteredIdList])
 
   return (
-    <div className={styles.container}>
-      <header>
-        <h1 className={styles.title}>COCKTAIL LIFE</h1>
-        <nav>Navigation</nav>
-      </header>
-      <main>
-        <form>
-          <input type='search' value={inputKeyword} onChange={handleInputKeywordChange} />
-          <button type='button' onClick={handleSearchButtonClick}>
-            SEARCH
-          </button>
-        </form>
+    <>
+      <form>
+        <input type='search' value={inputKeyword} onChange={handleInputKeywordChange} />
+        <button type='button' onClick={handleSearchButtonClick}>
+          SEARCH
+        </button>
+      </form>
 
-        <div className={styles.filterContainer}>
-          <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-          <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-          <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-        </div>
-        <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
-      </main>
-    </div>
+      <div className={styles.filterContainer}>
+        <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
+        <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
+        <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+      </div>
+      <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
+    </>
   )
 }
 

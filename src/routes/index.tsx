@@ -6,6 +6,8 @@ import Popular from './Popular'
 import Search from './Search'
 import Result from './Result'
 
+import Layout from 'components/Layout'
+
 import styles from './routes.module.scss'
 
 const App = () => {
@@ -17,8 +19,10 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route path='/' element={<Popular />} />
-            <Route path='search' element={<Search />} />
-            <Route path='result' element={<Result />} />
+            <Route element={<Layout />}>
+              <Route path='search' element={<Search />} />
+              <Route path='result' element={<Result />} />
+            </Route>
             <Route path='*' element={<div>404</div>} />
           </Routes>
         </QueryClientProvider>
