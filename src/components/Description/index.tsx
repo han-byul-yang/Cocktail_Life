@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { ICocktailData } from 'types/types'
 
 import styles from './description.module.scss'
@@ -24,9 +27,54 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
     strIngredient3,
     strIngredient4,
     strIngredient5,
+    strIngredient6,
+    strIngredient7,
+    strIngredient8,
+    strIngredient9,
+    strIngredient10,
+    strIngredient11,
+    strIngredient12,
+    strIngredient13,
+    strIngredient14,
+    strIngredient15,
   } = cocktailData
   const measureList = [strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5]
-  const ingredientList = [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5]
+
+  const [ingredientList, setIngredientList] = useState<(string | null)[]>([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setIngredientList([strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5])
+  }, [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5])
+
+  const handleShowMoreIngredientClick = () => {
+    setIngredientList((prevList) =>
+      prevList.length === 5
+        ? [
+            strIngredient1,
+            strIngredient2,
+            strIngredient3,
+            strIngredient4,
+            strIngredient5,
+            strIngredient6,
+            strIngredient7,
+            strIngredient8,
+            strIngredient9,
+            strIngredient10,
+            strIngredient11,
+            strIngredient12,
+            strIngredient13,
+            strIngredient14,
+            strIngredient15,
+          ]
+        : [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5]
+    )
+  }
+
+  const handleIngredientClick = (ingredient: string) => {
+    navigate(`/search?ingredient=${ingredient}`)
+  }
+
   return (
     <div className={styles.description}>
       <div className={styles.name}>
@@ -58,19 +106,27 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
         {ingredientList.map((ingredient, iIngredient) => {
           const ingredientKey = `ingredient-${iIngredient}`
           return (
-            <div key={ingredientKey} className={styles.ingredient}>
-              {ingredient !== null && (
-                <>
-                  <img
-                    src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
-                    alt='ingredient-img'
-                  />
-                  <div>{ingredient}</div>
-                </>
-              )}
-            </div>
+            ingredient !== null && (
+              <button
+                key={ingredientKey}
+                className={styles.ingredient}
+                type='button'
+                onClick={() => handleIngredientClick(ingredient)}
+              >
+                <img
+                  src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
+                  alt={`${ingredient}-img`}
+                />
+                <div>{ingredient}</div>
+              </button>
+            )
           )
         })}
+        {strIngredient6 !== null && (
+          <button type='button' onClick={handleShowMoreIngredientClick}>
+            {ingredientList?.length === 5 ? 'see more' : 'close'}
+          </button>
+        )}
       </div>
 
       <div className={styles.tagBox}>
