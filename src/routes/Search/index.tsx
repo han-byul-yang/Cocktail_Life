@@ -1,22 +1,23 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import getApiData from 'utils/getApiData'
+import eliminateSameItem from './utils/eliminateSameItem'
 import { cocktailApis } from 'services/getApis'
 import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
-import { cocktailInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
 import { ICocktailData, IFilteredCocktailData } from 'types/types'
 import FilterBox from './FilterBox'
+import CocktailContainer from 'components/CocktailContainer'
 
 import styles from './search.module.scss'
 
 const Search = () => {
   const filtering = useRecoilValue(filteredItemAtom)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
-  const [totalResult, setTotalResult] = useState<ICocktailData[]>([cocktailInitialData])
+  const [totalResult, setTotalResult] = useState<ICocktailData[]>([])
   const [inputKeyword, setInputKeyword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('검색결과가 없습니다')
   // const inputRef = useRef(null)
   const dataRef = useRef<ICocktailData[]>([])
 
@@ -30,26 +31,8 @@ const Search = () => {
     return resultData.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
   }
 
-  const eliminateSameItem = (combinedItemList: (string | never)[], count: number) => {
-    const itemKeyObject: any = {}
-
-    if (combinedItemList.length === 0) throw Error('검색어를 입력해주세요')
-
-    combinedItemList.forEach((item) => {
-      if (itemKeyObject[item]) itemKeyObject[item] += 1
-      else itemKeyObject[item] = 1
-    })
-    const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] === count)
-
-    if (noSameItemList.length === 0) {
-      throw Error('검색된 결과가 없습니다')
-    }
-
-    return noSameItemList
-  }
-
   const handleSearchButtonClick = async () => {
-    const combinedIdLists: (string | never)[] = []
+    const combinedIdLists: string[] = []
     let filterKindCount = 0
 
     try {
@@ -79,7 +62,6 @@ const Search = () => {
 
       if (filtering.ingredient !== '') {
         filterKindCount += 1
-
         await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
           .then((result) => cocktailDataToIdList(result.drinks))
           .then((result) => combinedIdLists.push(...result))
@@ -93,16 +75,14 @@ const Search = () => {
   }
 
   useEffect(() => {
-    totalFilteredIdList.forEach((filteredId) => {
-      getApiData(cocktailApis.searchById, filteredId).then((res) => {
-        dataRef.current = [...dataRef.current, ...res.drinks]
-      })
+    // setTotalResult([])
+    totalFilteredIdList.forEach(async (filteredId) => {
+      const data = await getApiData(cocktailApis.searchById, filteredId)
+      dataRef.current = dataRef.current.length === 0 ? [...data.drinks] : [...dataRef.current, ...data.drinks]
+      // 데이터 불러올 때마다 리렌더링 되는 문제 해결하기
     })
+    setTotalResult(dataRef.current)
   }, [totalFilteredIdList])
-
-  useEffect(() => {
-    console.log(errorMessage)
-  }, [errorMessage])
 
   return (
     <div className={styles.container}>
@@ -120,16 +100,10 @@ const Search = () => {
 
         <div className={styles.filterContainer}>
           <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-
           <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-
           <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
         </div>
-        <div>
-          {totalResult.map((gg, i) => {
-            return <div key={i}>{gg?.idDrink}</div>
-          })}
-        </div>
+        <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
       </main>
     </div>
   )
