@@ -1,4 +1,6 @@
 import { Suspense } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { ICocktailData } from 'types/types'
 
 import styles from './cocktailContainer.module.scss'
@@ -9,6 +11,12 @@ interface ICocktailContainerProps {
 }
 
 const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProps) => {
+  const navigate = useNavigate()
+
+  const handleCocktailCardClick = (cocktailName: string) => {
+    navigate(`/result?name=${cocktailName}`)
+  }
+
   return (
     <div className={styles.cocktailContainer}>
       {!totalResult.length ? (
@@ -17,10 +25,14 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
         totalResult.map((cocktail) => {
           return (
             <Suspense key={cocktail.idDrink} fallback='loading...'>
-              <div className={styles.cocktailCard}>
+              <button
+                className={styles.cocktailCard}
+                type='button'
+                onClick={() => handleCocktailCardClick(cocktail.strDrink)}
+              >
                 <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
                 <div className={styles.cocktailName}>{cocktail.strDrink}</div>
-              </div>
+              </button>
             </Suspense>
           )
         })
