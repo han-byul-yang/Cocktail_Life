@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
@@ -143,4 +144,4 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
   )
 }
 
-export default Description
+export default React.memo(Description)
