@@ -4,7 +4,7 @@ export interface ICocktailData {
   strAlcoholic: null | string
   strCategory: null | string
   strCreativeCommonsConfirmed: null | string
-  strDrink: null | string
+  strDrink: string
   strDrinkAlternate: null | string
   strDrinkThumb: string
   strGlass: null | string
@@ -54,7 +54,7 @@ export interface ICocktailData {
 
 interface IFilteredCocktailData {
   idDrink: string
-  strDrink: null | string
+  strDrink: string
   strDrinkThumb: null | string
 }
 
