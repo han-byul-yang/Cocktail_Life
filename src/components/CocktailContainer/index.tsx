@@ -1,4 +1,5 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
@@ -41,7 +42,7 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
   )
 }
 
-export default CocktailContainer
+export default React.memo(CocktailContainer)
 
 // noimg 이미지
 // skeleton 만들기
