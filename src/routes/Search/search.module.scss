@@ -1,6 +1,60 @@
-.container {
-  width: 80%;
-  height: auto;
-  min-height: 100vh;
-  background: rgba(255, 255, 255, 70%);
+@use '../../styles/constants/colors';
+
+.searchBox {
+  margin: 0 150px;
+
+  .searchForm {
+    display: grid;
+    grid-template-rows: 1fr 0.7fr 0.8fr;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    margin: 0 150px 10px 0;
+
+    input {
+      grid-row: 1;
+      grid-column: 1 / 8;
+      padding: 15px 20px;
+      color: colors.$BLACK;
+      background: colors.$BG_G;
+      border-radius: 20px;
+
+      &::placeholder {
+        color: colors.$GRAY_300;
+      }
+    }
+
+    .filterList {
+      display: flex;
+      grid-row: 2;
+      grid-column: 1 / 8;
+      align-items: center;
+      margin-left: 10px;
+
+      .filterIcon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .filterButton {
+      grid-row: 3;
+      grid-column: 6;
+    }
+
+    .searchButton {
+      grid-row: 3;
+      grid-column: 7;
+    }
+  }
+
+  .filterContainer {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    margin-top: 5px;
+    background: colors.$BG_G;
+  }
+  @media screen and (max-width: 1050px) {
+    margin: 0 50px;
+  }
 }

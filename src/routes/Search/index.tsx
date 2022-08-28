@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import getApiData from 'utils/getApiData'
@@ -8,9 +9,9 @@ import { alcoholicList, categoryList, ingredientList } from 'store/initialData/i
 import { filteredItemAtom } from 'store/atom'
 import { ICocktailData, IFilteredCocktailData } from 'types/types'
 import FilterBox from './FilterBox'
-import Layout from 'components/Layout'
 import CocktailContainer from 'components/CocktailContainer'
 
+import { FilterIcon, SearchIcon } from 'assets/svgs'
 import styles from './search.module.scss'
 
 const Search = () => {
@@ -21,6 +22,14 @@ const Search = () => {
   const [errorMessage, setErrorMessage] = useState('검색결과가 없습니다')
   // const inputRef = useRef(null)
   const dataRef = useRef<ICocktailData[]>([])
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const ingredientSearch = searchParams.get('ingredient')
+
+    if (ingredientSearch !== null)
+      getApiData(cocktailApis.filterByIngredients, ingredientSearch).then((result) => setTotalResult(result.drinks))
+  }, [searchParams])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
@@ -87,17 +96,32 @@ const Search = () => {
 
   return (
     <>
-      <form>
-        <input type='search' value={inputKeyword} onChange={handleInputKeywordChange} />
-        <button type='button' onClick={handleSearchButtonClick}>
-          SEARCH
-        </button>
-      </form>
+      <div className={styles.searchBox}>
+        <form className={styles.searchForm}>
+          <input
+            type='search'
+            placeholder='Input cocktail name ...'
+            value={inputKeyword}
+            onChange={handleInputKeywordChange}
+          />
 
-      <div className={styles.filterContainer}>
-        <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-        <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-        <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+          <div className={styles.filterList}>
+            <FilterIcon className={styles.filterIcon} />
+          </div>
+
+          <button className={styles.filterButton} type='button'>
+            FILTER
+          </button>
+          <button className={styles.searchButton} type='button' onClick={handleSearchButtonClick}>
+            SEARCH
+          </button>
+        </form>
+
+        <div className={styles.filterContainer}>
+          <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
+          <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
+          <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+        </div>
       </div>
       <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
     </>
@@ -107,3 +131,4 @@ const Search = () => {
 export default Search
 
 // 레이아웃 만들기
+// 재검색시 검색결과 초기화

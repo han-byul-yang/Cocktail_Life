@@ -5,6 +5,8 @@ import { filteringInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
 import { IFilterKind } from 'types/types'
 
+import styles from './filterBox.module.scss'
+
 interface IFilterButtonsProps {
   filterKind: string
   filterList: string[]
@@ -50,16 +52,18 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
   }
 
   return (
-    <div>
+    <div className={styles.filterBox}>
       {filterKind.toUpperCase()}
-      {filterList.map((item: string, iItem: number) => {
-        const itemKey = `item-${iItem}`
-        return (
-          <button key={itemKey} type='button' onClick={() => handleFilterItemClick(item)}>
-            {item}
-          </button>
-        )
-      })}
+      <div className={styles.filterButtons}>
+        {filterList.map((item: string, iItem: number) => {
+          const itemKey = `item-${iItem}`
+          return (
+            <button key={itemKey} type='button' onClick={() => handleFilterItemClick(item)}>
+              {item}
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }

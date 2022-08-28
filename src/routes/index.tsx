@@ -5,7 +5,6 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 import Popular from './Popular'
 import Search from './Search'
 import Result from './Result'
-
 import Layout from 'components/Layout'
 
 import styles from './routes.module.scss'
