@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { filteringInitialData } from 'store/initialData/initialApiData'
@@ -16,6 +16,7 @@ interface IFilterButtonsProps {
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
   // const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
   const [filtering, setFiltering] = useRecoilState(filteredItemAtom)
+  const [isButtonClicked, setIsButtonClicked] = useState('')
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {
@@ -23,10 +24,12 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
         setFiltering((prevFilter) => {
           return { ...prevFilter, [filterKind]: '' }
         })
+        setIsButtonClicked('')
       } else {
         setFiltering((prevFilter) => {
           return { ...prevFilter, [filterKind]: clickedItem }
         })
+        setIsButtonClicked(clickedItem)
       }
     } else {
       const filterItemList = filtering[filterKind].split(',')
@@ -40,6 +43,7 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
             [filterKind]: lastItemDeleted,
           }
         })
+        setIsButtonClicked('')
       } else {
         setFiltering((prevFilter) => {
           return {
@@ -47,6 +51,7 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
             [filterKind]: prevFilter[filterKind] !== '' ? `${prevFilter[filterKind]}, ${clickedItem}` : clickedItem,
           }
         })
+        setIsButtonClicked(clickedItem)
       }
     }
   }
@@ -58,7 +63,12 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
         {filterList.map((item: string, iItem: number) => {
           const itemKey = `item-${iItem}`
           return (
-            <button key={itemKey} type='button' onClick={() => handleFilterItemClick(item)}>
+            <button
+              className={isButtonClicked === item ? styles.activeButton : styles.disActiveButton}
+              key={itemKey}
+              type='button'
+              onClick={() => handleFilterItemClick(item)}
+            >
               {item}
             </button>
           )
@@ -68,7 +78,7 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
   )
 }
 
-export default FilterBox
+export default React.memo(FilterBox)
 
 // handleFilterChooseClick type 재설정
 // [-1] 오류 고치기
