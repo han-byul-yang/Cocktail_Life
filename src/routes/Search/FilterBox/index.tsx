@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
+import useFilterSetting from 'hooks/useFilterSetting'
 import { filteringInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
 import { IFilterKind } from 'types/types'
@@ -14,43 +15,28 @@ interface IFilterButtonsProps {
 }
 
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
-  // const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
-  const [filtering, setFiltering] = useRecoilState(filteredItemAtom)
+  // const [filterSetting, setFiltering] = useState<IFilterKind>(filteringInitialData)
+  const filtering = useRecoilValue(filteredItemAtom)
+  const filterSetting = useFilterSetting()
   const [isButtonClicked, setIsButtonClicked] = useState('')
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {
       if (clickedItem === filtering[filterKind]) {
-        setFiltering((prevFilter) => {
-          return { ...prevFilter, [filterKind]: '' }
-        })
+        filterSetting.SINGLE.CANCEL_SAME_ITEM(filterKind)
         setIsButtonClicked('')
       } else {
-        setFiltering((prevFilter) => {
-          return { ...prevFilter, [filterKind]: clickedItem }
-        })
+        filterSetting.SINGLE.TRANSFER_TO_DIFF_ITEM(filterKind, clickedItem)
         setIsButtonClicked(clickedItem)
       }
     } else {
       const filterItemList = filtering[filterKind].split(',')
 
       if (clickedItem === filterItemList[-1]) {
-        const lastItemDeleted = filterItemList.filter((item) => item !== clickedItem).join(',')
-
-        setFiltering((prevFilter) => {
-          return {
-            ...prevFilter,
-            [filterKind]: lastItemDeleted,
-          }
-        })
+        filterSetting.MULTI.CANCEL_SAME_ITEM(filterKind, clickedItem)
         setIsButtonClicked('')
       } else {
-        setFiltering((prevFilter) => {
-          return {
-            ...prevFilter,
-            [filterKind]: prevFilter[filterKind] !== '' ? `${prevFilter[filterKind]}, ${clickedItem}` : clickedItem,
-          }
-        })
+        filterSetting.MULTI.ADD_DIFF_ITEM(filterKind, clickedItem)
         setIsButtonClicked(clickedItem)
       }
     }
