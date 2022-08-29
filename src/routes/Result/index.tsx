@@ -8,8 +8,8 @@ import { ICocktailData } from 'types/types'
 import Description from 'components/Description'
 
 const Result = () => {
-  const [searchParams] = useSearchParams()
   const [resultData, setResultData] = useState<ICocktailData>(cocktailInitialData)
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const resultId = searchParams.get('id')

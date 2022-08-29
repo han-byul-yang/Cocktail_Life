@@ -1,0 +1,8 @@
+@use '../../styles/constants/colors';
+
+.button {
+  padding: 5px 10px;
+  color: colors.$WHITE;
+  background: colors.$PINK;
+  border-radius: 8px;
+}

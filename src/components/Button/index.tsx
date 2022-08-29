@@ -9,7 +9,7 @@ interface IButtonProps {
 
 const Button = ({ children, handleClick }: IButtonProps) => {
   return (
-    <button className={styles.filterButton} type='button' onClick={handleClick}>
+    <button className={styles.button} type='button' onClick={handleClick}>
       {children}
     </button>
   )
