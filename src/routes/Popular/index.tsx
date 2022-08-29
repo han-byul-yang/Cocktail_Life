@@ -40,7 +40,7 @@ const Popular = () => {
 
                 <Description cocktailData={cocktailData} iList={iList} />
 
-                <form>
+                <form className={styles.buttonForm}>
                   {new Array(10).fill(undefined).map((ele, iRadio) => {
                     const radioKey = `radio-${iRadio}`
                     return (
