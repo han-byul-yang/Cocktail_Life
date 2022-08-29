@@ -5,11 +5,12 @@ import styles from './button.module.scss'
 interface IButtonProps {
   children: ReactNode
   handleClick: MouseEventHandler<HTMLButtonElement>
+  size: string
 }
 
-const Button = ({ children, handleClick }: IButtonProps) => {
+const Button = ({ children, handleClick, size }: IButtonProps) => {
   return (
-    <button className={styles.button} type='button' onClick={handleClick}>
+    <button className={styles[size]} type='button' onClick={handleClick}>
       {children}
     </button>
   )
