@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 
 import getApiData from 'utils/getApiData'
 import eliminateSameItem from './utils/eliminateSameItem'
@@ -10,16 +10,19 @@ import { filteredItemAtom } from 'store/atom'
 import { ICocktailData, IFilteredCocktailData } from 'types/types'
 import FilterBox from './FilterBox'
 import CocktailContainer from 'components/CocktailContainer'
+import Button from 'components/Button'
 
-import { FilterIcon, SearchIcon } from 'assets/svgs'
+import { FilterIcon } from 'assets/svgs'
 import styles from './search.module.scss'
 
 const Search = () => {
   const filtering = useRecoilValue(filteredItemAtom)
+  const filteringReset = useResetRecoilState(filteredItemAtom)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
   const [totalResult, setTotalResult] = useState<ICocktailData[]>([])
   const [inputKeyword, setInputKeyword] = useState('')
   const [errorMessage, setErrorMessage] = useState('검색결과가 없습니다')
+  const [filterOpen, setFilterOpen] = useState(false)
   // const inputRef = useRef(null)
   const dataRef = useRef<ICocktailData[]>([])
   const [searchParams] = useSearchParams()
@@ -42,6 +45,8 @@ const Search = () => {
   }
 
   const handleSearchButtonClick = async () => {
+    setTotalResult([])
+
     const combinedIdLists: string[] = []
     let filterKindCount = 0
 
@@ -85,7 +90,6 @@ const Search = () => {
   }
 
   useEffect(() => {
-    // setTotalResult([])
     totalFilteredIdList.forEach(async (filteredId) => {
       const data = await getApiData(cocktailApis.searchById, filteredId)
       dataRef.current = dataRef.current.length === 0 ? [...data.drinks] : [...dataRef.current, ...data.drinks]
@@ -93,6 +97,19 @@ const Search = () => {
     })
     setTotalResult(dataRef.current)
   }, [totalFilteredIdList])
+
+  const handleApplyFilterClick = () => {
+    setFilterOpen(false)
+  }
+
+  const handleCancelFilterClick = () => {
+    setFilterOpen(false)
+    filteringReset()
+  }
+
+  const handleOpenFilterClick = () => {
+    setFilterOpen(true)
+  }
 
   return (
     <>
@@ -107,22 +124,27 @@ const Search = () => {
 
           <div className={styles.filterList}>
             <FilterIcon className={styles.filterIcon} />
+            {Object.keys(filtering).map((filterKey) => (
+              <div key={filterKey}>
+                {filterKey}: {filtering[filterKey]} /
+              </div>
+            ))}
           </div>
 
-          <button className={styles.filterButton} type='button'>
-            FILTER
-          </button>
-          <button className={styles.searchButton} type='button' onClick={handleSearchButtonClick}>
-            SEARCH
-          </button>
+          <Button handleClick={handleOpenFilterClick}>FILTER</Button>
+          <Button handleClick={handleSearchButtonClick}>SEARCH</Button>
         </form>
-
-        <div className={styles.filterContainer}>
-          <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-          <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-          <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-        </div>
+        {filterOpen && (
+          <div className={styles.filterContainer}>
+            <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
+            <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
+            <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+            <Button handleClick={handleApplyFilterClick}>APPLY</Button>
+            <Button handleClick={handleCancelFilterClick}>CANCEL</Button>
+          </div>
+        )}
       </div>
+
       <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
     </>
   )
