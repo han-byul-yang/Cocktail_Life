@@ -8,13 +8,13 @@
   border-bottom: 2px solid colors.$GRAY_100;
 
   .disActiveButton {
-    @include button.button;
+    @include button.filterButton;
     color: colors.$GRAY_300;
     border: 2px solid colors.$GRAY_100;
   }
 
   .activeButton {
-    @include button.button;
+    @include button.filterButton;
     color: colors.$BLACK;
     background: colors.$LIGHT_PINK;
     border: 2px solid colors.$PINK;

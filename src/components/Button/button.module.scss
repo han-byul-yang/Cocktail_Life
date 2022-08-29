@@ -1,17 +1,12 @@
 @use '../../styles/constants/colors';
+@use '../../styles/mixins/button';
 
-button {
+.bigButton {
+  @include button.originalButton;
   padding: 5px 10px;
-  margin-right: 10px;
-  color: colors.$WHITE;
-  background: colors.$PINK;
-  border-radius: 8px;
+}
 
-  .big {
-    padding: 5px 10px;
-  }
-
-  .small {
-    padding: 3px 7px;
-  }
+.smallButton {
+  @include button.originalButton;
+  padding: 3px 7px;
 }

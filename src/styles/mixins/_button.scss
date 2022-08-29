@@ -1,8 +1,16 @@
 @use '../constants/colors';
 
-@mixin button {
+@mixin filterButton {
   padding: 5px;
   margin: 10px 10px 0 0;
   background: colors.$WHITE;
+  border-radius: 8px;
+}
+
+@mixin originalButton {
+  padding: 5px 10px;
+  margin-right: 10px;
+  color: colors.$WHITE;
+  background: colors.$PINK;
   border-radius: 8px;
 }

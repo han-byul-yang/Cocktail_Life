@@ -10,7 +10,7 @@ interface IButtonProps {
 
 const Button = ({ children, handleClick, size }: IButtonProps) => {
   return (
-    <button className={styles[size]} type='button' onClick={handleClick}>
+    <button className={styles[`${size}Button`]} type='button' onClick={handleClick}>
       {children}
     </button>
   )

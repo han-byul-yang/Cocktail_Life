@@ -103,12 +103,12 @@ const Search = () => {
   const handleApplyFilterClick = () => {
     setFilterOpen(false)
     setShowFilter(filtering)
-  }
+  } // 함수 이름에 맞게 수정 필요
 
   const handleCancelFilterClick = () => {
     setFilterOpen(false)
     filteringReset()
-  } // 함수 이름에 맞게 수정 필요
+  }
 
   const handleOpenFilterClick = () => {
     setFilterOpen(true)
@@ -134,8 +134,12 @@ const Search = () => {
             ))}
           </div>
 
-          <Button handleClick={handleOpenFilterClick}>FILTER</Button>
-          <Button handleClick={handleSearchClick}>SEARCH</Button>
+          <Button handleClick={handleOpenFilterClick} size='big'>
+            FILTER
+          </Button>
+          <Button handleClick={handleSearchClick} size='big'>
+            SEARCH
+          </Button>
         </form>
 
         {filterOpen && (
@@ -145,8 +149,12 @@ const Search = () => {
               <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
               <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
               <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-              <Button handleClick={handleApplyFilterClick}>APPLY</Button>
-              <Button handleClick={handleCancelFilterClick}>CANCEL</Button>
+              <Button handleClick={handleApplyFilterClick} size='small'>
+                APPLY
+              </Button>
+              <Button handleClick={handleCancelFilterClick} size='small'>
+                CANCEL
+              </Button>
             </div>
           </>
         )}

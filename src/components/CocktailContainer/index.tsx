@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react'
-
 import { useNavigate } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
@@ -15,7 +14,7 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
   const navigate = useNavigate()
 
   const handleCocktailCardClick = (cocktailId: string, cocktailName: string) => {
-    navigate(`/result?id=${cocktailId}&name=${cocktailName}`)
+    navigate(`/result?id=${cocktailId}&name=${cocktailName}`) // params set 으로 수정
   }
 
   return (
@@ -25,16 +24,15 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
       ) : (
         totalResult.map((cocktail) => {
           return (
-            <Suspense key={cocktail.idDrink} fallback='loading...'>
-              <button
-                className={styles.cocktailCard}
-                type='button'
-                onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
-              >
-                <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
-                <div className={styles.cocktailName}>{cocktail.strDrink}</div>
-              </button>
-            </Suspense>
+            <button
+              key={cocktail.idDrink}
+              className={styles.cocktailCard}
+              type='button'
+              onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
+            >
+              <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
+              <div className={styles.cocktailName}>{cocktail.strDrink}</div>
+            </button>
           )
         })
       )}
