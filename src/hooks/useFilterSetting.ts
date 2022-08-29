@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { filteredItemAtom } from 'store/atom'
+import { filteringInitialData } from 'store/initialData/initialApiData'
 import { IFilterKind } from 'types/types'
 
 const useFilterSetting = () => {
@@ -21,7 +23,7 @@ const useFilterSetting = () => {
     },
     MULTI: {
       CANCEL_SAME_ITEM: (filterKind: string, clickedItem: string) => {
-        const filterItemList = filtering[filterKind].split(',')
+        const filterItemList = filtering[filterKind].split(',').map((kind) => kind.trim())
         const lastItemDeleted = filterItemList.filter((item) => item !== clickedItem).join(',')
 
         setFiltering((prevFilter: IFilterKind) => {
