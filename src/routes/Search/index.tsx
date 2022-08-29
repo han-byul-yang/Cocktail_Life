@@ -6,8 +6,9 @@ import getApiData from 'utils/getApiData'
 import eliminateSameItem from './utils/eliminateSameItem'
 import { cocktailApis } from 'services/getApis'
 import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
+import { filteringInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
-import { ICocktailData, IFilteredCocktailData } from 'types/types'
+import { ICocktailData, IFilteredCocktailData, IFilterKind } from 'types/types'
 import FilterBox from './FilterBox'
 import CocktailContainer from 'components/CocktailContainer'
 import Button from 'components/Button'
@@ -18,6 +19,7 @@ import styles from './search.module.scss'
 const Search = () => {
   const filtering = useRecoilValue(filteredItemAtom)
   const filteringReset = useResetRecoilState(filteredItemAtom)
+  const [showFilter, setShowFilter] = useState<IFilterKind>(filteringInitialData)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
   const [totalResult, setTotalResult] = useState<ICocktailData[]>([])
   const [inputKeyword, setInputKeyword] = useState('')
@@ -44,7 +46,7 @@ const Search = () => {
     return resultData.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
   }
 
-  const handleSearchButtonClick = async () => {
+  const handleSearchClick = async () => {
     setTotalResult([])
 
     const combinedIdLists: string[] = []
@@ -100,12 +102,13 @@ const Search = () => {
 
   const handleApplyFilterClick = () => {
     setFilterOpen(false)
+    setShowFilter(filtering)
   }
 
   const handleCancelFilterClick = () => {
     setFilterOpen(false)
     filteringReset()
-  }
+  } // 함수 이름에 맞게 수정 필요
 
   const handleOpenFilterClick = () => {
     setFilterOpen(true)
@@ -124,24 +127,28 @@ const Search = () => {
 
           <div className={styles.filterList}>
             <FilterIcon className={styles.filterIcon} />
-            {Object.keys(filtering).map((filterKey) => (
+            {Object.keys(showFilter).map((filterKey) => (
               <div key={filterKey}>
-                {filterKey}: {filtering[filterKey]} /
+                {filterKey}: {showFilter[filterKey]} /
               </div>
             ))}
           </div>
 
           <Button handleClick={handleOpenFilterClick}>FILTER</Button>
-          <Button handleClick={handleSearchButtonClick}>SEARCH</Button>
+          <Button handleClick={handleSearchClick}>SEARCH</Button>
         </form>
+
         {filterOpen && (
-          <div className={styles.filterContainer}>
-            <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-            <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-            <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-            <Button handleClick={handleApplyFilterClick}>APPLY</Button>
-            <Button handleClick={handleCancelFilterClick}>CANCEL</Button>
-          </div>
+          <>
+            <div className={styles.filterBackground} />
+            <div className={styles.filterContainer}>
+              <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
+              <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
+              <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+              <Button handleClick={handleApplyFilterClick}>APPLY</Button>
+              <Button handleClick={handleCancelFilterClick}>CANCEL</Button>
+            </div>
+          </>
         )}
       </div>
 
@@ -154,3 +161,5 @@ export default Search
 
 // 레이아웃 만들기
 // 재검색시 검색결과 초기화
+// filterCase => 개수 의미 들어가기
+// handleApplyFilterClick함수에 showfilter 기능이 아닌 recoil에 filter를 적용하는 기능 부분 넣기
