@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
-import { ICocktailData, IFilteredCocktailData } from 'types/types'
+import { AxiosResponse } from 'axios'
 
 const getApiData = async (api: (params: string) => Promise<AxiosResponse>, params: string) => {
   try {
@@ -13,3 +12,4 @@ const getApiData = async (api: (params: string) => Promise<AxiosResponse>, param
 export default getApiData
 
 // type axios 재정의
+// error 디테일하게 다루기

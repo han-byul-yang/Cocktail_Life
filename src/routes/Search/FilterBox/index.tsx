@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import React from 'react'
 
 import useFilterSetting from 'hooks/useFilterSetting'
-import { filteredItemAtom } from 'store/atom'
-import { IFilterKind } from 'types/types'
 
 import styles from './filterBox.module.scss'
 
@@ -14,17 +11,17 @@ interface IFilterButtonsProps {
 }
 
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
-  const { filter, filtering } = useFilterSetting()
+  const { filter, filterState } = useFilterSetting()
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {
-      if (clickedItem === filtering[filterKind]) {
+      if (clickedItem === filterState[filterKind]) {
         filter.SINGLE.CANCEL_SAME_ITEM(filterKind)
       } else {
         filter.SINGLE.TRANSFER_TO_DIFF_ITEM(filterKind, clickedItem)
       }
     } else {
-      const filterItemList = filtering[filterKind].split(',').map((kind) => kind.trim())
+      const filterItemList = filterState[filterKind].split(',').map((kind) => kind.trim())
 
       if (filterItemList.includes(clickedItem)) {
         filter.MULTI.CANCEL_SAME_ITEM(filterKind, clickedItem)
@@ -43,7 +40,7 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
           return (
             <button
               className={
-                filtering[filterKind]
+                filterState[filterKind]
                   .split(',')
                   .map((kind) => kind.trim())
                   .includes(item)
