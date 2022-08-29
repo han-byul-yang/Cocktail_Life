@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil'
 
 import useFilterSetting from 'hooks/useFilterSetting'
 import { filteredItemAtom } from 'store/atom'
+import { IFilterKind } from 'types/types'
 
 import styles from './filterBox.module.scss'
 
@@ -13,23 +14,22 @@ interface IFilterButtonsProps {
 }
 
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
-  const filtering = useRecoilValue(filteredItemAtom)
-  const filterSetting = useFilterSetting()
+  const { filter, filtering } = useFilterSetting()
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {
       if (clickedItem === filtering[filterKind]) {
-        filterSetting.SINGLE.CANCEL_SAME_ITEM(filterKind)
+        filter.SINGLE.CANCEL_SAME_ITEM(filterKind)
       } else {
-        filterSetting.SINGLE.TRANSFER_TO_DIFF_ITEM(filterKind, clickedItem)
+        filter.SINGLE.TRANSFER_TO_DIFF_ITEM(filterKind, clickedItem)
       }
     } else {
       const filterItemList = filtering[filterKind].split(',').map((kind) => kind.trim())
 
       if (filterItemList.includes(clickedItem)) {
-        filterSetting.MULTI.CANCEL_SAME_ITEM(filterKind, clickedItem)
+        filter.MULTI.CANCEL_SAME_ITEM(filterKind, clickedItem)
       } else {
-        filterSetting.MULTI.ADD_DIFF_ITEM(filterKind, clickedItem)
+        filter.MULTI.ADD_DIFF_ITEM(filterKind, clickedItem)
       }
     }
   }

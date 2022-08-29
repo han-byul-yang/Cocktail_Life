@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useState } from 'react'
 
-import { filteredItemAtom } from 'store/atom'
 import { filteringInitialData } from 'store/initialData/initialApiData'
 import { IFilterKind } from 'types/types'
 
 const useFilterSetting = () => {
-  const [filtering, setFiltering] = useRecoilState(filteredItemAtom)
+  const [filtering, setFiltering] = useState<IFilterKind>(filteringInitialData)
 
   const filter = {
     SINGLE: {
@@ -44,7 +42,9 @@ const useFilterSetting = () => {
     },
   }
 
-  return filter
+  return { filter, filtering }
 }
 
 export default useFilterSetting
+
+// filter, filtering 변수명 FilterBox 변수명이랑 통일하기
