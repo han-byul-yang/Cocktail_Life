@@ -3,6 +3,14 @@
 .searchPage {
   margin: 0 150px;
 
+  @media screen and (max-width: 768px) {
+    margin: 0 100px;
+  }
+
+  @media screen and (max-width: 320px) {
+    margin: 0 50px;
+  }
+
   .searchForm {
     display: grid;
     grid-template-rows: 1fr 0.9fr 1.2fr;
