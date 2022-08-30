@@ -1,4 +1,28 @@
-.cocktailCard {
-  width: 100px;
-  height: 100px;
+.cocktailContainer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  height: inherit;
+  min-height: inherit;
+  margin: 50px 0;
+
+  .errorMessage {
+    position: relative;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+  }
+
+  .resultBox {
+    .cocktailCard {
+      img {
+        max-width: 200px;
+        max-height: 200px;
+        margin: 15px;
+        border-radius: 8px;
+      }
+    }
+  }
 }

@@ -14,8 +14,9 @@
     width: inherit;
     height: inherit;
     content: '';
-    background-image: url('./../img/background2.jpg');
+    background-image: url('../assets/img/background2.jpg');
     filter: blur(10px);
+    background-repeat: repeat-y;
     background-size: cover;
     transform: scale(1.1);
   }
