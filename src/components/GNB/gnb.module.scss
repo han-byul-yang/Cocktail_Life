@@ -1,0 +1,27 @@
+@use '../../styles/constants/colors';
+
+.gnb {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0 40px;
+  background: colors.$PINK_300;
+
+  ul {
+    display: flex;
+    padding: 15px 0;
+
+    li {
+      margin: 0 50px;
+      color: colors.$WHITE;
+    }
+  }
+}
+
+.activatedLink {
+  color: colors.$LIGHT_RED;
+}
+
+.nonActivatedLink {
+  color: colors.$PINK;
+}
