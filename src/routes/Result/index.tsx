@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { cocktailApis } from 'services/getApis'
 import getApiData from 'utils/getApiData'
 import { cocktailInitialData } from 'store/initialData/initialApiData'
 import { ICocktailData } from 'types/types'
-import Description from 'components/Description'
 
 import styles from './result.module.scss'
+
+const Description = React.lazy(() => import('components/Description'))
 
 const Result = () => {
   const [resultData, setResultData] = useState<ICocktailData>(cocktailInitialData)
@@ -21,7 +22,9 @@ const Result = () => {
 
   return (
     <div className={styles.resultPage}>
-      <Description cocktailData={resultData} iList={0} />
+      <Suspense fallback={<div>loading...</div>}>
+        <Description cocktailData={resultData} iList={0} />
+      </Suspense>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, Suspense, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 
@@ -10,11 +10,12 @@ import { filteringInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
 import { ICocktailData, IFilteredCocktailData, IFilterKind } from 'types/types'
 import FilterBox from './FilterBox'
-import CocktailContainer from 'components/CocktailContainer'
 import Button from 'components/Button'
 
 import { FilterIcon } from 'assets/svgs'
 import styles from './search.module.scss'
+
+const CocktailContainer = React.lazy(() => import('components/CocktailContainer'))
 
 const Search = () => {
   const filtering = useRecoilValue(filteredItemAtom)
@@ -158,7 +159,9 @@ const Search = () => {
         </>
       )}
 
-      <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
+      <Suspense fallback={<div>loading...</div>}>
+        <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
+      </Suspense>
     </div>
   )
 }
