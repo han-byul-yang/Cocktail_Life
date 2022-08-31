@@ -7,6 +7,8 @@ import { cocktailInitialData } from 'store/initialData/initialApiData'
 import { ICocktailData } from 'types/types'
 import Description from 'components/Description'
 
+import styles from './result.module.scss'
+
 const Result = () => {
   const [resultData, setResultData] = useState<ICocktailData>(cocktailInitialData)
   const [searchParams] = useSearchParams()
@@ -18,10 +20,9 @@ const Result = () => {
   }, [searchParams])
 
   return (
-    <>
-      <img alt={`${resultData.strDrink}-img`} src={resultData.strDrinkThumb} />
+    <div className={styles.resultPage}>
       <Description cocktailData={resultData} iList={0} />
-    </>
+    </div>
   )
 }
 

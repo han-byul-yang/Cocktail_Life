@@ -18,6 +18,7 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
     strCategory,
     strInstructions,
     strTags,
+    strDrinkThumb,
     strMeasure1,
     strMeasure2,
     strMeasure3,
@@ -77,68 +78,71 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
   }
 
   return (
-    <div className={styles.description}>
-      <div className={styles.name}>
-        Rank #{iList + 1}
-        <br />
-        {strDrink}
-      </div>
+    <div className={styles.descriptionContainer}>
+      <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.img} />
+      <div className={styles.description}>
+        <div className={styles.name}>
+          Rank #{iList + 1}
+          <br />
+          {strDrink}
+        </div>
 
-      <div className={styles.basicInfo}>
-        <div className={styles.alcoholic}>{strAlcoholic}</div>
-        <div className={styles.category}>{strCategory}</div>
-      </div>
+        <div className={styles.basicInfo}>
+          <div className={styles.alcoholic}>{strAlcoholic}</div>
+          <div className={styles.category}>{strCategory}</div>
+        </div>
 
-      <p>~~MEASURE~~</p>
-      {measureList.map((measure, iMeasure) => {
-        const measureKey = `measure-${iMeasure}`
-        return (
-          <div key={`measure-${measureKey}`} className={styles.measure}>
-            {measure}
-          </div>
-        )
-      })}
-
-      <p>~~INSTRUCTION~~</p>
-      <div className={styles.instruction}>{strInstructions}</div>
-
-      <p>~~INGREDIENT~~</p>
-      <div className={styles.ingredientBox}>
-        {ingredientList.map((ingredient, iIngredient) => {
-          const ingredientKey = `ingredient-${iIngredient}`
+        <p>~~MEASURE~~</p>
+        {measureList.map((measure, iMeasure) => {
+          const measureKey = `measure-${iMeasure}`
           return (
-            ingredient !== null && (
-              <button
-                key={ingredientKey}
-                className={styles.ingredient}
-                type='button'
-                onClick={() => handleIngredientClick(ingredient)}
-              >
-                <img
-                  src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
-                  alt={`${ingredient}-img`}
-                />
-                <div>{ingredient}</div>
-              </button>
-            )
-          )
-        })}
-        {strIngredient6 !== null && (
-          <button type='button' onClick={handleShowMoreIngredientClick}>
-            {ingredientList?.length === 5 ? 'see more' : 'close'}
-          </button>
-        )}
-      </div>
-
-      <div className={styles.tagBox}>
-        {strTags?.split(',').map((tag, iTag) => {
-          const tagKey = `tag-${iTag}`
-          return (
-            <div key={tagKey} className={styles.tag}>
-              {tag}
+            <div key={`measure-${measureKey}`} className={styles.measure}>
+              {measure}
             </div>
           )
         })}
+
+        <p>~~INSTRUCTION~~</p>
+        <div className={styles.instruction}>{strInstructions}</div>
+
+        <p>~~INGREDIENT~~</p>
+        <div className={styles.ingredientBox}>
+          {ingredientList.map((ingredient, iIngredient) => {
+            const ingredientKey = `ingredient-${iIngredient}`
+            return (
+              ingredient !== null && (
+                <button
+                  key={ingredientKey}
+                  className={styles.ingredient}
+                  type='button'
+                  onClick={() => handleIngredientClick(ingredient)}
+                >
+                  <img
+                    src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
+                    alt={`${ingredient}-img`}
+                  />
+                  <div>{ingredient}</div>
+                </button>
+              )
+            )
+          })}
+          {strIngredient6 !== null && (
+            <button type='button' onClick={handleShowMoreIngredientClick}>
+              {ingredientList?.length === 5 ? 'see more' : 'close'}
+            </button>
+          )}
+        </div>
+
+        <div className={styles.tagBox}>
+          {strTags?.split(',').map((tag, iTag) => {
+            const tagKey = `tag-${iTag}`
+            return (
+              <div key={tagKey} className={styles.tag}>
+                {tag}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -36,10 +36,8 @@ const Popular = () => {
 
             return (
               <div key={idDrink} className={styles.cocktailRankBox}>
-                <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.img} />
-
+                {/* <img src={strDrinkThumb} alt={`${strDrink}-img`} /> */}
                 <Description cocktailData={cocktailData} iList={iList} />
-
                 <form className={styles.buttonForm}>
                   {new Array(10).fill(undefined).map((ele, iRadio) => {
                     const radioKey = `radio-${iRadio}`

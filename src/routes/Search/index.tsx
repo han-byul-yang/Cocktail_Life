@@ -115,53 +115,51 @@ const Search = () => {
   }
 
   return (
-    <>
-      <div className={styles.searchBox}>
-        <form className={styles.searchForm}>
-          <input
-            type='search'
-            placeholder='Input cocktail name ...'
-            value={inputKeyword}
-            onChange={handleInputKeywordChange}
-          />
+    <div className={styles.searchPage}>
+      <form className={styles.searchForm}>
+        <input
+          type='search'
+          placeholder='Input cocktail name ...'
+          value={inputKeyword}
+          onChange={handleInputKeywordChange}
+        />
 
-          <div className={styles.filterList}>
-            <FilterIcon className={styles.filterIcon} />
-            {Object.keys(showFilter).map((filterKey) => (
-              <div key={filterKey}>
-                {filterKey}: {showFilter[filterKey]} /
-              </div>
-            ))}
-          </div>
-
-          <Button handleClick={handleOpenFilterClick} size='big'>
-            FILTER
-          </Button>
-          <Button handleClick={handleSearchClick} size='big'>
-            SEARCH
-          </Button>
-        </form>
-
-        {filterOpen && (
-          <>
-            <div className={styles.filterBackground} />
-            <div className={styles.filterContainer}>
-              <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-              <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-              <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-              <Button handleClick={handleApplyFilterClick} size='small'>
-                APPLY
-              </Button>
-              <Button handleClick={handleCancelFilterClick} size='small'>
-                CANCEL
-              </Button>
+        <div className={styles.filterList}>
+          <FilterIcon className={styles.filterIcon} />
+          {Object.keys(showFilter).map((filterKey) => (
+            <div key={filterKey}>
+              {filterKey}: {showFilter[filterKey]} /
             </div>
-          </>
-        )}
-      </div>
+          ))}
+        </div>
+
+        <Button handleClick={handleOpenFilterClick} size='big'>
+          FILTER
+        </Button>
+        <Button handleClick={handleSearchClick} size='big'>
+          SEARCH
+        </Button>
+      </form>
+
+      {filterOpen && (
+        <>
+          <div className={styles.filterBackground} />
+          <div className={styles.filterContainer}>
+            <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
+            <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
+            <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
+            <Button handleClick={handleApplyFilterClick} size='small'>
+              APPLY
+            </Button>
+            <Button handleClick={handleCancelFilterClick} size='small'>
+              CANCEL
+            </Button>
+          </div>
+        </>
+      )}
 
       <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
-    </>
+    </div>
   )
 }
 
