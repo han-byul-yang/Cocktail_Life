@@ -23,7 +23,7 @@
       grid-row: 1;
       grid-column: 1 / 8;
       padding: 15px 20px;
-      color: colors.$BLACK;
+      color: colors.$DARK_GRAY;
       background: colors.$WHITE;
       border-radius: 20px;
 
@@ -45,6 +45,7 @@
       align-items: center;
       margin-top: 5px;
       margin-left: 10px;
+      color: colors.$DARK_GRAY;
 
       .filterIcon {
         width: 20px;
