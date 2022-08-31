@@ -23,7 +23,7 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
         <div className={styles.errorMessage}>{errorMessage}</div>
       ) : (
         <>
-          <div>YOUR RESULT IS ...</div>
+          <div>YOUR SEARCH RESULT ...</div>
           <div className={styles.resultBox}>
             {totalResult.map((cocktail) => {
               return (
