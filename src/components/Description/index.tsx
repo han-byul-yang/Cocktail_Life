@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import { useNavigate } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
@@ -8,7 +7,7 @@ import styles from './description.module.scss'
 
 interface IDescriptionProps {
   cocktailData: ICocktailData
-  iList: number
+  iList?: number
 }
 
 const Description = ({ cocktailData, iList }: IDescriptionProps) => {
@@ -82,8 +81,7 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
       <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.img} />
       <div className={styles.description}>
         <div className={styles.name}>
-          Rank #{iList + 1}
-          <br />
+          {(iList || iList === 0) && <div>Rank #{iList + 1}</div>}
           {strDrink}
         </div>
 

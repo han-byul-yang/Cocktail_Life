@@ -23,7 +23,7 @@ const Result = () => {
   return (
     <div className={styles.resultPage}>
       <Suspense fallback={<div>loading...</div>}>
-        <Description cocktailData={resultData} iList={0} />
+        <Description cocktailData={resultData} />
       </Suspense>
     </div>
   )
