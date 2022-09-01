@@ -33,7 +33,7 @@ const Search = () => {
   useEffect(() => {
     const ingredientSearch = searchParams.get('ingredient')
 
-    if (ingredientSearch !== null)
+    if (ingredientSearch)
       getApiData(cocktailApis.filterByIngredients, ingredientSearch).then((result) => setTotalResult(result.drinks))
   }, [searchParams])
 

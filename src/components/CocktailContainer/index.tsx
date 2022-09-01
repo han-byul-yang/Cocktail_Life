@@ -19,7 +19,7 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
 
   return (
     <div className={styles.cocktailContainer}>
-      {!totalResult.length ? (
+      {!totalResult?.length ? (
         <div className={styles.errorMessage}>{errorMessage}</div>
       ) : (
         <>
