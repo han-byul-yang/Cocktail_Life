@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 import GNB from 'components/GNB'
 
@@ -11,7 +11,7 @@ const Layout = () => {
       <header>
         <h1>
           <img alt='titleCocktailImg' src={cocktailImg} />
-          COCKTAIL LIFE
+          <Link to='/search'>COCKTAIL LIFE</Link>
           <img alt='titleCocktailImg' src={cocktailImg} />
         </h1>
         <GNB />
