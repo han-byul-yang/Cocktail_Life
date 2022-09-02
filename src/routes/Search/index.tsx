@@ -93,12 +93,11 @@ const Search = () => {
   }
 
   useEffect(() => {
-    totalFilteredIdList.forEach(async (filteredId) => {
-      const data = await getApiData(cocktailApis.searchById, filteredId)
-      dataRef.current = dataRef.current.length === 0 ? [...data.drinks] : [...dataRef.current, ...data.drinks]
-      // 데이터 불러올 때마다 리렌더링 되는 문제 해결하기
+    const searchedCocktailList = totalFilteredIdList.map(async (filteredId) => {
+      const searchedData = await getApiData(cocktailApis.searchById, filteredId)
+      return searchedData.drinks[0]
     })
-    setTotalResult(dataRef.current)
+    Promise.all(searchedCocktailList).then((res) => setTotalResult(res))
   }, [totalFilteredIdList])
 
   const handleApplyFilterClick = () => {
