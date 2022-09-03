@@ -5,7 +5,7 @@ const getApiData = async (api: (params: string) => Promise<AxiosResponse>, param
     const { data } = await api(params)
     return data
   } catch (error) {
-    throw Error('데이터를 불러오는 과정 중 문제가 생겼습니다')
+    throw Error('Some error occured in your network')
   }
 }
 

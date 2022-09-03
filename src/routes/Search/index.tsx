@@ -1,5 +1,4 @@
-import React, { ChangeEvent, Suspense, useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import React, { ChangeEvent, Suspense, useEffect, useState } from 'react'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 
 import useSearchByParams from 'hooks/useSearchByParams'
@@ -25,22 +24,21 @@ const Search = () => {
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
   const [totalResult, setTotalResult] = useState<ICocktailData[]>([])
   const [inputKeyword, setInputKeyword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('검색결과가 없습니다')
+  const [errorMessage, setErrorMessage] = useState('There is no result')
   const [filterOpen, setFilterOpen] = useState(false)
   // const inputRef = useRef(null)
-  const dataRef = useRef<ICocktailData[]>([])
-  const { searchResult } = useSearchByParams()
+  const { paramsSearchResult } = useSearchByParams()
 
   useEffect(() => {
-    setTotalResult(searchResult)
-  }, [searchResult])
+    setTotalResult(paramsSearchResult)
+  }, [paramsSearchResult])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
   }
 
   const cocktailDataToIdList = (resultData: (ICocktailData | IFilteredCocktailData)[] | null | undefined) => {
-    if (resultData === null || resultData === undefined) throw Error('검색결과가 없습니다')
+    if (resultData === null || resultData === undefined) throw Error('There is no result')
 
     return resultData.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
   }
