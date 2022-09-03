@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
+import Button from 'components/Button'
 
 import styles from './description.module.scss'
 
@@ -72,8 +73,8 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
     )
   }
 
-  const handleIngredientClick = (ingredient: string) => {
-    navigate(`/search?ingredient=${ingredient}`)
+  const handleMoveSearchClick = (params: string) => {
+    navigate(`/search?ingredient=${params}`)
   }
 
   return (
@@ -86,8 +87,12 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
         </div>
 
         <div className={styles.basicInfo}>
-          <div className={styles.alcoholic}>{strAlcoholic}</div>
-          <div className={styles.category}>{strCategory}</div>
+          <Button handleClick={() => handleMoveSearchClick(strAlcoholic)} size='small'>
+            {strAlcoholic}
+          </Button>
+          <Button handleClick={() => handleMoveSearchClick(strCategory)} size='small'>
+            {strCategory}
+          </Button>
         </div>
 
         <p>~~MEASURE~~</p>
@@ -113,7 +118,7 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
                   key={ingredientKey}
                   className={styles.ingredient}
                   type='button'
-                  onClick={() => handleIngredientClick(ingredient)}
+                  onClick={() => handleMoveSearchClick(ingredient)}
                 >
                   <img
                     src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
