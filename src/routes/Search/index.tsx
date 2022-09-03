@@ -31,10 +31,19 @@ const Search = () => {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    const ingredientSearch = searchParams.get('ingredient')
+    const searchByParams = () => {
+      const ingredientParams = searchParams.get('ingredient')
+      const alcoholicParams = searchParams.get('alcoholic')
+      const categoryParams = searchParams.get('category')
 
-    if (ingredientSearch)
-      getApiData(cocktailApis.filterByIngredients, ingredientSearch).then((result) => setTotalResult(result.drinks))
+      if (ingredientParams)
+        getApiData(cocktailApis.filterByIngredients, ingredientParams!).then((result) => setTotalResult(result.drinks))
+      if (alcoholicParams)
+        getApiData(cocktailApis.filterByAlcoholic, alcoholicParams!).then((result) => setTotalResult(result.drinks))
+      if (categoryParams)
+        getApiData(cocktailApis.filterByCategory, categoryParams!).then((result) => setTotalResult(result.drinks))
+    }
+    searchByParams()
   }, [searchParams])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
