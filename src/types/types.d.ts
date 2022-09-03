@@ -1,8 +1,8 @@
 export interface ICocktailData {
   dateModified: null | string
   idDrink: string
-  strAlcoholic: null | string
-  strCategory: null | string
+  strAlcoholic: string
+  strCategory: string
   strCreativeCommonsConfirmed: null | string
   strDrink: string
   strDrinkAlternate: null | string
