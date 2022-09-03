@@ -73,8 +73,8 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
     )
   }
 
-  const handleMoveSearchClick = (params: string) => {
-    navigate(`/search?ingredient=${params}`)
+  const handleMoveSearchClick = (kind: string, params: string) => {
+    navigate(`/search?${kind}=${params}`)
   }
 
   return (
@@ -87,10 +87,10 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
         </div>
 
         <div className={styles.basicInfo}>
-          <Button handleClick={() => handleMoveSearchClick(strAlcoholic)} size='small'>
+          <Button handleClick={() => handleMoveSearchClick('alcoholic', strAlcoholic)} size='small'>
             {strAlcoholic}
           </Button>
-          <Button handleClick={() => handleMoveSearchClick(strCategory)} size='small'>
+          <Button handleClick={() => handleMoveSearchClick('category', strCategory)} size='small'>
             {strCategory}
           </Button>
         </div>
@@ -118,7 +118,7 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
                   key={ingredientKey}
                   className={styles.ingredient}
                   type='button'
-                  onClick={() => handleMoveSearchClick(ingredient)}
+                  onClick={() => handleMoveSearchClick('ingredient', ingredient)}
                 >
                   <img
                     src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}

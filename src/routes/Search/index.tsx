@@ -2,6 +2,7 @@ import React, { ChangeEvent, Suspense, useEffect, useRef, useState } from 'react
 import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 
+import useSearchByParams from 'hooks/useSearchByParams'
 import getApiData from 'utils/getApiData'
 import eliminateSameItem from './utils/eliminateSameItem'
 import { cocktailApis } from 'services/getApis'
@@ -28,23 +29,11 @@ const Search = () => {
   const [filterOpen, setFilterOpen] = useState(false)
   // const inputRef = useRef(null)
   const dataRef = useRef<ICocktailData[]>([])
-  const [searchParams] = useSearchParams()
+  const { searchResult } = useSearchByParams()
 
   useEffect(() => {
-    const searchByParams = () => {
-      const ingredientParams = searchParams.get('ingredient')
-      const alcoholicParams = searchParams.get('alcoholic')
-      const categoryParams = searchParams.get('category')
-
-      if (ingredientParams)
-        getApiData(cocktailApis.filterByIngredients, ingredientParams!).then((result) => setTotalResult(result.drinks))
-      if (alcoholicParams)
-        getApiData(cocktailApis.filterByAlcoholic, alcoholicParams!).then((result) => setTotalResult(result.drinks))
-      if (categoryParams)
-        getApiData(cocktailApis.filterByCategory, categoryParams!).then((result) => setTotalResult(result.drinks))
-    }
-    searchByParams()
-  }, [searchParams])
+    setTotalResult(searchResult)
+  }, [searchResult])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
