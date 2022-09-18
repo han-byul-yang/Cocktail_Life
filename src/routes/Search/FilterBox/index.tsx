@@ -34,28 +34,29 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
   return (
     <div className={styles.filterBox}>
       {filterKind.toUpperCase()}
-      <div className={styles.filterButtons}>
+      <ul className={styles.filterButtons}>
         {filterList.map((item: string, iItem: number) => {
           const itemKey = `item-${iItem}`
           return (
-            <button
-              className={
-                filterState[filterKind]
-                  .split(',')
-                  .map((kind) => kind.trim())
-                  .includes(item)
-                  ? styles.activeButton
-                  : styles.disActiveButton
-              }
-              key={itemKey}
-              type='button'
-              onClick={() => handleFilterItemClick(item)}
-            >
-              {item}
-            </button>
+            <li key={itemKey}>
+              <button
+                className={
+                  filterState[filterKind]
+                    .split(',')
+                    .map((kind) => kind.trim())
+                    .includes(item)
+                    ? styles.activeButton
+                    : styles.disActiveButton
+                }
+                type='button'
+                onClick={() => handleFilterItemClick(item)}
+              >
+                {item}
+              </button>
+            </li>
           )
         })}
-      </div>
+      </ul>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Suspense, useEffect, useState } from 'react'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
+import { useNavigate } from 'react-router-dom'
 
 import useSearchByParams from 'hooks/useSearchByParams'
 import getApiData from 'utils/getApiData'
@@ -27,11 +28,10 @@ const Search = () => {
   const [errorMessage, setErrorMessage] = useState('There is no result')
   const [filterOpen, setFilterOpen] = useState(false)
   // const inputRef = useRef(null)
+  const navigate = useNavigate()
   const { paramsSearchResult } = useSearchByParams()
 
-  useEffect(() => {
-    setTotalResult(paramsSearchResult)
-  }, [paramsSearchResult])
+  useEffect(() => {}, [paramsSearchResult])
 
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
@@ -83,6 +83,10 @@ const Search = () => {
 
       const filteredIdList = eliminateSameItem(combinedIdLists, filterKindCount)
       setTotalFilteredIdList(filteredIdList)
+
+      navigate(
+        `/search?alcoholic=${filtering.alcoholic}&category=${filtering.category}&ingredient=${filtering.ingredient}`
+      )
     } catch (error) {
       if (error instanceof Error) setErrorMessage(error.message)
     }
@@ -122,11 +126,13 @@ const Search = () => {
 
         <div className={styles.filterList}>
           <FilterIcon className={styles.filterIcon} />
-          {Object.keys(showFilter).map((filterKey) => (
-            <div key={filterKey}>
-              {filterKey}: {showFilter[filterKey]} /
-            </div>
-          ))}
+          <ul>
+            {Object.keys(showFilter).map((filterKey) => (
+              <li key={filterKey}>
+                {filterKey}: {showFilter[filterKey]} /
+              </li>
+            ))}
+          </ul>
         </div>
 
         <Button handleClick={handleOpenFilterClick} size='big'>

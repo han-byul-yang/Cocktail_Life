@@ -24,21 +24,22 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
       ) : (
         <>
           <div>YOUR SEARCH RESULT ...</div>
-          <div className={styles.resultBox}>
+          <ul className={styles.resultBox}>
             {totalResult.map((cocktail) => {
               return (
-                <button
-                  key={cocktail.idDrink}
-                  className={styles.cocktailCard}
-                  type='button'
-                  onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
-                >
-                  <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
-                  <div className={styles.cocktailName}>{cocktail.strDrink}</div>
-                </button>
+                <li key={cocktail.idDrink}>
+                  <button
+                    className={styles.cocktailCard}
+                    type='button'
+                    onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
+                  >
+                    <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
+                    <div className={styles.cocktailName}>{cocktail.strDrink}</div>
+                  </button>
+                </li>
               )
             })}
-          </div>
+          </ul>
         </>
       )}
     </div>

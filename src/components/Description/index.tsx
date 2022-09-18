@@ -96,36 +96,39 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
         </div>
 
         <p>~~MEASURE~~</p>
-        {measureList.map((measure, iMeasure) => {
-          const measureKey = `measure-${iMeasure}`
-          return (
-            <div key={`measure-${measureKey}`} className={styles.measure}>
-              {measure}
-            </div>
-          )
-        })}
+        <ul>
+          {measureList.map((measure, iMeasure) => {
+            const measureKey = `measure-${iMeasure}`
+            return (
+              <li key={`measure-${measureKey}`} className={styles.measure}>
+                {measure}
+              </li>
+            )
+          })}
+        </ul>
 
         <p>~~INSTRUCTION~~</p>
         <div className={styles.instruction}>{strInstructions}</div>
 
         <p>~~INGREDIENT~~</p>
-        <div className={styles.ingredientBox}>
+        <ul className={styles.ingredientBox}>
           {ingredientList.map((ingredient, iIngredient) => {
             const ingredientKey = `ingredient-${iIngredient}`
             return (
               ingredient !== null && (
-                <button
-                  key={ingredientKey}
-                  className={styles.ingredient}
-                  type='button'
-                  onClick={() => handleMoveSearchClick('ingredient', ingredient)}
-                >
-                  <img
-                    src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
-                    alt={`${ingredient}-img`}
-                  />
-                  <div>{ingredient}</div>
-                </button>
+                <li key={ingredientKey}>
+                  <button
+                    className={styles.ingredient}
+                    type='button'
+                    onClick={() => handleMoveSearchClick('ingredient', ingredient)}
+                  >
+                    <img
+                      src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
+                      alt={`${ingredient}-img`}
+                    />
+                    <div>{ingredient}</div>
+                  </button>
+                </li>
               )
             )
           })}
@@ -134,18 +137,18 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
               {ingredientList?.length === 5 ? 'see more' : 'close'}
             </button>
           )}
-        </div>
+        </ul>
 
-        <div className={styles.tagBox}>
+        <ul className={styles.tagBox}>
           {strTags?.split(',').map((tag, iTag) => {
             const tagKey = `tag-${iTag}`
             return (
-              <div key={tagKey} className={styles.tag}>
+              <li key={tagKey} className={styles.tag}>
                 {tag}
-              </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
       </div>
     </div>
   )

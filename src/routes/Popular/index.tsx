@@ -30,13 +30,12 @@ const Popular = () => {
   return (
     <>
       <div className={styles.showBox}>
-        <div className={styles.container} style={{ top: -(selectedRankBox * 800) }}>
+        <ul className={styles.container} style={{ top: -(selectedRankBox * 800) }}>
           {cocktailList.map((cocktailData, iList) => {
-            const { idDrink, strDrink, strDrinkThumb } = cocktailData
+            const { idDrink } = cocktailData
 
             return (
-              <div key={idDrink} className={styles.cocktailRankBox}>
-                {/* <img src={strDrinkThumb} alt={`${strDrink}-img`} /> */}
+              <li key={idDrink} className={styles.cocktailRankBox}>
                 <Description cocktailData={cocktailData} iList={iList} />
                 <form className={styles.buttonForm}>
                   {new Array(10).fill(undefined).map((ele, iRadio) => {
@@ -54,10 +53,10 @@ const Popular = () => {
                     )
                   })}
                 </form>
-              </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
       </div>
       <Link to='search'>
         <button type='button' className={styles.moveSearchPageButton}>
