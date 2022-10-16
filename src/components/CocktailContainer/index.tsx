@@ -1,22 +1,17 @@
 import React, { Suspense } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { ICocktailData } from 'types/types'
+import CocktailCard from './CocktailCard'
 
 import styles from './cocktailContainer.module.scss'
 
 interface ICocktailContainerProps {
   totalResult: ICocktailData[]
   errorMessage: string
+  type?: string
 }
 
-const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProps) => {
-  const navigate = useNavigate()
-
-  const handleCocktailCardClick = (cocktailId: string, cocktailName: string) => {
-    navigate(`/result?id=${cocktailId}&name=${cocktailName}`) // params set 으로 수정
-  }
-
+const CocktailContainer = ({ totalResult, type, errorMessage }: ICocktailContainerProps) => {
   return (
     <div className={styles.cocktailContainer}>
       {!totalResult?.length ? (
@@ -25,18 +20,13 @@ const CocktailContainer = ({ totalResult, errorMessage }: ICocktailContainerProp
         <>
           <div>YOUR SEARCH RESULT ...</div>
           <ul className={styles.resultBox}>
-            {totalResult.map((cocktail) => {
+            {totalResult.map((cocktailResult, index) => {
               return (
-                <li key={cocktail.idDrink}>
-                  <button
-                    className={styles.cocktailCard}
-                    type='button'
-                    onClick={() => handleCocktailCardClick(cocktail.idDrink, cocktail.strDrink)}
-                  >
-                    <img alt={`${cocktail.strDrink}-img`} src={cocktail.strDrinkThumb} />
-                    <div className={styles.cocktailName}>{cocktail.strDrink}</div>
-                  </button>
-                </li>
+                <CocktailCard
+                  key={cocktailResult.idDrink}
+                  rank={type === 'popular' && index + 1}
+                  cocktailResult={cocktailResult}
+                />
               )
             })}
           </ul>
