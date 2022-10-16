@@ -1,168 +1,93 @@
-import React, { ChangeEvent, Suspense, useEffect, useState } from 'react'
-import { useRecoilValue, useResetRecoilState } from 'recoil'
+import React, { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 
 import useSearchByParams from 'hooks/useSearchByParams'
-import getApiData from 'utils/getApiData'
+import {
+  useFilterByAlcoholicQuery,
+  useFilterByCategoryQuery,
+  useFilterByIngredientQuery,
+  useGetCocktailByIdQuery,
+  useGetCocktailByNameQuery,
+} from 'hooks/useTanstackQuery'
 import eliminateSameItem from './utils/eliminateSameItem'
-import { cocktailApis } from 'services/getApis'
-import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialListData'
 import { filteringInitialData } from 'store/initialData/initialApiData'
 import { filteredItemAtom } from 'store/atom'
-import { ICocktailData, IFilteredCocktailData, IFilterKind } from 'types/types'
-import FilterBox from './FilterBox'
-import Button from 'components/Button'
+import { IFilterKind } from 'types/types'
+import SearchBar from './SearchBar'
+import CocktailContainer from 'components/CocktailContainer'
+import FilterContainer from './FilterContainer'
 
-import { FilterIcon } from 'assets/svgs'
 import styles from './search.module.scss'
-
-const CocktailContainer = React.lazy(() => import('components/CocktailContainer'))
 
 const Search = () => {
   const filtering = useRecoilValue(filteredItemAtom)
-  const filteringReset = useResetRecoilState(filteredItemAtom)
-  const [showFilter, setShowFilter] = useState<IFilterKind>(filteringInitialData)
-  const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([''])
-  const [totalResult, setTotalResult] = useState<ICocktailData[]>([])
+  const [isSearchClick, setIsSearchClick] = useState(false)
+  const [showChoseFilter, setShowChoseFilter] = useState<IFilterKind>(filteringInitialData)
+  const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([])
   const [inputKeyword, setInputKeyword] = useState('')
   const [errorMessage, setErrorMessage] = useState('There is no result')
-  const [filterOpen, setFilterOpen] = useState(false)
-  // const inputRef = useRef(null)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
   const navigate = useNavigate()
   const { paramsSearchResult } = useSearchByParams()
 
+  const { data: searchByNameResultData } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
+  const { data: filterByAlcoholicResultData } = useFilterByAlcoholicQuery(filtering.alcoholic, isSearchClick)
+  const { data: filterByCategoryResultData } = useFilterByCategoryQuery(filtering.category, isSearchClick)
+  const { data: filterByIngredientResultData } = useFilterByIngredientQuery(filtering.ingredient, isSearchClick)
+  const { resultData: totalResult } = useGetCocktailByIdQuery(totalFilteredIdList, !!totalFilteredIdList)
+
   useEffect(() => {}, [paramsSearchResult])
 
-  const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputKeyword(e.currentTarget.value)
-  }
+  useEffect(() => {
+    if (isSearchClick) {
+      let filterKindCount = 0
 
-  const cocktailDataToIdList = (resultData: (ICocktailData | IFilteredCocktailData)[] | null | undefined) => {
-    if (resultData === null || resultData === undefined) throw Error('There is no result')
-
-    return resultData.map((cocktailData: ICocktailData | IFilteredCocktailData) => cocktailData.idDrink)
-  }
-
-  const handleSearchClick = async () => {
-    setTotalResult([])
-
-    const combinedIdLists: string[] = []
-    let filterKindCount = 0
-
-    try {
       if (inputKeyword !== '') {
         filterKindCount += 1
-
-        await getApiData(cocktailApis.searchByName, inputKeyword)
-          .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result) => combinedIdLists.push(...result))
       }
-
       if (filtering.alcoholic !== '') {
         filterKindCount += 1
-
-        await getApiData(cocktailApis.filterByAlcoholic, filtering.alcoholic)
-          .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result) => combinedIdLists.push(...result))
       }
-
       if (filtering.category !== '') {
         filterKindCount += 1
-
-        await getApiData(cocktailApis.filterByCategory, filtering.category)
-          .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result) => combinedIdLists.push(...result))
       }
-
       if (filtering.ingredient !== '') {
         filterKindCount += 1
-        await getApiData(cocktailApis.filterByIngredients, filtering.ingredient)
-          .then((result) => cocktailDataToIdList(result.drinks))
-          .then((result) => combinedIdLists.push(...result))
       }
 
-      const filteredIdList = eliminateSameItem(combinedIdLists, filterKindCount)
-      setTotalFilteredIdList(filteredIdList)
+      const totalCocktailIdList = [
+        ...(searchByNameResultData || []),
+        ...(filterByAlcoholicResultData || []),
+        ...(filterByCategoryResultData || []),
+        ...(filterByIngredientResultData || []),
+      ]
 
-      navigate(
-        `/search?alcoholic=${filtering.alcoholic}&category=${filtering.category}&ingredient=${filtering.ingredient}`
-      )
-    } catch (error) {
-      if (error instanceof Error) setErrorMessage(error.message)
+      setTotalFilteredIdList(eliminateSameItem(totalCocktailIdList, filterKindCount))
     }
-  }
-
-  useEffect(() => {
-    const searchedCocktailList = totalFilteredIdList.map(async (filteredId) => {
-      const searchedData = await getApiData(cocktailApis.searchById, filteredId)
-      return searchedData.drinks[0]
-    })
-    Promise.all(searchedCocktailList).then((res) => setTotalResult(res))
-  }, [totalFilteredIdList])
-
-  const handleApplyFilterClick = () => {
-    setFilterOpen(false)
-    setShowFilter(filtering)
-  } // 함수 이름에 맞게 수정 필요
-
-  const handleCancelFilterClick = () => {
-    setFilterOpen(false)
-    filteringReset()
-  }
-
-  const handleOpenFilterClick = () => {
-    setFilterOpen(true)
-  }
+  }, [
+    filterByAlcoholicResultData,
+    filterByCategoryResultData,
+    filterByIngredientResultData,
+    filtering.alcoholic,
+    filtering.category,
+    filtering.ingredient,
+    inputKeyword,
+    isSearchClick,
+    searchByNameResultData,
+  ])
 
   return (
     <div className={styles.searchPage}>
-      <form className={styles.searchForm}>
-        <input
-          type='search'
-          placeholder='Input cocktail name ...'
-          value={inputKeyword}
-          onChange={handleInputKeywordChange}
-        />
-
-        <div className={styles.filterList}>
-          <FilterIcon className={styles.filterIcon} />
-          <ul>
-            {Object.keys(showFilter).map((filterKey) => (
-              <li key={filterKey}>
-                {filterKey}: {showFilter[filterKey]} /
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <Button handleClick={handleOpenFilterClick} size='big'>
-          FILTER
-        </Button>
-        <Button handleClick={handleSearchClick} size='big'>
-          SEARCH
-        </Button>
-      </form>
-
-      {filterOpen && (
-        <>
-          <div className={styles.filterBackground} />
-          <div className={styles.filterContainer}>
-            <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
-            <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
-            <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-            <Button handleClick={handleApplyFilterClick} size='small'>
-              APPLY
-            </Button>
-            <Button handleClick={handleCancelFilterClick} size='small'>
-              CANCEL
-            </Button>
-          </div>
-        </>
-      )}
-
-      <Suspense fallback={<div>loading...</div>}>
-        <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
-      </Suspense>
+      <SearchBar
+        inputKeyword={inputKeyword}
+        setInputKeyword={setInputKeyword}
+        setFilterOpen={setIsFilterOpen}
+        showChoseFilter={showChoseFilter}
+        setIsSearchClick={setIsSearchClick}
+      />
+      {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
+      <CocktailContainer totalResult={totalResult} errorMessage={errorMessage} />
     </div>
   )
 }
@@ -172,4 +97,3 @@ export default Search
 // 레이아웃 만들기
 // 재검색시 검색결과 초기화
 // filterCase => 개수 의미 들어가기
-// handleApplyFilterClick함수에 showfilter 기능이 아닌 recoil에 filter를 적용하는 기능 부분 넣기
