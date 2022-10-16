@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const POPULAR_COCKTAIL_API_URL = 'https://the-cocktail-db.p.rapidapi.com/popular.php'
 const RAPID_API_KEY = '0f40b0457amsh95e66230e92672ep17b4c1jsn3a7564d6e110'
@@ -69,3 +69,10 @@ export const cocktailApis = {
       },
     }),
 }
+
+export const getApiData = async (api: (params: string) => Promise<AxiosResponse>, params: string) => {
+  const { data } = await api(params)
+  return data
+}
+
+// type axios 재정의
