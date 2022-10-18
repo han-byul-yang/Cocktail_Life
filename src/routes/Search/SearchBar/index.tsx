@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { IFilterKind } from 'types/types'
@@ -7,7 +8,6 @@ import {
   useFilterByAlcoholicQuery,
   useFilterByCategoryQuery,
   useFilterByIngredientQuery,
-  useGetCocktailByIdQuery,
 } from 'hooks/useFilterCocktailQuery'
 import eliminateSameItem from '../utils/eliminateSameItem'
 import { filteredItemAtom } from 'store/atom'
@@ -26,6 +26,7 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   const [isSearchClick, setIsSearchClick] = useState(false)
   const [inputKeyword, setInputKeyword] = useState('')
   const filtering = useRecoilValue(filteredItemAtom)
+  const navigate = useNavigate()
 
   const { data: searchByNameIdResult } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
   const { data: filterByAlcoholicIdResult } = useFilterByAlcoholicQuery(filtering.alcoholic, isSearchClick)
@@ -57,6 +58,11 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
       ]
 
       setTotalFilteredIdList(eliminateSameItem(totalCocktailIdList, filterKindCount))
+      navigate(
+        `/search?alcoholic=${filtering.alcoholic || 'false'}&category=${filtering.category || 'false'}ingredient=${
+          filtering.ingredient || 'false'
+        }`
+      )
       setIsSearchClick(false)
     }
   }, [
@@ -68,6 +74,7 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
     filtering.ingredient,
     inputKeyword,
     isSearchClick,
+    navigate,
     searchByNameIdResult,
     setTotalFilteredIdList,
   ])

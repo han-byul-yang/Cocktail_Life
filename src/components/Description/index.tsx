@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 
+import { clickedSearchKeywordAtom } from 'store/atom'
 import { ICocktailData } from 'types/types'
 import Button from 'components/Button'
 
 import styles from './description.module.scss'
 
 interface IDescriptionProps {
-  cocktailData: ICocktailData
+  cocktailDetailData: ICocktailData
   iList?: number
 }
 
-const Description = ({ cocktailData, iList }: IDescriptionProps) => {
+const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
+  const setClickedSearchKeyword = useSetRecoilState(clickedSearchKeywordAtom)
   const {
     strDrink,
     strAlcoholic,
@@ -39,7 +42,7 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
     strIngredient13,
     strIngredient14,
     strIngredient15,
-  } = cocktailData
+  } = cocktailDetailData
   const measureList = [strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5]
 
   const [ingredientList, setIngredientList] = useState<(string | null)[]>([])
@@ -74,7 +77,13 @@ const Description = ({ cocktailData, iList }: IDescriptionProps) => {
   }
 
   const handleMoveSearchClick = (kind: string, params: string) => {
-    navigate(`/search?${kind}=${params}`)
+    setClickedSearchKeyword({ [kind]: params })
+    // navigate(`/search?${kind}=${params}`)
+    navigate(
+      `/search?alcoholic=${kind === 'alcoholic' && params}&category=${kind === 'category' && params}&ingredient=${
+        kind === 'ingredient' && params
+      }`
+    )
   }
 
   return (
