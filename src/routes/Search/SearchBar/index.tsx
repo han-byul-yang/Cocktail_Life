@@ -1,26 +1,77 @@
-import { ChangeEvent, Dispatch } from 'react'
+import { ChangeEvent, Dispatch, useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { IFilterKind } from 'types/types'
+import {
+  useGetCocktailByNameQuery,
+  useFilterByAlcoholicQuery,
+  useFilterByCategoryQuery,
+  useFilterByIngredientQuery,
+  useGetCocktailByIdQuery,
+} from 'hooks/useFilterCocktailQuery'
+import eliminateSameItem from '../utils/eliminateSameItem'
+import { filteredItemAtom } from 'store/atom'
 import Button from 'components/Button'
 
 import { FilterIcon } from 'assets/svgs'
 import styles from './searchBar.module.scss'
 
 interface ISearchBarProps {
-  inputKeyword: string
-  setInputKeyword: Dispatch<React.SetStateAction<string>>
   setFilterOpen: Dispatch<React.SetStateAction<boolean>>
   showChoseFilter: IFilterKind
-  setIsSearchClick: Dispatch<React.SetStateAction<boolean>>
+  setTotalFilteredIdList: Dispatch<React.SetStateAction<string[]>>
 }
 
-const SearchBar = ({
-  inputKeyword,
-  setInputKeyword,
-  setFilterOpen,
-  showChoseFilter,
-  setIsSearchClick,
-}: ISearchBarProps) => {
+const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: ISearchBarProps) => {
+  const [isSearchClick, setIsSearchClick] = useState(false)
+  const [inputKeyword, setInputKeyword] = useState('')
+  const filtering = useRecoilValue(filteredItemAtom)
+
+  const { data: searchByNameIdResult } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
+  const { data: filterByAlcoholicIdResult } = useFilterByAlcoholicQuery(filtering.alcoholic, isSearchClick)
+  const { data: filterByCategoryIdResult } = useFilterByCategoryQuery(filtering.category, isSearchClick)
+  const { data: filterByIngredientIdResult } = useFilterByIngredientQuery(filtering.ingredient, isSearchClick)
+
+  useEffect(() => {
+    if (isSearchClick) {
+      let filterKindCount = 0
+
+      if (inputKeyword !== '') {
+        filterKindCount += 1
+      }
+      if (filtering.alcoholic !== '') {
+        filterKindCount += 1
+      }
+      if (filtering.category !== '') {
+        filterKindCount += 1
+      }
+      if (filtering.ingredient !== '') {
+        filterKindCount += 1
+      }
+
+      const totalCocktailIdList = [
+        ...(searchByNameIdResult || []),
+        ...(filterByAlcoholicIdResult || []),
+        ...(filterByCategoryIdResult || []),
+        ...(filterByIngredientIdResult || []),
+      ]
+
+      setTotalFilteredIdList(eliminateSameItem(totalCocktailIdList, filterKindCount))
+      setIsSearchClick(false)
+    }
+  }, [
+    filterByAlcoholicIdResult,
+    filterByCategoryIdResult,
+    filterByIngredientIdResult,
+    filtering.alcoholic,
+    filtering.category,
+    filtering.ingredient,
+    inputKeyword,
+    isSearchClick,
+    searchByNameIdResult,
+    setTotalFilteredIdList,
+  ])
+
   const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.currentTarget.value)
   }
@@ -29,11 +80,8 @@ const SearchBar = ({
     setFilterOpen(true)
   }
 
-  const handleSearchClick = async () => {
+  const handleSearchClick = () => {
     setIsSearchClick(true)
-    /* navigate(
-      `/search?alcoholic=${filtering.alcoholic}&category=${filtering.category}&ingredient=${filtering.ingredient}`
-    ) */
   }
 
   return (
