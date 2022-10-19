@@ -1,69 +1,10 @@
 @use '../../styles/constants/colors';
 
-.showBox {
-  position: absolute;
-  top: 80px;
-  width: 100%;
-  height: 800px;
-  overflow: hidden;
+.popularPage {
+  position: relative;
+  margin: 0 100px;
 
-  .container {
-    position: absolute;
-    width: 100%;
-    transition: top 0.2s linear;
-
-    .cocktailRankBox {
-      position: relative;
-      display: flex;
-      height: 800px;
-      margin: 0 150px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 70%);
-
-      /*       &::before {
-          position: absolute;
-          top: 0;
-          z-index: -1;
-          width: 1650px;
-          height: 900px;
-          content: '';
-          background: url('../../img/background5.jpg');
-          filter: blur(15px);
-          background-size: cover;
-          box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 70%);
-        } */
-    }
+  @media screen and (max-width: 768px) {
+    margin: 50px;
   }
-}
-
-.buttonForm {
-  position: absolute;
-  top: 50%;
-  right: 30px;
-  display: flex;
-  flex-direction: column;
-  transform: translateY(-50%);
-
-  input[type='radio'] {
-    width: 12px;
-    height: 12px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    background: colors.$WHITE;
-    border-radius: 50%;
-    appearance: none;
-  }
-
-  input[type='radio']:checked {
-    background: colors.$GRAY_800;
-  }
-}
-
-.moveSearchPageButton {
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
-  padding: 13px;
-  color: colors.$WHITE;
-  background: colors.$DARK_GRAY;
 }
