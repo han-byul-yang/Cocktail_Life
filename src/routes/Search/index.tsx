@@ -25,7 +25,7 @@ const Search = () => {
   const clickedSearchKeyword = useRecoilValue(clickedSearchKeywordAtom)
   const isOpenErrorModal = useRecoilValue(isOpenErrorModalAtom)
 
-  const { isLoading, resultData: filterCocktailTotalResult } = useGetCocktailByIdQuery(
+  const { resultData: filterCocktailTotalResult } = useGetCocktailByIdQuery(
     totalFilteredIdList,
     totalFilteredIdList.length !== 0
   )
@@ -43,17 +43,14 @@ const Search = () => {
           setTotalFilteredIdList={setTotalFilteredIdList}
         />
         {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
-        {isLoading ? (
-          <div>loading......????</div>
-        ) : (
-          <CocktailContainer
-            resultData={
-              filterCocktailTotalResult.length === 0
-                ? alcoholicResult || categoryResult || ingredientResult
-                : filterCocktailTotalResult
-            }
-          />
-        )}
+
+        <CocktailContainer
+          resultData={
+            filterCocktailTotalResult.length === 0
+              ? alcoholicResult || categoryResult || ingredientResult
+              : filterCocktailTotalResult
+          }
+        />
       </div>
       {isOpenErrorModal && (
         <ModalPortal>
