@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 
 import GNB from 'components/GNB'
+import Loader from 'components/Loader'
 
 import cocktailImg from 'assets/img/cocktailTitle.png'
 import styles from './layout.module.scss'
@@ -18,7 +19,7 @@ const Layout = () => {
         <GNB />
       </header>
       <main>
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
       </main>
