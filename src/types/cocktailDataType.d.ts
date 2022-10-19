@@ -52,19 +52,8 @@ export interface ICocktailData {
   strVideo: null | string
 }
 
-interface IFilteredCocktailData {
+export interface IFilteredCocktailData {
   idDrink: string
   strDrink: string
   strDrinkThumb: null | string
-}
-
-export interface IFilterKind {
-  [filterKind: string]: string
-}
-
-export interface IFilteredResultData {
-  name: ICocktailData[]
-  alcoholic: IFilteredCocktailData[]
-  category: IFilteredCocktailData[]
-  ingredient: IfilteredCocktailData[]
 }
