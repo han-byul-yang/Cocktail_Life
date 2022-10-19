@@ -1,8 +1,6 @@
 const eliminateSameItem = (combinedItemList: (string | never)[], count: number) => {
   const itemKeyObject: { [itemKey: string]: number } = {}
 
-  if (combinedItemList.length === 0) throw Error('검색어를 입력해주세요')
-
   combinedItemList.forEach((item) => {
     if (itemKeyObject[item]) itemKeyObject[item] += 1
     else itemKeyObject[item] = 1

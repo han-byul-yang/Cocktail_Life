@@ -6,14 +6,13 @@ import CocktailContainer from 'components/CocktailContainer'
 import styles from './popular.module.scss'
 
 const Popular = () => {
-  const { isLoading, data: popularCocktailData } = useQuery(['popularCocktailApi'], popularCocktailApi, {
-    retry: 1,
+  const { data: popularCocktailData } = useQuery(['popularCocktailApi'], popularCocktailApi, {
     select: (res) => res.data.drinks,
   })
 
   return (
     <div className={styles.popularPage}>
-      {isLoading ? <div>isLoading.....</div> : <CocktailContainer resultData={popularCocktailData} type='popular' />}
+      <CocktailContainer resultData={popularCocktailData} type='popular' />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { cocktailApis, getApiData } from 'services/getCocktailApis'
 
 export const useSearchByAlcoholicQuery = (query: string | null) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['searchByAlcoholicParam', query],
     () => getApiData(cocktailApis.filterByAlcoholic, query!),
     {
@@ -12,11 +12,11 @@ export const useSearchByAlcoholicQuery = (query: string | null) => {
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useSearchByCategoryQuery = (query: string | null) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['searchByCategoryParam', query],
     () => getApiData(cocktailApis.filterByCategory, query!),
     {
@@ -25,11 +25,11 @@ export const useSearchByCategoryQuery = (query: string | null) => {
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useSearchByIngredientQuery = (query: string | null) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['searchByIngredientParam', query],
     () => getApiData(cocktailApis.filterByIngredients, query!),
     {
@@ -38,5 +38,5 @@ export const useSearchByIngredientQuery = (query: string | null) => {
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }

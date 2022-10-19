@@ -26,7 +26,6 @@ const App = () => {
           setIsOpenErrorModal(true)
           setErrorMessage(errorMessage().api.SOMETHING_WRONG)
         },
-        retry: 1,
       },
     },
   })

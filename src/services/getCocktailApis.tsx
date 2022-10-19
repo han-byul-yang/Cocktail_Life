@@ -74,5 +74,3 @@ export const getApiData = async (api: (params: string) => Promise<AxiosResponse>
   const { data } = await api(params)
   return data
 }
-
-// type axios 재정의

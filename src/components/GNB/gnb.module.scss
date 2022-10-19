@@ -11,17 +11,16 @@
     display: flex;
     padding: 15px 0;
 
+    .activatedLink {
+      color: colors.$GRAY_100 !important;
+    }
+
+    .nonActivatedLink {
+      color: colors.$PINK !important;
+    }
+
     li {
       margin: 0 50px;
-      color: colors.$WHITE;
     }
   }
-}
-
-.activatedLink {
-  color: colors.$LIGHT_RED;
-}
-
-.nonActivatedLink {
-  color: colors.$PINK;
 }

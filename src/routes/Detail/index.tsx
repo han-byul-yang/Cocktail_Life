@@ -10,7 +10,7 @@ const Detail = () => {
   const [searchParams] = useSearchParams()
   const resultId = searchParams.get('id')
 
-  const { isLoading, data: CocktailDetailData } = useQuery(
+  const { data: CocktailDetailData } = useQuery(
     ['searchByIdCocktailApi', resultId],
     () => getApiData(cocktailApis.searchById, resultId!),
     {
@@ -20,7 +20,7 @@ const Detail = () => {
 
   return (
     <div className={styles.detailPage}>
-      {isLoading ? <div>loading...</div> : <Description cocktailDetailData={CocktailDetailData} />}
+      <Description cocktailDetailData={CocktailDetailData} />
     </div>
   )
 }

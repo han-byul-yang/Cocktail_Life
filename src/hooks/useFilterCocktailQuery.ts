@@ -4,7 +4,7 @@ import { cocktailApis, getApiData } from 'services/getCocktailApis'
 import { ICocktailData, IFilteredCocktailData } from 'types/cocktailDataType'
 
 export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['searchByNameCocktailApi', enableOption],
     () => getApiData(cocktailApis.searchByName, query),
     {
@@ -13,11 +13,11 @@ export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) 
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useFilterByAlcoholicQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['filterByAlcoholicApi', enableOption],
     () => getApiData(cocktailApis.filterByAlcoholic, query),
     {
@@ -28,11 +28,11 @@ export const useFilterByAlcoholicQuery = (query: string, enableOption: boolean) 
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useFilterByCategoryQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['filterByCotegoryApi', enableOption],
     () => getApiData(cocktailApis.filterByCategory, query),
     {
@@ -43,11 +43,11 @@ export const useFilterByCategoryQuery = (query: string, enableOption: boolean) =
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useFilterByIngredientQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, isFetching, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['filterByIngredientApi', enableOption],
     () => getApiData(cocktailApis.filterByIngredients, query),
     {
@@ -58,7 +58,7 @@ export const useFilterByIngredientQuery = (query: string, enableOption: boolean)
     }
   )
 
-  return { isLoading, isFetching, data }
+  return { isLoading, data }
 }
 
 export const useGetCocktailByIdQuery = (queries: string[], enableOption: boolean) => {
