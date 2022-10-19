@@ -1,8 +1,9 @@
+import { Suspense } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 
 import GNB from 'components/GNB'
 
-import cocktailImg from '../../assets/img/cocktailTitle.png'
+import cocktailImg from 'assets/img/cocktailTitle.png'
 import styles from './layout.module.scss'
 
 const Layout = () => {
@@ -11,13 +12,15 @@ const Layout = () => {
       <header>
         <h1>
           <img alt='titleCocktailImg' src={cocktailImg} />
-          <Link to='/search'>COCKTAIL LIFE</Link>
+          <Link to='/'>COCKTAIL LIFE</Link>
           <img alt='titleCocktailImg' src={cocktailImg} />
         </h1>
         <GNB />
       </header>
       <main>
-        <Outlet />
+        <Suspense fallback={<div>loading...</div>}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   )
