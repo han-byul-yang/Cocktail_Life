@@ -1,4 +1,4 @@
-@use '../../styles/constants/colors';
+@use '../../../styles/constants/colors';
 
 .descriptionContainer {
   display: flex;
@@ -56,7 +56,7 @@
       }
     }
 
-    p {
+    .title {
       margin-top: 40px;
       font-size: 24px;
     }

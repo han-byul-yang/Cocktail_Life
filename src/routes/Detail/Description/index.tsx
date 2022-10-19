@@ -3,17 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
 import { clickedSearchKeywordAtom } from 'store/atom'
-import { ICocktailData } from 'types/types'
+import { ICocktailData } from 'types/cocktailDataType'
 import Button from 'components/Button'
 
 import styles from './description.module.scss'
 
 interface IDescriptionProps {
   cocktailDetailData: ICocktailData
-  iList?: number
 }
 
-const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
+const Description = ({ cocktailDetailData }: IDescriptionProps) => {
   const setClickedSearchKeyword = useSetRecoilState(clickedSearchKeywordAtom)
   const {
     strDrink,
@@ -44,7 +43,6 @@ const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
     strIngredient15,
   } = cocktailDetailData
   const measureList = [strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5]
-
   const [ingredientList, setIngredientList] = useState<(string | null)[]>([])
   const navigate = useNavigate()
 
@@ -76,9 +74,8 @@ const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
     )
   }
 
-  const handleMoveSearchClick = (kind: string, params: string) => {
+  const handleSearchKeywordClick = (kind: string, params: string) => {
     setClickedSearchKeyword({ [kind]: params })
-    // navigate(`/search?${kind}=${params}`)
     navigate(
       `/search?alcoholic=${kind === 'alcoholic' && params}&category=${kind === 'category' && params}&ingredient=${
         kind === 'ingredient' && params
@@ -90,21 +87,18 @@ const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
     <div className={styles.descriptionContainer}>
       <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.img} />
       <div className={styles.description}>
-        <div className={styles.name}>
-          {(iList || iList === 0) && <div>Rank #{iList + 1}</div>}
-          {strDrink}
-        </div>
+        <p className={styles.name}>{strDrink}</p>
 
         <div className={styles.basicInfo}>
-          <Button handleClick={() => handleMoveSearchClick('alcoholic', strAlcoholic)} size='small'>
+          <Button handleClick={() => handleSearchKeywordClick('alcoholic', strAlcoholic)} size='small'>
             {strAlcoholic}
           </Button>
-          <Button handleClick={() => handleMoveSearchClick('category', strCategory)} size='small'>
+          <Button handleClick={() => handleSearchKeywordClick('category', strCategory)} size='small'>
             {strCategory}
           </Button>
         </div>
 
-        <p>~~MEASURE~~</p>
+        <p className={styles.title}>~~MEASURE~~</p>
         <ul>
           {measureList.map((measure, iMeasure) => {
             const measureKey = `measure-${iMeasure}`
@@ -116,10 +110,10 @@ const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
           })}
         </ul>
 
-        <p>~~INSTRUCTION~~</p>
-        <div className={styles.instruction}>{strInstructions}</div>
+        <p className={styles.title}>~~INSTRUCTION~~</p>
+        <p className={styles.instruction}>{strInstructions}</p>
 
-        <p>~~INGREDIENT~~</p>
+        <p className={styles.title}>~~INGREDIENT~~</p>
         <ul className={styles.ingredientBox}>
           {ingredientList.map((ingredient, iIngredient) => {
             const ingredientKey = `ingredient-${iIngredient}`
@@ -129,13 +123,13 @@ const Description = ({ cocktailDetailData, iList }: IDescriptionProps) => {
                   <button
                     className={styles.ingredient}
                     type='button'
-                    onClick={() => handleMoveSearchClick('ingredient', ingredient)}
+                    onClick={() => handleSearchKeywordClick('ingredient', ingredient)}
                   >
                     <img
                       src={`https://www.thecocktaildb.com/images/ingredients/${ingredient}-Small.png`}
                       alt={`${ingredient}-img`}
                     />
-                    <div>{ingredient}</div>
+                    <p>{ingredient}</p>
                   </button>
                 </li>
               )
