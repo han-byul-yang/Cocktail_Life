@@ -1,5 +1,3 @@
-import React from 'react'
-
 import useFilterSetting from 'hooks/useFilterSetting'
 
 import styles from './filterBox.module.scss'
@@ -61,7 +59,4 @@ const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) 
   )
 }
 
-export default React.memo(FilterBox)
-
-// handleFilterChooseClick type 재설정
-// [-1] 오류 고치기
+export default FilterBox

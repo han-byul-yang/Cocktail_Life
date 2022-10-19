@@ -1,29 +1,26 @@
-import React, { Suspense } from 'react'
-
-import { ICocktailData } from 'types/types'
+import { ICocktailData } from 'types/cocktailDataType'
 import CocktailCard from './CocktailCard'
 
 import styles from './cocktailContainer.module.scss'
 
 interface ICocktailContainerProps {
-  totalResult: ICocktailData[]
-  errorMessage: string
+  resultData: (ICocktailData | undefined)[]
   type?: string
 }
 
-const CocktailContainer = ({ totalResult, type, errorMessage }: ICocktailContainerProps) => {
+const CocktailContainer = ({ resultData, type }: ICocktailContainerProps) => {
   return (
     <div className={styles.cocktailContainer}>
-      {!totalResult?.length ? (
-        <div className={styles.errorMessage}>{errorMessage}</div>
+      {!resultData?.length ? (
+        <p className={styles.errorMessage}>검색된 결과가 없습니다.</p>
       ) : (
         <>
-          <div>YOUR SEARCH RESULT ...</div>
+          <div>{type !== 'popular' && 'YOUR SEARCH RESULT ...'}</div>
           <ul className={styles.resultBox}>
-            {totalResult.map((cocktailResult, index) => {
+            {resultData.map((cocktailResult, index) => {
               return (
                 <CocktailCard
-                  key={cocktailResult.idDrink}
+                  key={cocktailResult?.idDrink}
                   rank={type === 'popular' && index + 1}
                   cocktailResult={cocktailResult}
                 />
@@ -36,7 +33,7 @@ const CocktailContainer = ({ totalResult, type, errorMessage }: ICocktailContain
   )
 }
 
-export default React.memo(CocktailContainer)
+export default CocktailContainer
 
 // noimg 이미지
 // skeleton 만들기
