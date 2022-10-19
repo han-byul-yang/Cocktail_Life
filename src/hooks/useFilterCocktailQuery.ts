@@ -1,7 +1,7 @@
-import { useQueries, useQuery } from 'react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 
 import { cocktailApis, getApiData } from 'services/getCocktailApis'
-import { ICocktailData, IFilteredCocktailData } from 'types/types'
+import { ICocktailData, IFilteredCocktailData } from 'types/cocktailDataType'
 
 export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) => {
   const { isLoading, isFetching, data } = useQuery(
@@ -62,18 +62,19 @@ export const useFilterByIngredientQuery = (query: string, enableOption: boolean)
 }
 
 export const useGetCocktailByIdQuery = (queries: string[], enableOption: boolean) => {
-  const resultQueryData = useQueries(
-    queries.map((query) => {
+  const resultQueryData = useQueries({
+    queries: queries.map((query) => {
       return {
         queryKey: ['searchByIdCocktailApi', query, enableOption],
         queryFn: () => getApiData(cocktailApis.searchById, query),
         select: (res: { drinks: { 0: ICocktailData } }) => res?.drinks[0],
         enabled: enableOption,
       }
-    })
-  )
+    }),
+  })
 
   const resultData = resultQueryData.map((queryData) => queryData.data)
+  const isLoading = resultQueryData.some((queryData) => queryData.isLoading)
 
-  return { resultData }
+  return { isLoading, resultData }
 }
