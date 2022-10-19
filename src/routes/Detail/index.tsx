@@ -1,16 +1,16 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 
 import { cocktailApis, getApiData } from 'services/getCocktailApis'
-import Description from 'components/Description'
+import Description from 'routes/Detail/Description'
 
-import styles from './result.module.scss'
+import styles from './detail.module.scss'
 
 const Detail = () => {
   const [searchParams] = useSearchParams()
   const resultId = searchParams.get('id')
 
-  const { isFetching, data: CocktailDetailData } = useQuery(
+  const { isLoading, data: CocktailDetailData } = useQuery(
     ['searchByIdCocktailApi', resultId],
     () => getApiData(cocktailApis.searchById, resultId!),
     {
@@ -19,8 +19,8 @@ const Detail = () => {
   )
 
   return (
-    <div className={styles.resultPage}>
-      <Description cocktailDetailData={CocktailDetailData} />
+    <div className={styles.detailPage}>
+      {isLoading ? <div>loading...</div> : <Description cocktailDetailData={CocktailDetailData} />}
     </div>
   )
 }
