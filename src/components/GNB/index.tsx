@@ -6,17 +6,22 @@ const GNB = () => {
   return (
     <nav className={styles.gnb}>
       <ul>
-        <NavLink
-          to='/search'
-          className={({ isActive }) =>
-            `${styles.navLink} + ${isActive ? styles.activatedLink : styles.nonActivatedLink}`
-          }
-        >
-          <li>SEARCH</li>
-        </NavLink>
-        <NavLink to='/' className={({ isActive }) => `${isActive ? styles.activatedLink : styles.nonActivatedLink}`}>
-          <li>POPULAR</li>
-        </NavLink>
+        <li>
+          <NavLink
+            to='/search'
+            className={({ isActive }) => (isActive ? `${styles.activatedLink}` : `${styles.nonActivatedLink}`)}
+          >
+            SEARCH
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to='/'
+            className={({ isActive }) => (isActive ? `${styles.activatedLink}` : `${styles.nonActivatedLink}`)}
+          >
+            POPULAR
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )
