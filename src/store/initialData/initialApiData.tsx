@@ -1,4 +1,4 @@
-export const cocktailInitialData = {
+/* export const cocktailInitialData = {
   dateModified: '',
   idDrink: '',
   strAlcoholic: '',
@@ -50,23 +50,30 @@ export const cocktailInitialData = {
   strMeasure15: '',
   strTags: '',
   strVideo: '',
-}
+} */
 
-export const filteringInitialData = {
+export const filtersInitialData = {
   alcoholic: '',
   category: '',
   ingredient: '',
 }
 
-const filteredCocktailInitialData = {
+export const clickedKeywordInitialData = {
+  alcoholic: '',
+  category: '',
+  ingredient: '',
+}
+
+/* const filteredCocktailInitialData = {
   idDrink: '',
   strDrink: '',
   strDrinkThumb: '',
-}
+} */
 
-export const filteredResultInitialData = {
+/* export const filteredResultInitialData = {
   name: [cocktailInitialData],
   alcoholic: [filteredCocktailInitialData],
   category: [filteredCocktailInitialData],
   ingredient: [filteredCocktailInitialData],
 }
+*/

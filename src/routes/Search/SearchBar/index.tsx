@@ -26,15 +26,15 @@ interface ISearchBarProps {
 const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: ISearchBarProps) => {
   const [isSearchClick, setIsSearchClick] = useState(false)
   const [inputKeyword, setInputKeyword] = useState('')
-  const filtering = useRecoilValue(filteredItemAtom)
+  const filters = useRecoilValue(filteredItemAtom)
   const setIsOpenErrorModal = useSetRecoilState(isOpenErrorModalAtom)
   const setErrorMessage = useSetRecoilState(errorMessageAtom)
   const navigate = useNavigate()
 
   const { data: searchByNameIdResult } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
-  const { data: filterByAlcoholicIdResult } = useFilterByAlcoholicQuery(filtering.alcoholic, isSearchClick)
-  const { data: filterByCategoryIdResult } = useFilterByCategoryQuery(filtering.category, isSearchClick)
-  const { data: filterByIngredientIdResult } = useFilterByIngredientQuery(filtering.ingredient, isSearchClick)
+  const { data: filterByAlcoholicIdResult } = useFilterByAlcoholicQuery(filters.alcoholic, isSearchClick)
+  const { data: filterByCategoryIdResult } = useFilterByCategoryQuery(filters.category, isSearchClick)
+  const { data: filterByIngredientIdResult } = useFilterByIngredientQuery(filters.ingredient, isSearchClick)
 
   useEffect(() => {
     if (isSearchClick) {
@@ -43,13 +43,13 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
       if (inputKeyword !== '') {
         filterKindCount += 1
       }
-      if (filtering.alcoholic !== '') {
+      if (filters.alcoholic !== '') {
         filterKindCount += 1
       }
-      if (filtering.category !== '') {
+      if (filters.category !== '') {
         filterKindCount += 1
       }
-      if (filtering.ingredient !== '') {
+      if (filters.ingredient !== '') {
         filterKindCount += 1
       }
 
@@ -63,8 +63,8 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
       setTotalFilteredIdList(eliminateSameItem(totalCocktailIdList, filterKindCount))
 
       navigate(
-        `/search?alcoholic=${filtering.alcoholic || 'false'}&category=${filtering.category || 'false'}ingredient=${
-          filtering.ingredient || 'false'
+        `/search?alcoholic=${filters.alcoholic || 'false'}&category=${filters.category || 'false'}ingredient=${
+          filters.ingredient || 'false'
         }`
       )
       setIsSearchClick(false)
@@ -73,9 +73,9 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
     filterByAlcoholicIdResult,
     filterByCategoryIdResult,
     filterByIngredientIdResult,
-    filtering.alcoholic,
-    filtering.category,
-    filtering.ingredient,
+    filters.alcoholic,
+    filters.category,
+    filters.ingredient,
     inputKeyword,
     isSearchClick,
     navigate,
@@ -92,7 +92,7 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   }
 
   const handleSearchClick = () => {
-    if (!inputKeyword && !filtering.alcoholic && !filtering.category && !filtering.ingredient) {
+    if (!inputKeyword && !filters.alcoholic && !filters.category && !filters.ingredient) {
       setIsOpenErrorModal(true)
       setErrorMessage(errorMessage().search.NO_SEARCH_KEYWORD)
     } else {

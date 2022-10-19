@@ -8,7 +8,7 @@ import {
   useSearchByIngredientQuery,
 } from 'hooks/useSearchCocktailQuery'
 import { clickedSearchKeywordAtom, isOpenErrorModalAtom } from 'store/atom'
-import { filteringInitialData } from 'store/initialData/initialApiData'
+import { filtersInitialData } from 'store/initialData/initialApiData'
 import { IFilterKind } from 'types/filterKindType'
 import SearchBar from './SearchBar'
 import CocktailContainer from 'components/CocktailContainer'
@@ -19,7 +19,7 @@ import ModalPortal from 'components/ErrorModal/modalPortal'
 import ErrorModal from 'components/ErrorModal'
 
 const Search = () => {
-  const [showChoseFilter, setShowChoseFilter] = useState<IFilterKind>(filteringInitialData)
+  const [showChoseFilter, setShowChoseFilter] = useState<IFilterKind>(filtersInitialData)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([])
   const clickedSearchKeyword = useRecoilValue(clickedSearchKeywordAtom)
