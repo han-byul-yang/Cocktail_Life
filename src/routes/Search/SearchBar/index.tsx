@@ -1,16 +1,17 @@
 import { ChangeEvent, Dispatch, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { IFilterKind } from 'types/types'
+import { IFilterKind } from 'types/filterKindType'
 import {
   useGetCocktailByNameQuery,
   useFilterByAlcoholicQuery,
   useFilterByCategoryQuery,
   useFilterByIngredientQuery,
 } from 'hooks/useFilterCocktailQuery'
-import eliminateSameItem from '../utils/eliminateSameItem'
-import { filteredItemAtom } from 'store/atom'
+import eliminateSameItem from 'utils/eliminateSameItem'
+import errorMessage from 'utils/errorMessage'
+import { errorMessageAtom, filteredItemAtom, isOpenErrorModalAtom } from 'store/atom'
 import Button from 'components/Button'
 
 import { FilterIcon } from 'assets/svgs'
@@ -26,6 +27,8 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   const [isSearchClick, setIsSearchClick] = useState(false)
   const [inputKeyword, setInputKeyword] = useState('')
   const filtering = useRecoilValue(filteredItemAtom)
+  const setIsOpenErrorModal = useSetRecoilState(isOpenErrorModalAtom)
+  const setErrorMessage = useSetRecoilState(errorMessageAtom)
   const navigate = useNavigate()
 
   const { data: searchByNameIdResult } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
@@ -58,6 +61,7 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
       ]
 
       setTotalFilteredIdList(eliminateSameItem(totalCocktailIdList, filterKindCount))
+
       navigate(
         `/search?alcoholic=${filtering.alcoholic || 'false'}&category=${filtering.category || 'false'}ingredient=${
           filtering.ingredient || 'false'
@@ -88,7 +92,12 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   }
 
   const handleSearchClick = () => {
-    setIsSearchClick(true)
+    if (!inputKeyword && !filtering.alcoholic && !filtering.category && !filtering.ingredient) {
+      setIsOpenErrorModal(true)
+      setErrorMessage(errorMessage().search.NO_SEARCH_KEYWORD)
+    } else {
+      setIsSearchClick(true)
+    }
   }
 
   return (

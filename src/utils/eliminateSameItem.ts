@@ -1,5 +1,5 @@
 const eliminateSameItem = (combinedItemList: (string | never)[], count: number) => {
-  const itemKeyObject: any = {}
+  const itemKeyObject: { [itemKey: string]: number } = {}
 
   if (combinedItemList.length === 0) throw Error('검색어를 입력해주세요')
 
@@ -8,10 +8,6 @@ const eliminateSameItem = (combinedItemList: (string | never)[], count: number) 
     else itemKeyObject[item] = 1
   })
   const noSameItemList = Object.keys(itemKeyObject).filter((ele) => itemKeyObject[ele] === count)
-
-  if (noSameItemList.length === 0) {
-    throw Error('검색된 결과가 없습니다')
-  }
 
   return noSameItemList
 }

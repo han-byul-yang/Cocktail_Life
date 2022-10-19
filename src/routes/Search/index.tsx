@@ -7,7 +7,7 @@ import {
   useSearchByCategoryQuery,
   useSearchByIngredientQuery,
 } from 'hooks/useSearchCocktailQuery'
-import { clickedSearchKeywordAtom } from 'store/atom'
+import { clickedSearchKeywordAtom, isOpenErrorModalAtom } from 'store/atom'
 import { filteringInitialData } from 'store/initialData/initialApiData'
 import { IFilterKind } from 'types/filterKindType'
 import SearchBar from './SearchBar'
@@ -15,17 +15,19 @@ import CocktailContainer from 'components/CocktailContainer'
 import FilterContainer from './FilterContainer'
 
 import styles from './search.module.scss'
+import ModalPortal from 'components/ErrorModal/modalPortal'
+import ErrorModal from 'components/ErrorModal'
 
 const Search = () => {
   const [showChoseFilter, setShowChoseFilter] = useState<IFilterKind>(filteringInitialData)
-  const [errorMessage, setErrorMessage] = useState('There is no result')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([])
   const clickedSearchKeyword = useRecoilValue(clickedSearchKeywordAtom)
+  const isOpenErrorModal = useRecoilValue(isOpenErrorModalAtom)
 
   const { isLoading, resultData: filterCocktailTotalResult } = useGetCocktailByIdQuery(
     totalFilteredIdList,
-    !!totalFilteredIdList
+    totalFilteredIdList.length !== 0
   )
 
   const { data: alcoholicResult } = useSearchByAlcoholicQuery(clickedSearchKeyword.alcoholic)
@@ -33,26 +35,32 @@ const Search = () => {
   const { data: ingredientResult } = useSearchByIngredientQuery(clickedSearchKeyword.ingredient)
 
   return (
-    <div className={styles.searchPage}>
-      <SearchBar
-        setFilterOpen={setIsFilterOpen}
-        showChoseFilter={showChoseFilter}
-        setTotalFilteredIdList={setTotalFilteredIdList}
-      />
-      {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
-      {isLoading ? (
-        <div>loading......</div>
-      ) : (
-        <CocktailContainer
-          resultData={
-            filterCocktailTotalResult.length === 0
-              ? alcoholicResult || categoryResult || ingredientResult
-              : filterCocktailTotalResult
-          }
-          errorMessage={errorMessage}
+    <>
+      <div className={styles.searchPage}>
+        <SearchBar
+          setFilterOpen={setIsFilterOpen}
+          showChoseFilter={showChoseFilter}
+          setTotalFilteredIdList={setTotalFilteredIdList}
         />
+        {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
+        {isLoading ? (
+          <div>loading......????</div>
+        ) : (
+          <CocktailContainer
+            resultData={
+              filterCocktailTotalResult.length === 0
+                ? alcoholicResult || categoryResult || ingredientResult
+                : filterCocktailTotalResult
+            }
+          />
+        )}
+      </div>
+      {isOpenErrorModal && (
+        <ModalPortal>
+          <ErrorModal />
+        </ModalPortal>
       )}
-    </div>
+    </>
   )
 }
 
