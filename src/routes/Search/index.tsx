@@ -1,10 +1,15 @@
-import React, { Suspense, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { useGetCocktailByIdQuery } from 'hooks/useFilterCocktailQuery'
-import { useSearchByAlcoholicParamQuery } from 'hooks/useSearchCocktailQuery'
+import {
+  useSearchByAlcoholicQuery,
+  useSearchByCategoryQuery,
+  useSearchByIngredientQuery,
+} from 'hooks/useSearchCocktailQuery'
+import { clickedSearchKeywordAtom } from 'store/atom'
 import { filteringInitialData } from 'store/initialData/initialApiData'
-import { IFilterKind } from 'types/types'
+import { IFilterKind } from 'types/filterKindType'
 import SearchBar from './SearchBar'
 import CocktailContainer from 'components/CocktailContainer'
 import FilterContainer from './FilterContainer'
@@ -16,31 +21,37 @@ const Search = () => {
   const [errorMessage, setErrorMessage] = useState('There is no result')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [totalFilteredIdList, setTotalFilteredIdList] = useState<string[]>([])
-  const [searchParams] = useSearchParams()
-  const alcoholicParam = searchParams.get('alcoholic')
-  const categoryParam = searchParams.get('category')
-  const ingredientParam = searchParams.get('ingredient')
+  const clickedSearchKeyword = useRecoilValue(clickedSearchKeywordAtom)
 
-  const { resultData: filterCocktailTotalResult } = useGetCocktailByIdQuery(totalFilteredIdList, !!totalFilteredIdList)
+  const { isLoading, resultData: filterCocktailTotalResult } = useGetCocktailByIdQuery(
+    totalFilteredIdList,
+    !!totalFilteredIdList
+  )
 
-  const { data: alcoholicResult } = useSearchByAlcoholicParamQuery(alcoholicParam)
-  const { data: categoryResult } = useSearchByAlcoholicParamQuery(categoryParam)
-  const { data: ingredientResult } = useSearchByAlcoholicParamQuery(ingredientParam)
+  const { data: alcoholicResult } = useSearchByAlcoholicQuery(clickedSearchKeyword.alcoholic)
+  const { data: categoryResult } = useSearchByCategoryQuery(clickedSearchKeyword.category)
+  const { data: ingredientResult } = useSearchByIngredientQuery(clickedSearchKeyword.ingredient)
 
   return (
     <div className={styles.searchPage}>
-      {/* <Suspense fallback={<div>loading...</div>}> */}
       <SearchBar
         setFilterOpen={setIsFilterOpen}
         showChoseFilter={showChoseFilter}
         setTotalFilteredIdList={setTotalFilteredIdList}
       />
       {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
-      <CocktailContainer
-        resultData={filterCocktailTotalResult || alcoholicResult || categoryResult || ingredientResult}
-        errorMessage={errorMessage}
-      />
-      {/* </Suspense> */}
+      {isLoading ? (
+        <div>loading......</div>
+      ) : (
+        <CocktailContainer
+          resultData={
+            filterCocktailTotalResult.length === 0
+              ? alcoholicResult || categoryResult || ingredientResult
+              : filterCocktailTotalResult
+          }
+          errorMessage={errorMessage}
+        />
+      )}
     </div>
   )
 }

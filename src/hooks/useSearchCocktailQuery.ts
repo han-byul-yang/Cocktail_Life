@@ -1,8 +1,8 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { cocktailApis, getApiData } from 'services/getCocktailApis'
 
-export const useSearchByAlcoholicParamQuery = (query: string | null) => {
+export const useSearchByAlcoholicQuery = (query: string | null) => {
   const { isLoading, isFetching, data } = useQuery(
     ['searchByAlcoholicParam', query],
     () => getApiData(cocktailApis.filterByAlcoholic, query!),
@@ -15,7 +15,7 @@ export const useSearchByAlcoholicParamQuery = (query: string | null) => {
   return { isLoading, isFetching, data }
 }
 
-export const useSearchByCategoryParamQuery = (query: string | null) => {
+export const useSearchByCategoryQuery = (query: string | null) => {
   const { isLoading, isFetching, data } = useQuery(
     ['searchByCategoryParam', query],
     () => getApiData(cocktailApis.filterByCategory, query!),
@@ -28,7 +28,7 @@ export const useSearchByCategoryParamQuery = (query: string | null) => {
   return { isLoading, isFetching, data }
 }
 
-export const useSearchByIngredientParamQuery = (query: string | null) => {
+export const useSearchByIngredientQuery = (query: string | null) => {
   const { isLoading, isFetching, data } = useQuery(
     ['searchByIngredientParam', query],
     () => getApiData(cocktailApis.filterByIngredients, query!),
