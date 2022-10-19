@@ -1,52 +1,40 @@
-import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { filteredItemAtom } from 'store/atom'
-import { filteringInitialData } from 'store/initialData/initialApiData'
-import { IFilterKind } from 'types/types'
+import { IFilterKind } from 'types/filterKindType'
 
-const useFilterSetting = () => {
+const useFilterSetting = (filterKind: string) => {
   const [filterState, setFilterState] = useRecoilState(filteredItemAtom)
 
-  const filter = {
+  const filtering = {
     SINGLE: {
-      CANCEL_SAME_ITEM: (filterKind: string) => {
-        setFilterState((prevFilter: IFilterKind) => {
-          return { ...prevFilter, [filterKind]: '' }
-        })
+      CANCEL_SAME_ITEM: () => {
+        setFilterState((prevFilter: IFilterKind) => ({ ...prevFilter, [filterKind]: '' }))
       },
-      TRANSFER_TO_DIFF_ITEM: (filterKind: string, clickedItem: string) => {
-        setFilterState((prevFilter: IFilterKind) => {
-          return { ...prevFilter, [filterKind]: clickedItem }
-        })
+      TRANSFER_TO_DIFF_ITEM: (clickedItem: string) => {
+        setFilterState((prevFilter: IFilterKind) => ({ ...prevFilter, [filterKind]: clickedItem }))
       },
     },
     MULTI: {
-      CANCEL_SAME_ITEM: (filterKind: string, clickedItem: string) => {
+      CANCEL_SAME_ITEM: (clickedItem: string) => {
         const filterItemList = filterState[filterKind].split(',').map((kind) => kind.trim())
         const lastItemDeleted = filterItemList.filter((item) => item !== clickedItem).join(',')
 
-        setFilterState((prevFilter: IFilterKind) => {
-          return {
-            ...prevFilter,
-            [filterKind]: lastItemDeleted,
-          }
-        })
+        setFilterState((prevFilter: IFilterKind) => ({
+          ...prevFilter,
+          [filterKind]: lastItemDeleted,
+        }))
       },
-      ADD_DIFF_ITEM: (filterKind: string, clickedItem: string) => {
-        setFilterState((prevFilter: IFilterKind) => {
-          return {
-            ...prevFilter,
-            [filterKind]: prevFilter[filterKind] !== '' ? `${prevFilter[filterKind]}, ${clickedItem}` : clickedItem,
-          }
-        })
+      ADD_DIFF_ITEM: (clickedItem: string) => {
+        setFilterState((prevFilter: IFilterKind) => ({
+          ...prevFilter,
+          [filterKind]: prevFilter[filterKind] !== '' ? `${prevFilter[filterKind]}, ${clickedItem}` : clickedItem,
+        }))
       },
     },
   }
 
-  return { filter, filterState }
+  return { filtering, filterState }
 }
 
 export default useFilterSetting
-
-// filter, filterState 변수명 FilterBox 변수명이랑 통일하기

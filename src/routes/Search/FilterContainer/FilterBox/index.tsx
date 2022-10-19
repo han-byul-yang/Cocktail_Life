@@ -9,22 +9,22 @@ interface IFilterButtonsProps {
 }
 
 const FilterBox = ({ filterKind, filterList, filterCase }: IFilterButtonsProps) => {
-  const { filter, filterState } = useFilterSetting()
+  const { filtering, filterState } = useFilterSetting(filterKind)
 
   const handleFilterItemClick = (clickedItem: string) => {
     if (filterCase === 'single') {
       if (clickedItem === filterState[filterKind]) {
-        filter.SINGLE.CANCEL_SAME_ITEM(filterKind)
+        filtering.SINGLE.CANCEL_SAME_ITEM()
       } else {
-        filter.SINGLE.TRANSFER_TO_DIFF_ITEM(filterKind, clickedItem)
+        filtering.SINGLE.TRANSFER_TO_DIFF_ITEM(clickedItem)
       }
     } else {
       const filterItemList = filterState[filterKind].split(',').map((kind) => kind.trim())
 
       if (filterItemList.includes(clickedItem)) {
-        filter.MULTI.CANCEL_SAME_ITEM(filterKind, clickedItem)
+        filtering.MULTI.CANCEL_SAME_ITEM(clickedItem)
       } else {
-        filter.MULTI.ADD_DIFF_ITEM(filterKind, clickedItem)
+        filtering.MULTI.ADD_DIFF_ITEM(clickedItem)
       }
     }
   }
