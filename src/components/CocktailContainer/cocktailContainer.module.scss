@@ -19,8 +19,12 @@
   .resultBox {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
-    grid-gap: 15px;
+    grid-gap: 5px;
     justify-content: center;
     margin-top: 50px;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(auto-fit, minmax(80px, max-content));
+    }
   }
 }

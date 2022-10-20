@@ -10,13 +10,23 @@
     max-height: 200px;
     margin: 5px 15px;
     border-radius: 8px;
+
+    @media screen and (max-width: 768px) {
+      max-width: 80px;
+      max-height: 80px;
+      margin: 5px;
+    }
   }
 
   .cocktailName {
     width: 200px;
     padding: 5px 25px;
-    margin: 0 15px;
     color: colors.$WHITE;
     background: colors.$DARK_GRAY;
+
+    @media screen and (max-width: 768px) {
+      width: 80px;
+      padding: 5px 0;
+    }
   }
 }
