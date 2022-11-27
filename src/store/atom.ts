@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 
 import { IFilterKind } from 'types/filterKindType'
-import { clickedKeywordInitialData, filtersInitialData } from './initialData/initialApiData'
+import { clickedKeywordInitialData, filtersInitialData } from '../constants/initialApiData'
 
 export const filteredItemAtom = atom<IFilterKind>({
   key: 'filteredItem',

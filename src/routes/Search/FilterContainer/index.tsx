@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 
-import { alcoholicList, categoryList, ingredientList } from 'store/initialData/initialFilterDataList'
+import { alcoholicList, categoryList, ingredientList } from 'constants/initialFilterDataList'
 import { filteredItemAtom } from 'store/atom'
 import { IFilterKind } from 'types/filterKindType'
 import FilterBox from './FilterBox'
@@ -35,12 +35,14 @@ const FilterContainer = ({ setIsFilterOpen, setShowChoseFilter }: IFilterContain
         <FilterBox filterKind='alcoholic' filterList={alcoholicList} filterCase='single' />
         <FilterBox filterKind='category' filterList={categoryList} filterCase='single' />
         <FilterBox filterKind='ingredient' filterList={ingredientList} filterCase='multiple' />
-        <Button handleClick={handleApplyFilterClick} size='small'>
-          APPLY
-        </Button>
-        <Button handleClick={handleCancelFilterClick} size='small'>
-          CANCEL
-        </Button>
+        <div className={styles.filterButtons}>
+          <Button handleClick={handleApplyFilterClick} size='big'>
+            APPLY
+          </Button>
+          <Button handleClick={handleCancelFilterClick} size='big'>
+            CANCEL
+          </Button>
+        </div>
       </div>
     </>
   )

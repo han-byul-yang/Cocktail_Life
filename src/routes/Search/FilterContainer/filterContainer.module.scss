@@ -15,6 +15,12 @@
   z-index: 10;
   width: 100%;
   height: auto;
+  padding-bottom: 40px;
   background: colors.$WHITE;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 30%);
+}
+
+.filterButtons {
+  position: absolute;
+  right: 0;
 }

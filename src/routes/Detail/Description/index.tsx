@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
@@ -43,12 +43,14 @@ const Description = ({ cocktailDetailData }: IDescriptionProps) => {
     strIngredient15,
   } = cocktailDetailData
   const measureList = [strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5]
-  const [ingredientList, setIngredientList] = useState<(string | null)[]>([])
+  const [ingredientList, setIngredientList] = useState<(string | null)[]>([
+    strIngredient1,
+    strIngredient2,
+    strIngredient3,
+    strIngredient4,
+    strIngredient5,
+  ])
   const navigate = useNavigate()
-
-  useEffect(() => {
-    setIngredientList([strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5])
-  }, [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5])
 
   const handleShowMoreIngredientClick = () => {
     setIngredientList((prevList) =>

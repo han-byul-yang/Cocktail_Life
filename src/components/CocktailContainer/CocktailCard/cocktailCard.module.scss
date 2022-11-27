@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 
   img {
     max-width: 200px;
@@ -12,9 +13,10 @@
     border-radius: 8px;
 
     @media screen and (max-width: 768px) {
-      max-width: 80px;
-      max-height: 80px;
+      max-width: 100px;
+      max-height: 100px;
       margin: 5px;
+      border-radius: 3px;
     }
   }
 
@@ -25,7 +27,11 @@
     background: colors.$DARK_GRAY;
 
     @media screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 80px;
+      min-height: 40px;
       padding: 5px 0;
     }
   }

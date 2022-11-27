@@ -29,14 +29,6 @@
   border-radius: 8px;
   transform: translate(-50%, -50%);
 
-  .xIcon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-    transform: scale(0.7);
-  }
-
   .typeBox {
     display: flex;
     align-items: center;
@@ -46,12 +38,6 @@
       width: 35px;
       height: 35px;
     }
-  }
-
-  .buttonBox {
-    display: flex;
-    justify-content: space-evenly;
-    width: inherit;
   }
 
   button {

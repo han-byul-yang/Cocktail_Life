@@ -69,8 +69,3 @@ export const cocktailApis = {
       },
     }),
 }
-
-export const getApiData = async (api: (params: string) => Promise<AxiosResponse>, params: string) => {
-  const { data } = await api(params)
-  return data
-}

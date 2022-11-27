@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { useGetCocktailByIdQuery } from 'hooks/useFilterCocktailQuery'
+import { useGetCocktailByIdQuery } from 'hooks/query/useFilterCocktailQuery'
 import {
   useSearchByAlcoholicQuery,
   useSearchByCategoryQuery,
   useSearchByIngredientQuery,
-} from 'hooks/useSearchCocktailQuery'
+} from 'hooks/query/useSearchCocktailQuery'
 import { clickedSearchKeywordAtom, isOpenErrorModalAtom } from 'store/atom'
-import { filtersInitialData } from 'store/initialData/initialApiData'
+import { filtersInitialData } from 'constants/initialApiData'
 import { IFilterKind } from 'types/filterKindType'
 import SearchBar from './SearchBar'
 import CocktailContainer from 'components/CocktailContainer'
