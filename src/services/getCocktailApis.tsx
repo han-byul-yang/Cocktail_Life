@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 const POPULAR_COCKTAIL_API_URL = 'https://the-cocktail-db.p.rapidapi.com/popular.php'
 const RAPID_API_KEY = '0f40b0457amsh95e66230e92672ep17b4c1jsn3a7564d6e110'
