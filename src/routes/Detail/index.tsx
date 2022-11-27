@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 
-import { cocktailApis, getApiData } from 'services/getCocktailApis'
+import { cocktailApis } from 'services/getCocktailApis'
+import getApiData from 'utils/getApiData'
 import Description from 'routes/Detail/Description'
 
 import styles from './detail.module.scss'
@@ -14,6 +15,8 @@ const Detail = () => {
     ['searchByIdCocktailApi', resultId],
     () => getApiData(cocktailApis.searchById, resultId!),
     {
+      cacheTime: 60 * 60 * 60,
+      staleTime: 60 * 60 * 60,
       select: (res) => res.drinks[0],
     }
   )
