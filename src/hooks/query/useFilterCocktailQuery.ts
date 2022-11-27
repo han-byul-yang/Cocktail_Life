@@ -1,6 +1,7 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 
-import { cocktailApis, getApiData } from 'services/getCocktailApis'
+import { cocktailApis } from 'services/getCocktailApis'
+import getApiData from 'utils/getApiData'
 import { ICocktailData, IFilteredCocktailData } from 'types/cocktailDataType'
 
 export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) => {
