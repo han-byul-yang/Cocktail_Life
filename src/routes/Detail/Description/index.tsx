@@ -8,9 +8,9 @@ import BasicInfo from './BasicInfo'
 import Measure from './Measure'
 import Instruction from './Instruction'
 import Ingredient from './Ingredient'
+import Tags from './Tags'
 
 import styles from './description.module.scss'
-import Tags from './Tags'
 
 interface IDescriptionProps {
   cocktailDetailData: ICocktailData

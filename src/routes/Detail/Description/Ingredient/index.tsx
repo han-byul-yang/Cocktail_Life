@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { ICocktailData } from 'types/cocktailDataType'
 
+import ingredientImg from 'assets/img/lime.png'
 import styles from './ingredient.module.scss'
 
 interface IIngredientProps {
@@ -61,7 +62,10 @@ const Ingredient = ({ cocktailDetailData, handleSearchKeywordClick }: IIngredien
   }
   return (
     <>
-      <p className={styles.title}>~~INGREDIENT~~</p>
+      <p className={styles.titleContainer}>
+        <img alt='ingredientImg' src={ingredientImg} />
+        INGREDIENT
+      </p>
       <ul className={styles.ingredientBox}>
         {ingredientList.map((ingredient, iIngredient) => {
           const ingredientKey = `ingredient-${iIngredient}`
