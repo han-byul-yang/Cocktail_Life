@@ -1,0 +1,11 @@
+@use '../.././../../styles/mixins/title';
+
+.title {
+  @include title.title;
+}
+
+.instruction {
+  margin: 10px 50px 0;
+  font-size: 17px;
+  text-align: center;
+}
