@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
@@ -32,7 +32,7 @@ const Description = ({ cocktailDetailData }: IDescriptionProps) => {
 
   return (
     <div className={styles.descriptionContainer}>
-      <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.img} />
+      <img src={strDrinkThumb} alt={`${strDrink}-img`} className={styles.cocktailImg} />
 
       <div className={styles.description}>
         <p className={styles.name}>{strDrink}</p>

@@ -10,8 +10,9 @@
     align-items: center;
   }
 
-  .img {
+  .cocktailImg {
     width: 50%;
+    height: 100%;
 
     @media screen and (max-width: 1024px) {
       width: 60%;
