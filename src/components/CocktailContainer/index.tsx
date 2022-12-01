@@ -12,7 +12,7 @@ const CocktailContainer = ({ resultData, type }: ICocktailContainerProps) => {
   return (
     <div className={styles.cocktailContainer}>
       {!resultData?.length ? (
-        <p className={styles.errorMessage}>검색된 결과가 없습니다.</p>
+        <p className={styles.message}>검색된 결과가 없습니다.</p>
       ) : (
         <>
           <div>{type !== 'popular' && 'YOUR SEARCH RESULT ...'}</div>
