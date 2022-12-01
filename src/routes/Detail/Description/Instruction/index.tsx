@@ -1,4 +1,4 @@
-import memoImg from 'assets/img/memo.png'
+import memoImg from 'assets/img/memo.webp'
 import styles from './instruction.module.scss'
 
 interface IInstructionProps {
@@ -8,10 +8,10 @@ interface IInstructionProps {
 const Instruction = ({ strInstructions }: IInstructionProps) => {
   return (
     <>
-      <p className={styles.titleContainer}>
-        <img alt='instructionImg' src={memoImg} />
+      <div className={styles.titleContainer}>
+        <img loading='lazy' alt='instructionImg' src={memoImg} />
         INSTRUCTION
-      </p>
+      </div>
       <p className={styles.instruction}>{strInstructions}</p>
     </>
   )

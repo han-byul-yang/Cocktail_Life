@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { ICocktailData } from 'types/cocktailDataType'
 
-import ingredientImg from 'assets/img/lime.png'
+import ingredientImg from 'assets/img/lime.webp'
 import styles from './ingredient.module.scss'
 
 interface IIngredientProps {
@@ -62,10 +62,10 @@ const Ingredient = ({ cocktailDetailData, handleSearchKeywordClick }: IIngredien
   }
   return (
     <>
-      <p className={styles.titleContainer}>
-        <img alt='ingredientImg' src={ingredientImg} />
+      <div className={styles.titleContainer}>
+        <img loading='lazy' alt='ingredientImg' src={ingredientImg} />
         INGREDIENT
-      </p>
+      </div>
       <ul className={styles.ingredientBox}>
         {ingredientList.map((ingredient, iIngredient) => {
           const ingredientKey = `ingredient-${iIngredient}`

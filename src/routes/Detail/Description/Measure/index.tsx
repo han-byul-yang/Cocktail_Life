@@ -1,6 +1,6 @@
 import { ICocktailData } from 'types/cocktailDataType'
 
-import measureImg from 'assets/img/spoon.png'
+import measureImg from 'assets/img/spoon.webp'
 import styles from './measure.module.scss'
 
 interface IMeasureProps {
@@ -13,10 +13,10 @@ const Measure = ({ cocktailDetailData }: IMeasureProps) => {
 
   return (
     <>
-      <p className={styles.titleContainer}>
-        <img alt='measureImg' src={measureImg} />
+      <div className={styles.titleContainer}>
+        <img loading='lazy' alt='measureImg' src={measureImg} />
         MEASURE
-      </p>
+      </div>
       <ul>
         {measureList.map((measure, iMeasure) => {
           const measureKey = `measure-${iMeasure}`
