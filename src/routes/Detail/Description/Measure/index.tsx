@@ -14,7 +14,7 @@ const Measure = ({ cocktailDetailData }: IMeasureProps) => {
   return (
     <>
       <div className={styles.titleContainer}>
-        <img loading='lazy' alt='measureImg' src={measureImg} />
+        <img alt='measureImg' src={measureImg} />
         MEASURE
       </div>
       <ul>

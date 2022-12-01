@@ -9,7 +9,7 @@ const Instruction = ({ strInstructions }: IInstructionProps) => {
   return (
     <>
       <div className={styles.titleContainer}>
-        <img loading='lazy' alt='instructionImg' src={memoImg} />
+        <img alt='instructionImg' src={memoImg} />
         INSTRUCTION
       </div>
       <p className={styles.instruction}>{strInstructions}</p>

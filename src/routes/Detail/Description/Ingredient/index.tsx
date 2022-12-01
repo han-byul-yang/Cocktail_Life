@@ -63,7 +63,7 @@ const Ingredient = ({ cocktailDetailData, handleSearchKeywordClick }: IIngredien
   return (
     <>
       <div className={styles.titleContainer}>
-        <img loading='lazy' alt='ingredientImg' src={ingredientImg} />
+        <img alt='ingredientImg' src={ingredientImg} />
         INGREDIENT
       </div>
       <ul className={styles.ingredientBox}>
