@@ -1,43 +1,30 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { cocktailApis } from 'services/getCocktailApis'
+import { IQueryKeys } from 'types/queryKeyType'
 import getApiData from 'utils/getApiData'
 
-export const useSearchByAlcoholicQuery = (query: string | null) => {
-  const { isLoading, data } = useQuery(
-    ['searchByAlcoholicParam', query],
-    () => getApiData(cocktailApis.filterByAlcoholic, query!),
-    {
-      select: (res) => res.drinks,
-      enabled: !!query,
-    }
-  )
-
-  return { isLoading, data }
+const queryKeys: IQueryKeys = {
+  searchByAlcoholicQuery: { queryName: 'searchByAlcoholicApi', api: cocktailApis.filterByAlcoholic },
+  searchByCategoryQuery: { queryName: 'searchByCategoryApi', api: cocktailApis.filterByCategory },
+  searchByIngredientQuery: { queryName: 'searchByIngredientApi', api: cocktailApis.filterByIngredients },
 }
 
-export const useSearchByCategoryQuery = (query: string | null) => {
-  const { isLoading, data } = useQuery(
-    ['searchByCategoryParam', query],
-    () => getApiData(cocktailApis.filterByCategory, query!),
-    {
-      select: (res) => res.drinks,
-      enabled: !!query,
-    }
-  )
+const useSearchQuery = (searchQuery: string | null, key: string) => {
+  const query = useQuery([queryKeys[key].queryName, searchQuery], () => getApiData(queryKeys[key].api, searchQuery!), {
+    select: (res) => res.drinks,
+    enabled: !!searchQuery,
+  })
 
-  return { isLoading, data }
+  return query
 }
 
-export const useSearchByIngredientQuery = (query: string | null) => {
-  const { isLoading, data } = useQuery(
-    ['searchByIngredientParam', query],
-    () => getApiData(cocktailApis.filterByIngredients, query!),
-    {
-      select: (res) => res.drinks,
-      enabled: !!query,
-    }
-  )
+export default useSearchQuery
 
-  return { isLoading, data }
+export const useSearchByIdCocktailQuery = (resultId: string) => {
+  const query = useQuery(['searchByIdCocktailApi', resultId], () => getApiData(cocktailApis.searchById, resultId!), {
+    select: (res) => res.drinks[0],
+  })
+
+  return query
 }

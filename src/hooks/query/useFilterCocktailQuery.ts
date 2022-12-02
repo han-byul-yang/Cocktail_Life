@@ -3,6 +3,22 @@ import { useQueries, useQuery } from '@tanstack/react-query'
 import { cocktailApis } from 'services/getCocktailApis'
 import getApiData from 'utils/getApiData'
 import { ICocktailData, IFilteredCocktailData } from 'types/cocktailDataType'
+import { IQueryKeys } from 'types/queryKeyType'
+
+const queryKeys: IQueryKeys = {
+  filterByAlcoholicQuery: { queryName: 'searchByAlcoholicApi', api: cocktailApis.filterByAlcoholic },
+  filterByCategoryQuery: { queryName: 'searchByCategoryApi', api: cocktailApis.filterByCategory },
+  filterByIngredientQuery: { queryName: 'searchByIngredientApi', api: cocktailApis.filterByIngredients },
+}
+
+export const useFilterCocktailQuery = (filterQuery: string, enableOption: boolean, key: string) => {
+  const query = useQuery([queryKeys[key].queryName, enableOption], () => getApiData(queryKeys[key].api, filterQuery), {
+    select: (res) => res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink),
+    enabled: enableOption,
+  })
+
+  return query
+}
 
 export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) => {
   const { isLoading, data } = useQuery(
@@ -10,51 +26,6 @@ export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) 
     () => getApiData(cocktailApis.searchByName, query),
     {
       select: (res) => res?.drinks?.map((cocktailData: ICocktailData) => cocktailData.idDrink),
-      enabled: enableOption,
-    }
-  )
-
-  return { isLoading, data }
-}
-
-export const useFilterByAlcoholicQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, data } = useQuery(
-    ['filterByAlcoholicApi', enableOption],
-    () => getApiData(cocktailApis.filterByAlcoholic, query),
-    {
-      select: (res) => {
-        return res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink)
-      },
-      enabled: enableOption,
-    }
-  )
-
-  return { isLoading, data }
-}
-
-export const useFilterByCategoryQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, data } = useQuery(
-    ['filterByCotegoryApi', enableOption],
-    () => getApiData(cocktailApis.filterByCategory, query),
-    {
-      select: (res) => {
-        return res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink)
-      },
-      enabled: enableOption,
-    }
-  )
-
-  return { isLoading, data }
-}
-
-export const useFilterByIngredientQuery = (query: string, enableOption: boolean) => {
-  const { isLoading, data } = useQuery(
-    ['filterByIngredientApi', enableOption],
-    () => getApiData(cocktailApis.filterByIngredients, query),
-    {
-      select: (res) => {
-        return res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink)
-      },
       enabled: enableOption,
     }
   )

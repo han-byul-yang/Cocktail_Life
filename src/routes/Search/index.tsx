@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { useGetCocktailByIdQuery } from 'hooks/query/useFilterCocktailQuery'
-import {
-  useSearchByAlcoholicQuery,
-  useSearchByCategoryQuery,
-  useSearchByIngredientQuery,
-} from 'hooks/query/useSearchCocktailQuery'
+import useSearchQuery from 'hooks/query/useSearchCocktailQuery'
 import { clickedSearchKeywordAtom, isOpenErrorModalAtom } from 'store/atom'
 import { filtersInitialData } from 'constants/initialApiData'
 import { IFilterKind } from 'types/filterKindType'
@@ -30,9 +26,9 @@ const Search = () => {
     totalFilteredIdList.length !== 0
   )
 
-  const { data: alcoholicResult } = useSearchByAlcoholicQuery(clickedSearchKeyword.alcoholic)
-  const { data: categoryResult } = useSearchByCategoryQuery(clickedSearchKeyword.category)
-  const { data: ingredientResult } = useSearchByIngredientQuery(clickedSearchKeyword.ingredient)
+  const { data: alcoholicResult } = useSearchQuery(clickedSearchKeyword.alcoholic, 'searchByAlcoholicQuery')
+  const { data: categoryResult } = useSearchQuery(clickedSearchKeyword.category, 'searchByCategoryQuery')
+  const { data: ingredientResult } = useSearchQuery(clickedSearchKeyword.ingredient, 'searchByIngredientQuery')
 
   return (
     <>

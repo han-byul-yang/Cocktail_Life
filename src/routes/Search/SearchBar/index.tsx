@@ -3,12 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { IFilterKind } from 'types/filterKindType'
-import {
-  useGetCocktailByNameQuery,
-  useFilterByAlcoholicQuery,
-  useFilterByCategoryQuery,
-  useFilterByIngredientQuery,
-} from 'hooks/query/useFilterCocktailQuery'
+import { useGetCocktailByNameQuery, useFilterCocktailQuery } from 'hooks/query/useFilterCocktailQuery'
 import eliminateSameItem from 'utils/eliminateSameItem'
 import errorMessage from 'utils/errorMessage'
 import { errorMessageAtom, filteredItemAtom, isOpenErrorModalAtom } from 'store/atom'
@@ -32,9 +27,21 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   const navigate = useNavigate()
 
   const { data: searchByNameIdResult } = useGetCocktailByNameQuery(inputKeyword, isSearchClick)
-  const { data: filterByAlcoholicIdResult } = useFilterByAlcoholicQuery(filters.alcoholic, isSearchClick)
-  const { data: filterByCategoryIdResult } = useFilterByCategoryQuery(filters.category, isSearchClick)
-  const { data: filterByIngredientIdResult } = useFilterByIngredientQuery(filters.ingredient, isSearchClick)
+  const { data: filterByAlcoholicIdResult } = useFilterCocktailQuery(
+    filters.alcoholic,
+    isSearchClick,
+    'filterByAlcoholicQuery'
+  )
+  const { data: filterByCategoryIdResult } = useFilterCocktailQuery(
+    filters.category,
+    isSearchClick,
+    'filterByCategoryQuery'
+  )
+  const { data: filterByIngredientIdResult } = useFilterCocktailQuery(
+    filters.ingredient,
+    isSearchClick,
+    'filterByIngredientQuery'
+  )
 
   const getFilteredSearchCocktailIds = useCallback(() => {
     let filterKindCount = 0
