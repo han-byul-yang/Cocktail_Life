@@ -6,7 +6,7 @@ import useSearchQuery from 'hooks/query/useSearchCocktailQuery'
 import { clickedSearchKeywordAtom, isOpenErrorModalAtom } from 'store/atom'
 import { filtersInitialData } from 'constants/initialApiData'
 import { IFilterKind } from 'types/filterKindType'
-import SearchBar from './SearchBar'
+import SearchBar from './SearchForm'
 import CocktailContainer from 'components/CocktailContainer'
 import FilterContainer from './FilterContainer'
 

@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useCallback, useEffect, useState } from 'react'
+import { Dispatch, memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
@@ -8,17 +8,18 @@ import eliminateSameItem from 'utils/eliminateSameItem'
 import errorMessage from 'utils/errorMessage'
 import { errorMessageAtom, filteredItemAtom, isOpenErrorModalAtom } from 'store/atom'
 import Button from 'components/Button'
+import FilteredList from './FilteredList'
+import SearchBar from './SearchBar'
 
-import { FilterIcon } from 'assets/svgs'
-import styles from './searchBar.module.scss'
+import styles from './searchForm.module.scss'
 
-interface ISearchBarProps {
+interface ISearchFormProps {
   setFilterOpen: Dispatch<React.SetStateAction<boolean>>
   showChoseFilter: IFilterKind
   setTotalFilteredIdList: Dispatch<React.SetStateAction<string[]>>
 }
 
-const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: ISearchBarProps) => {
+const SearchForm = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: ISearchFormProps) => {
   const [isSearchClick, setIsSearchClick] = useState(false)
   const [inputKeyword, setInputKeyword] = useState('')
   const filters = useRecoilValue(filteredItemAtom)
@@ -85,10 +86,6 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
     }
   }, [getFilteredSearchCocktailIds, isSearchClick, setTotalFilteredIdList])
 
-  const handleInputKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputKeyword(e.currentTarget.value)
-  }
-
   const handleOpenFilterClick = () => {
     setFilterOpen(true)
   }
@@ -109,24 +106,8 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
 
   return (
     <form className={styles.searchForm}>
-      <input
-        type='search'
-        placeholder='Input cocktail name ...'
-        value={inputKeyword}
-        onChange={handleInputKeywordChange}
-      />
-
-      <div className={styles.filterList}>
-        <FilterIcon className={styles.filterIcon} />
-        <ul>
-          {Object.keys(showChoseFilter).map((filterKey) => (
-            <li key={filterKey}>
-              {filterKey}: {showChoseFilter[filterKey]} /
-            </li>
-          ))}
-        </ul>
-      </div>
-
+      <SearchBar inputKeyword={inputKeyword} setInputKeyword={setInputKeyword} />
+      <FilteredList showChoseFilter={showChoseFilter} />
       <Button handleClick={handleOpenFilterClick} size='big'>
         FILTER
       </Button>
@@ -137,4 +118,4 @@ const SearchBar = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: I
   )
 }
 
-export default SearchBar
+export default memo(SearchForm)
