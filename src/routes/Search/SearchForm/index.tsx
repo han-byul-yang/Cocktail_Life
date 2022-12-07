@@ -5,7 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { IFilterKind } from 'types/filterKindType'
 import { useGetCocktailByNameQuery, useFilterCocktailQuery } from 'hooks/query/useFilterCocktailQuery'
 import eliminateSameItem from 'utils/eliminateSameItem'
-import errorMessage from 'utils/errorMessage'
+import errorMessages from 'constants/errorMessages'
 import { errorMessageAtom, filteredItemAtom, isOpenErrorModalAtom } from 'store/atom'
 import Button from 'components/Button'
 import FilteredList from './FilteredList'
@@ -93,7 +93,7 @@ const SearchForm = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: 
   const handleSearchClick = () => {
     if (!inputKeyword && !filters.alcoholic && !filters.category && !filters.ingredient) {
       setIsOpenErrorModal(true)
-      setErrorMessage(errorMessage().search.NO_SEARCH_KEYWORD)
+      setErrorMessage(errorMessages.search.NO_SEARCH_KEYWORD)
     } else {
       setIsSearchClick(true)
       navigate(

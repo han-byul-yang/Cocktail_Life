@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useSetRecoilState } from 'recoil'
 
-import errorMessage from 'utils/errorMessage'
+import errorMessages from 'constants/errorMessages'
 import { errorMessageAtom, isOpenErrorModalAtom } from 'store/atom'
 import Popular from './Popular'
 import Search from './Search'
@@ -27,7 +27,7 @@ const App = () => {
         suspense: true,
         onError: () => {
           setIsOpenErrorModal(true)
-          setErrorMessage(errorMessage().api.SOMETHING_WRONG)
+          setErrorMessage(errorMessages.api.SOMETHING_WRONG)
         },
       },
     },
