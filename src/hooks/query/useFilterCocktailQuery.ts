@@ -12,17 +12,21 @@ const queryKeys: IQueryKeys = {
 }
 
 export const useFilterCocktailQuery = (filterQuery: string, enableOption: boolean, key: string) => {
-  const query = useQuery([queryKeys[key].queryName, enableOption], () => getApiData(queryKeys[key].api, filterQuery), {
-    select: (res) => res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink),
-    enabled: enableOption,
-  })
+  const query = useQuery(
+    [queryKeys[key].queryName, enableOption, filterQuery],
+    () => getApiData(queryKeys[key].api, filterQuery),
+    {
+      select: (res) => res?.drinks?.map((cocktailData: IFilteredCocktailData) => cocktailData.idDrink),
+      enabled: enableOption,
+    }
+  )
 
   return query
 }
 
 export const useGetCocktailByNameQuery = (query: string, enableOption: boolean) => {
   const { isLoading, data } = useQuery(
-    ['searchByNameCocktailApi', enableOption],
+    ['searchByNameCocktailApi', enableOption, query],
     () => getApiData(cocktailApis.searchByName, query),
     {
       select: (res) => res?.drinks?.map((cocktailData: ICocktailData) => cocktailData.idDrink),
