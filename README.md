@@ -1,4 +1,4 @@
-# :pushpin: search cocktail
+# :pushpin: cocktail life
 사용자가 원하는 요소의 필터링을 통한 맞춤형 칵테일 검색 서비스
 
 ## 1. 배포 사이트
