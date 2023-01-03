@@ -66,7 +66,6 @@ const SearchForm = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: 
       ...(filterByCategoryIdResult || []),
       ...(filterByIngredientIdResult || []),
     ]
-
     return eliminateSameItem(totalCocktailIdList, filterKindCount)
   }, [
     filterByAlcoholicIdResult,

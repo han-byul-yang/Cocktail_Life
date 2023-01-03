@@ -17,19 +17,19 @@ const GNB = () => {
       <ul>
         <li>
           <NavLink
-            to='/search'
+            to='/'
             className={({ isActive }) => (isActive ? `${styles.activatedLink}` : `${styles.nonActivatedLink}`)}
             onClick={handleSearchGnbClick}
           >
-            SEARCH
+            POPULAR
           </NavLink>
         </li>
         <li>
           <NavLink
-            to='/'
+            to='/search'
             className={({ isActive }) => (isActive ? `${styles.activatedLink}` : `${styles.nonActivatedLink}`)}
           >
-            POPULAR
+            SEARCH
           </NavLink>
         </li>
       </ul>

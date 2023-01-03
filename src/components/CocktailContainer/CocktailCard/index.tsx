@@ -13,7 +13,7 @@ const CocktailCard = ({ cocktailResult, rank }: ICocktailCardProps) => {
   const navigate = useNavigate()
 
   const handleCocktailCardClick = (cocktailId: string | undefined, cocktailName: string | undefined) => {
-    navigate(`/detail?id=${cocktailId}&name=${cocktailName}`) // params set 으로 수정
+    navigate(`/detail?id=${cocktailId}&name=${cocktailName}`)
   }
 
   return (

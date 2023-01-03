@@ -34,6 +34,3 @@ const CocktailContainer = ({ resultData, type }: ICocktailContainerProps) => {
 }
 
 export default CocktailContainer
-
-// noimg 이미지
-// skeleton 만들기
