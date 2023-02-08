@@ -27,9 +27,6 @@ https://cocktail-life.netlify.app
    - tanstack-query v4
 
 ## 4. 화면 예시
-<details>
-<summary>화면 예시 펼치기</summary>
-<div markdown="1">
 
 ### 4.1. Popular 페이지
 인기 칵테일을 rank 순서대로 볼 수 있습니다. 
@@ -84,8 +81,6 @@ alcoholic(알코올 여부) 또는 category(카테고리) 또는 ingredient(재�
 #### 4.4.3. Detail 페이지
 ![ezgif com-gif-maker (19)](https://user-images.githubusercontent.com/67466789/206465702-99368009-46fd-4593-90c3-8de5e4603ce3.gif)
 
-</div>
-</details>
 
 ## 5. 구현하면서 고민했던 점
 ### 5.1. 코드의 정리 :bookmark_tabs:[블로그 글](https://velog.io/@han-byul-yang/cocktail-search-%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B81)
