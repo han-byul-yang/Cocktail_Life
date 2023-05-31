@@ -9,10 +9,10 @@ import { IFilterKind } from 'types/filterKindType'
 import SearchForm from './SearchForm'
 import CocktailContainer from 'components/CocktailContainer'
 import FilterContainer from './FilterContainer'
+import ErrorModal from 'components/ErrorModal'
+import ModalPortal from 'components/ErrorModal/modalPortal'
 
 import styles from './search.module.scss'
-import ModalPortal from 'components/ErrorModal/modalPortal'
-import ErrorModal from 'components/ErrorModal'
 
 const Search = () => {
   const [showChoseFilter, setShowChoseFilter] = useState<IFilterKind>(filtersInitialData)
@@ -39,7 +39,6 @@ const Search = () => {
           setTotalFilteredIdList={setTotalFilteredIdList}
         />
         {isFilterOpen && <FilterContainer setIsFilterOpen={setIsFilterOpen} setShowChoseFilter={setShowChoseFilter} />}
-
         <CocktailContainer
           resultData={
             filterCocktailTotalResult.length === 0
@@ -58,7 +57,3 @@ const Search = () => {
 }
 
 export default Search
-
-// 레이아웃 만들기
-// 재검색시 검색결과 초기화
-// filterCase => 개수 의미 들어가기
