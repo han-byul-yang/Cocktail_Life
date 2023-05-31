@@ -10,8 +10,13 @@ interface ICocktailCardProps {
   rank: number | false
 }
 
+const options = {
+  root: null,
+  rootMargin: '200px',
+}
+
 const CocktailCard = ({ cocktailResult, rank }: ICocktailCardProps) => {
-  const { intersectTarget, isInterSecting } = useTargetIntersect()
+  const { intersectTarget, isInViewPort, isInterSecting } = useTargetIntersect(options)
   const navigate = useNavigate()
 
   const handleCocktailCardClick = (cocktailId: string | undefined, cocktailName: string | undefined) => {
@@ -26,7 +31,10 @@ const CocktailCard = ({ cocktailResult, rank }: ICocktailCardProps) => {
         onClick={() => handleCocktailCardClick(cocktailResult?.idDrink, cocktailResult?.strDrink)}
       >
         {rank && <p>RANK.{rank}</p>}
-        <img alt={`${cocktailResult?.strDrink}-img`} src={isInterSecting ? cocktailResult?.strDrinkThumb : undefined} />
+        <img
+          alt={`${cocktailResult?.strDrink}-img`}
+          src={isInViewPort || isInterSecting ? cocktailResult?.strDrinkThumb : undefined}
+        />
         <p className={styles.cocktailName}>{cocktailResult?.strDrink}</p>
       </button>
     </li>

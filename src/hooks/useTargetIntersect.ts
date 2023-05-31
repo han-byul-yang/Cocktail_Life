@@ -1,28 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-const useTargetIntersect = () => {
+const useTargetIntersect = (options: IntersectionObserverInit) => {
   const intersectTarget = useRef(null)
+  const [isInViewPort, setIsInViewPort] = useState(false)
   const [isInterSecting, setIsInterSecting] = useState(false)
 
-  const options = useMemo(() => {
-    return {
-      root: null,
-      rootMargin: '100px',
-    }
-  }, [])
-
-  const callback = (entries: IntersectionObserverEntry[], observer: any) => {
+  const callback = (entries: IntersectionObserverEntry[]) => {
     const [entry] = entries
     if (entry.intersectionRatio >= 1) {
-      console.log(entry.target, 'isInViewPort')
-      setIsInterSecting(true)
+      setIsInViewPort(true)
+      return
     }
 
     if (entry.isIntersecting) {
-      console.log(entry.target, 'isInterSecting')
       setIsInterSecting(true)
-
-      observer.unobserve(entry.target)
     }
   }
 
@@ -33,7 +24,7 @@ const useTargetIntersect = () => {
     return () => observer.disconnect()
   }, [options])
 
-  return { intersectTarget, isInterSecting }
+  return { intersectTarget, isInViewPort, isInterSecting }
 }
 
 export default useTargetIntersect
