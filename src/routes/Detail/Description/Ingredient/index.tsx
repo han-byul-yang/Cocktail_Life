@@ -68,7 +68,7 @@ const Ingredient = ({ cocktailDetailData, handleSearchKeywordClick }: IIngredien
         <img
           alt='ingredientImg'
           src={ingredientImg60}
-          srcSet={`${ingredientImg60} 2000w, ${ingredientImg45} 1024w ${ingredientImg30} 768w`}
+          srcSet={`${ingredientImg60} 2000w, ${ingredientImg45} 1024w, ${ingredientImg30} 768w`}
         />
         INGREDIENT
       </div>
