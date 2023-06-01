@@ -12,6 +12,7 @@
 
   .cocktailImg {
     width: 50%;
+    background: colors.$GRAY_100;
 
     @media screen and (max-width: 1024px) {
       width: 60%;

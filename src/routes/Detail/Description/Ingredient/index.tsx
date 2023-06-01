@@ -2,7 +2,9 @@ import { useState } from 'react'
 
 import { ICocktailData } from 'types/cocktailDataType'
 
-import ingredientImg from 'assets/img/lime.webp'
+import ingredientImg60 from 'assets/img/lime@60w.webp'
+import ingredientImg45 from 'assets/img/lime@45w.webp'
+import ingredientImg30 from 'assets/img/lime@30w.webp'
 import styles from './ingredient.module.scss'
 
 interface IIngredientProps {
@@ -63,7 +65,11 @@ const Ingredient = ({ cocktailDetailData, handleSearchKeywordClick }: IIngredien
   return (
     <>
       <div className={styles.titleContainer}>
-        <img alt='ingredientImg' src={ingredientImg} />
+        <img
+          alt='ingredientImg'
+          src={ingredientImg60}
+          srcSet={`${ingredientImg60} 2000w, ${ingredientImg45} 1024w ${ingredientImg30} 768w`}
+        />
         INGREDIENT
       </div>
       <ul className={styles.ingredientBox}>
