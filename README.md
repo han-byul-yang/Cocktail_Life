@@ -77,10 +77,9 @@ alcoholic(알코올 여부) 또는 category(카테고리) 또는 ingredient(재�
 
  </details>
 
-## 5. 구현하면서 고민했던 점
-### 5.1. 코드의 정리 :bookmark_tabs:[블로그 글](https://velog.io/@han-byul-yang/cocktail-search-%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B81)
- 칵테일 필터링 기능을 구현할 때 리팩토링 과정에서 `깔끔한 코드 작성`을 위해 많은 고민을 했었다. 필터링 로직을 작성하기 위해 1. 선택한 필터링 타입(알고올 여부, 카테고리, 재료)의 api만 호출해오고, 2. 받은 칵테일 데이터 json정보에서 id 정보만 가져와서, 3. 모든 필터링 요소를 충족하는 id 들의 칵테일만 결과로 띄워줘야했다. 
-리팩토링을 통해 위의 복잡했던 로직을 a. useQuery의 select option을 통해 `서버 관련 로직을 완전히 분리`할 수 있었고, b. `한 함수에 하나의 기능만 담아` 테스트하기에도 좋고, 유지보수에 도움이 될 수 있도록 하였다. 또한 c. react가 선호하는 `선언적인 방식`의 로직으로 작성해주어 가독성이 높아질 수 있었다. 
+## 5. 성능 최적화
+### 5.1. 이미지 Lazy Loading :round_pushpin:[코드 보기](https://github.com/han-byul-yang/Cocktail_Life/blob/38b6bb1061dafd09da1853af26cb3918f89c1db4/src/hooks/useTargetIntersect.ts#L3)
+사용자가 보지 않는 이미지까지 모두 다운받아 로딩 시간이 길어지고, 불필요한 네트워크 통신의 비용이 발생하는 상황을 막고자 이미지 lazy loading을 적용하였다. 
 
-### 5.2. 성능 최적화 :bookmark_tabs:[블로그 글](https://velog.io/@han-byul-yang/cocktail-search-%EC%B5%9C%EC%A0%81%ED%99%94)
- css 파일을 정리하고, 파일 확장자 png -> webp 변경으로 lighthouse 성능 점수를 상승(84점 -> 98점) 시켰다. 
+### 5.2. Lighthouse 점수 향상 :bookmark_tabs:[블로그 글](https://velog.io/@han-byul-yang/cocktail-search-%EC%B5%9C%EC%A0%81%ED%99%94)
+파일 확장자 png -> webp 변경 및 화면 너비에 따른 반응형 이미지 적용으로 lighthouse 성능 점수를 향상(85점 -> 98점) 시켰다. 
