@@ -43,12 +43,12 @@ https://cocktail-life.netlify.app
 #### 4.2.1. 키워드 서치
 서치 이름 입력 -> search 버튼 클릭 -> 검색 결과
 
-![ezgif com-gif-maker (23)](https://user-images.githubusercontent.com/67466789/206460246-2b6ac5cb-37ed-4d23-b06b-5227ce0cd215.gif)
+![ezgif com-gif-maker (20)](https://github.com/han-byul-yang/Cocktail_Life/assets/67466789/bf928852-8973-4a98-96e9-29b3a0c5488b)
 
 #### 4.2.2. 필터링 서치
 filter 버튼 클릭 -> alcoholic(알코올 여부) 또는 category(카테고리) 또는 ingredient(재료) 선택 -> filter 박스의 apply 버튼 클릭 -> search 버튼 클릭 -> 모든 filtering 조건에 부합하는 검색 결과
 
-![ezgif com-gif-maker (12)](https://user-images.githubusercontent.com/67466789/206460580-c1002b33-6011-48c4-8bc3-27f7f0799e8f.gif)
+![ezgif com-gif-maker (21)](https://github.com/han-byul-yang/Cocktail_Life/assets/67466789/9e727317-f239-4f65-8b80-6b144562a969)
 
 #### 4.2.3. 검색어 없음 모달
 서치 이름 입력, filtering 모두 선택x -> search 버튼 -> 오류 모달
@@ -67,8 +67,8 @@ filter 버튼 클릭 -> alcoholic(알코올 여부) 또는 category(카테고리
 #### 4.3.1. alcoholic, ingredient 재검색
 alcoholic(알코올 여부) 또는 category(카테고리) 또는 ingredient(재료) 클릭 -> search 페이지의 결과
 
-![ezgif com-gif-maker (16)](https://user-images.githubusercontent.com/67466789/206464313-e9fd515e-fbb1-42c3-8583-4d3d5fd07671.gif)
-![ezgif com-gif-maker (15)](https://user-images.githubusercontent.com/67466789/206464328-8670d24e-4d6a-4f20-b69b-0a397729ba0e.gif)
+![ezgif com-gif-maker (22)](https://github.com/han-byul-yang/Cocktail_Life/assets/67466789/f8a64d14-7b76-4a0a-af7d-a122eec0a217)
+![ezgif com-gif-maker (23)](https://github.com/han-byul-yang/Cocktail_Life/assets/67466789/17fae3c0-e29e-4bde-9770-7b919e28f499)
 
 - alcoholic 또는 category, ingredient 를 클릭해 해당 조건에 부합하는 칵테일 재서치를 할 수 있습니다. 
 
