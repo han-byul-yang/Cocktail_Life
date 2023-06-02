@@ -1,4 +1,4 @@
-import { Dispatch, memo, useCallback, useEffect, useState } from 'react'
+import { Dispatch, FormEvent, memo, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
@@ -103,8 +103,13 @@ const SearchForm = ({ setFilterOpen, showChoseFilter, setTotalFilteredIdList }: 
     }
   }
 
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleSearchClick()
+  }
+
   return (
-    <form className={styles.searchForm}>
+    <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
       <SearchBar inputKeyword={inputKeyword} setInputKeyword={setInputKeyword} />
       <FilteredList showChoseFilter={showChoseFilter} />
       <Button handleClick={handleOpenFilterClick} size='big'>
