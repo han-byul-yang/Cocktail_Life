@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import useTargetIntersect from 'hooks/useTargetIntersect'
 import { ICocktailData } from 'types/cocktailDataType'
 
+import placeholderImg from 'assets/img/placeholder.webp'
 import styles from './cocktailCard.module.scss'
 
 interface ICocktailCardProps {
@@ -33,7 +34,7 @@ const CocktailCard = ({ cocktailResult, rank }: ICocktailCardProps) => {
         {rank && <p>RANK.{rank}</p>}
         <img
           alt={`${cocktailResult?.strDrink}-img`}
-          src={isInViewPort || isInterSecting ? cocktailResult?.strDrinkThumb : undefined}
+          src={isInViewPort || isInterSecting ? cocktailResult?.strDrinkThumb : placeholderImg}
         />
         <p className={styles.cocktailName}>{cocktailResult?.strDrink}</p>
       </button>
